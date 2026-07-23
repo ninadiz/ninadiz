@@ -1,0 +1,31 @@
+.pill-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 30px;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  font-size: var(--text-xs);
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+.pill-button p {
+  margin: 0;
+  line-height: 14px;
+}
+
+.pill-button--fill {
+  background: var(--color-surface);
+}
+
+.pill-button--stroke {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.pill-button:hover {
+  text-decoration: none;
+  opacity: 0.7;
+}
