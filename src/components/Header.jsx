@@ -3,7 +3,7 @@ import "./Header.css";
 
 export default function Header() {
   const { pathname } = useLocation();
-  const isAbout = pathname === "/about";
+  const isPortfolio = pathname === "/portfolio";
 
   return (
     <header className="site-header">
@@ -13,8 +13,8 @@ export default function Header() {
         </Link>{" "}
         designs and builds things
       </p>
-      <Link className="site-header__link" to={isAbout ? "/" : "/about"}>
-        {isAbout ? "Back to Home" : "About"}
+      <Link className="site-header__link" to={isPortfolio ? "/" : "/portfolio"}>
+        {isPortfolio ? "Back to Home" : "Portfolio"}
       </Link>
     </header>
   );

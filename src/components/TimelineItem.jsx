@@ -1,6 +1,13 @@
 import PillButton from "./PillButton.jsx";
 import "./TimelineItem.css";
 
+const VIDEO_EXTENSIONS = ["mp4", "webm", "mov"];
+
+function isVideo(src) {
+  const extension = src?.split(".").pop()?.toLowerCase();
+  return VIDEO_EXTENSIONS.includes(extension);
+}
+
 export default function TimelineItem({ item, isLast }) {
   return (
     <div className="timeline-item">
@@ -17,7 +24,17 @@ export default function TimelineItem({ item, isLast }) {
         {item.subheader && (
           <p className="timeline-item__subheader">{item.subheader}</p>
         )}
-        {item.image && (
+        {item.image && isVideo(item.image) && (
+          <video
+            className="timeline-item__image"
+            src={item.image}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        )}
+        {item.image && !isVideo(item.image) && (
           <img
             className="timeline-item__image"
             src={item.image}

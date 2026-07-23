@@ -23,7 +23,7 @@
   --leading-xs: 14.4px;
   --text-lg: 22px;
   --leading-lg: 26.4px;
-  --tracking: 0.5px;
+  --tracking: normal;
   --weight-regular: 400;
 
   /* spacing scale */
@@ -42,4 +42,5 @@
   /* layout */
   --page-padding: 20px;
   --content-max-width: 520px;
+  --banner-height: 44px;
 }

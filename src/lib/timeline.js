@@ -7,7 +7,7 @@ const timelineModules = import.meta.glob("/src/timeline/timeline.md", {
 });
 
 const imageModules = import.meta.glob(
-  "/src/img/*.{png,jpg,jpeg,gif,svg,webp}",
+  "/src/img/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
   { eager: true, query: "?url", import: "default" }
 );
 
@@ -17,7 +17,7 @@ for (const [path, url] of Object.entries(imageModules)) {
 }
 
 const caseImageModules = import.meta.glob(
-  "/src/cases/*/*.{png,jpg,jpeg,gif,svg,webp}",
+  "/src/cases/*/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
   { eager: true, query: "?url", import: "default" }
 );
 

@@ -1,6 +1,6 @@
 .site-header {
   position: fixed;
-  top: var(--page-padding);
+  top: calc(var(--banner-height) + var(--page-padding));
   left: var(--page-padding);
   right: var(--page-padding);
   display: flex;

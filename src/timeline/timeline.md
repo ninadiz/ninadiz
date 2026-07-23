@@ -6,15 +6,14 @@ items:
       – February '19
     title: "7+ years leading software design for hydrogen energy systems at <a href=\"https://enapter.com/en/\" target=\"_blank\" rel=\"noopener noreferrer\">Enapter</a>."
     subheader: "Owned the UI/UX process end-to-end – from defining customer problems and creating design artifacts to testing and releasing features."
-    image: "cases/vuaerizm/vuaerizm-1.jpeg"
-    imageDescription: "Mentioned Skinner's pigeon superstition study"
+    image: "enapter.mp4"
+    imageDescription: ""
     buttonPrimary:
+      label: "Explore case study"
+      href: "/cases/refilling-ftue"
+    buttonSecondary:
       label: ""
       href: ""
-    buttonSecondary:
-      label: "Watch on Youtube"
-      href: "https://www.youtube.com/watch?v=lZ-4r_5UrUM"
-      newTab: true
 
   - date: |-
       December '18
@@ -63,7 +62,7 @@ items:
   - date: |-
       September '17
       – August '13
-    title: "Designed GIS-based interfaces for optimizing logistics routes of heavy machinery mostly for the oil and gas sector"
+    title: "Designed GIS-based interfaces for optimizing heavy machinery routes for the oil and gas sector"
     subheader: "at Gradoservice"
     image: ""
     imageDescription: ""

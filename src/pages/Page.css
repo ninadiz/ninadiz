@@ -1,5 +1,5 @@
 .page {
-  padding: 240px 0 160px 80px;
+  padding: calc(240px + var(--banner-height)) 0 160px 80px;
   max-width: 900px;
   margin: 0 auto;
 }
