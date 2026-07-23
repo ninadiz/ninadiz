@@ -1,0 +1,46 @@
+/*
+  Design tokens extracted from the reference layout (colors, type scale,
+  spacing, radii). Font is a licensed grotesque (Haas Grot Disp) in the
+  reference — swapped here for a freely available fallback stack.
+  Values are plain CSS custom properties, no framework prefixes.
+*/
+:root {
+  /* colors */
+  --color-bg: #f0f0f0;
+  --color-surface: #ffffff;
+  --color-text: #000000;
+  --color-text-muted: rgba(0, 0, 0, 0.6);
+  --color-line: #000000;
+  --color-underline: rgba(0, 0, 0, 0.18);
+
+  /* underline */
+  --underline-thickness: 1px;
+  --underline-offset: 6px;
+
+  /* typography */
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --text-xs: 12px;
+  --leading-xs: 14.4px;
+  --text-lg: 22px;
+  --leading-lg: 26.4px;
+  --tracking: normal;
+  --weight-regular: 400;
+
+  /* spacing scale */
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --space-5: 40px;
+  --space-6: 80px;
+
+  /* shape */
+  --radius-pill: 40px;
+  --line-width: 1px;
+  --dot-size: 10px;
+
+  /* layout */
+  --page-padding: 20px;
+  --content-max-width: 520px;
+  --banner-height: 44px;
+}

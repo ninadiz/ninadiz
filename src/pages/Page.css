@@ -1,0 +1,12 @@
+.page {
+  padding: calc(240px + var(--banner-height)) 0 160px 80px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page__title {
+  font-size: var(--text-lg);
+  line-height: var(--leading-lg);
+  letter-spacing: var(--tracking);
+  font-weight: var(--weight-regular);
+}
