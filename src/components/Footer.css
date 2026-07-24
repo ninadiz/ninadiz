@@ -37,3 +37,11 @@
   text-decoration-thickness: var(--underline-thickness);
   text-underline-offset: var(--underline-offset);
 }
+
+@media (max-width: 1024px) {
+  .site-footer {
+    position: static;
+    padding: 0 var(--page-padding) var(--page-padding);
+    margin-top: var(--space-6);
+  }
+}

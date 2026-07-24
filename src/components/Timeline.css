@@ -3,3 +3,9 @@
   max-width: 900px;
   margin: 0 auto;
 }
+
+@media (max-width: 1024px) {
+  .timeline {
+    padding: var(--space-6) var(--page-padding);
+  }
+}
