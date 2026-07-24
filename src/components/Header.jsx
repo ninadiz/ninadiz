@@ -11,7 +11,7 @@ export default function Header() {
         <Link to="/">
           <strong>Ninadiz</strong>
         </Link>{" "}
-        designs and builds things
+        designs human experiences
       </p>
       <Link className="site-header__link" to={isPortfolio ? "/" : "/portfolio"}>
         {isPortfolio ? "Back to Home" : "Portfolio"}

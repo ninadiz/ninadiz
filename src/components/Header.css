@@ -32,3 +32,30 @@
   text-decoration-thickness: var(--underline-thickness);
   text-underline-offset: var(--underline-offset);
 }
+
+@media (max-width: 1024px) {
+  .site-header {
+    position: static;
+    padding: calc(var(--banner-height) + var(--page-padding)) var(--page-padding)
+      0;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .site-header__title {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .site-header__link {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header__title,
+  .site-header__link {
+    font-size: 18px;
+    line-height: 21.6px;
+  }
+}
