@@ -12,11 +12,11 @@ function usePageviewTracking() {
   const location = useLocation();
 
   useEffect(() => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "page_view",
+    if (typeof window.gtag !== "function") return;
+    window.gtag("event", "page_view", {
       page_path: location.pathname + location.search,
       page_title: document.title,
+      page_location: window.location.href,
     });
   }, [location]);
 }
