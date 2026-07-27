@@ -2,17 +2,27 @@
 date: "2026"
 title: "Electrolysers Refilling"
 tags:
-  - "Product design"
-  - "Onboarding"
+  - "Design Thinking"
+  - "Process Management"
+
 ---
 
-![Overview placeholder](overview-placeholder.png)
+{eyebrow} Where we started
 
-{h2} Redesigned refilling process reduced upcoming support tickets from 80% to zero.
+1. 80% of customers ask support about refilling procedure just they recieved devices.
+2. Maintenance routine task can only be done by using lengthy paper manuals.
 
-Process design isn't just screens: it's chemistry, electrolyte preparation, firmware development, and manual operations.
+![Image description](overview-placeholder.png)
 
-![Overview placeholder](overview-placeholder.png)
+---
+
+{eyebrow} Context
+
+To produce hydrogen, the electrolyser needs to be filled with electrolyte.
+
+It isn't a one-time procedure: every maintenance or device transportation turns it into a recurring task for by users with limited technical expertise.
+
+![Image description](overview-placeholder.png)
 
 ---
 
@@ -22,42 +32,25 @@ Process design isn't just screens: it's chemistry, electrolyte preparation, firm
 2. Multidisciplinary collaboration: clients are located in 55 countries, factory is in Pisa, and R&D and development are in Germany. The process involves a large number of departments: Mobile, WebGUI, R&D, Factory, FAT, Assembly, Support, Technical Writers, Sales.
 3. Half-year cycle time: software development depends on R&D, particularly the chemistry team, which introduces a degree of unpredictability into classic Agile sprints.
 
----
-
-{eyebrow} Context
-
-To produce hydrogen, the electrolyser needs to be filled with electrolyte, which operators prepare and add themselves just after they receive the device.
-
-![Flow diagram placeholder](flow-diagram-placeholder.png)
-
-Refilling isn't a one-time setup: every maintenance visit or moving the device turns it into a recurring task for users with no engineering background.
-
-![Flow diagram placeholder](flow-diagram-placeholder.png)
-
-
 
 ---
 
 
-{eyebrow} Discovery
+{eyebrow} Research
 
-At the initial stage (for version 2.1), refilling was carried out manually without any sofware assistant:
+There was no ready-made documentation. To reconstruct the whole refilling process I needed to piece information together myself. I ran calls with Support, R&D, Factory, FAT, WebGUI and mobile app developers teams.
 
-- 80% of customers ask support questions about refilling procedure just they recieved devices.
-- Although the electrolyte was supplied pre-prepared, which was convenient for customers, this increased shipping costs. Improper transportation also led to electrolyte degradation.
-- The electrolyte was filled using the principle of communicating vessels; in case of overfilling, the excess could be easily drained.
+![I supported each call with online visualizations and drawings to make sure everyone was on the same page.](overview-placeholder.png)
 
-The company was also preparing version 4.1 for release, more compact and higher-performing.
+![Related topics from each department](overview-placeholder.png)
 
-- Due to upcoming construction chsanges, overfilling could cause components damage, fatal errors, and as a result equipment downtime.
-- Due to cut shipping cost, customers should prepare the electrolyte themself.
-- Customers could prepare a solution for multiple devices from a single bag, which would further increase the risk of overfilling.
-
-![Result screenshot placeholder](result-placeholder.png)
-
+Users frequently asked support how to connect the electrolyte bag because the unusual connector
+Electrolyte is supplied pre-prepared, this increased shipping costs.
+Refilling uses the principle of communicating vessels; in case of overfilling, the excess could be easily drained for EL2.1, but not for EL4.1.
+In EL4.1 overfilling could cause components damage, fatal errors, and as a result equipment downtime.
+Customers could prepare a solution for multiple devices from a single bag, which would further increase the risk of overfilling.
 
 ---
-
 
 {eyebrow} Solution
 
@@ -67,7 +60,18 @@ The company was also preparing version 4.1 for release, more compact and higher-
 ---
 
 
-{eyebrow} Results over the year
+{eyebrow} Process
+
+Developed Elegotchi in collaboration with electrical engineer.
+
+![Image description](overview-placeholder.png)
+![Our Elegotchi](overview-placeholder.png)
+
+
+---
+
+
+{eyebrow} Impact
 
 1. 96% refilling success rate via the mobile app.
 2. Of the remaining 4%, most issues were not user-related (hardware or sensor errors).

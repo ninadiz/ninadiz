@@ -158,5 +158,5 @@
   font-size: var(--text-xs);
   line-height: var(--leading-xs);
   color: var(--color-text-muted);
-  text-align: center;
+  text-align: left;
 }
