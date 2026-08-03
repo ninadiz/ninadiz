@@ -28,6 +28,18 @@
   padding: var(--space-4);
 }
 
+.case-study__card--wide {
+  align-self: center;
+  width: 740px;
+  max-width: calc(100vw - 160px);
+}
+
+.case-study__card--no-bg {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
 .case-study__title {
   font-size: var(--text-lg);
   line-height: var(--leading-lg);

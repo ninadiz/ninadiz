@@ -1,6 +1,6 @@
 ---
 date: "2026"
-title: "Electrolysers Refilling"
+title: "Electrolysers refilling in-app instructions reduced supports requests from 80% to zero"
 tags:
   - "Design Thinking"
   - "Process Management"
@@ -10,63 +10,78 @@ tags:
 {eyebrow} Where we started
 
 1. 80% of customers ask support about refilling procedure just they recieved devices.
-2. Maintenance routine task can only be done by using lengthy paper manuals.
-
-![Image description](overview-placeholder.png)
+2. Maintenance routines can only be done by using lengthy paper manuals.
 
 ---
 
-{eyebrow} Context
+{eyebrow} Suggested solution
 
-To produce hydrogen, the electrolyser needs to be filled with electrolyte.
-
-It isn't a one-time procedure: every maintenance or device transportation turns it into a recurring task for by users with limited technical expertise.
-
-![Image description](overview-placeholder.png)
-
----
-
-{eyebrow} Professional Challenges
-
-1. Тechnically complex equipment: different device versions 2.1 and 4.X exist along with different firmware versions; understanding the processes required technical knowledge and reading technical documentation.
-2. Multidisciplinary collaboration: clients are located in 55 countries, factory is in Pisa, and R&D and development are in Germany. The process involves a large number of departments: Mobile, WebGUI, R&D, Factory, FAT, Assembly, Support, Technical Writers, Sales.
-3. Half-year cycle time: software development depends on R&D, particularly the chemistry team, which introduces a degree of unpredictability into classic Agile sprints.
+1. Add refilling step-by-step guides to mobile apps and WebGUI of electrolysers.
 
 
 ---
 
+{no-bg}
+{wide}
+
+![](img/refilling-instruction-2.jpg)
+
+---
+
+{eyebrow} Why it's important
+
+1. First-time user experience: refilling is a first procedure after installing devices on-site.
+
+2. Refilling is a repetitive action: every maintenance or device transportation requires device draining and refilling.
+
+3. Limited operators technical expertise: most clients staff are first-time users of hydrogen equipment.
+
+---
 
 {eyebrow} Research
 
-There was no ready-made documentation. To reconstruct the whole refilling process I needed to piece information together myself. I ran calls with Support, R&D, Factory, FAT, WebGUI and mobile app developers teams.
+There was no ready-made documentation or simple given task. Only the problem.
 
-![I supported each call with online visualizations and drawings to make sure everyone was on the same page.](overview-placeholder.png)
-
-![Related topics from each department](overview-placeholder.png)
-
-Users frequently asked support how to connect the electrolyte bag because the unusual connector
-Electrolyte is supplied pre-prepared, this increased shipping costs.
-Refilling uses the principle of communicating vessels; in case of overfilling, the excess could be easily drained for EL2.1, but not for EL4.1.
-In EL4.1 overfilling could cause components damage, fatal errors, and as a result equipment downtime.
-Customers could prepare a solution for multiple devices from a single bag, which would further increase the risk of overfilling.
+1. Find information and define the problem across 1500+ support tikets.
+2. Align ideas with RnD and Factory team. Get insights about upcoming EL4.1 model.
+3. A lot of calls with engineers and firmware developers before first prototypes.
 
 ---
 
-{eyebrow} Solution
+{no-bg}
+{wide}
 
-1. Add refilling routine guidance to mobile app and WebGUI of the electrolyser. Autodetect device and firmware version as a must.
-2. Then user recieves devices, he shuld know there to find futher instructiins. The idea is to create IKEA-style A4 foldable Quick Start Guiges and ship with device instead of heavy 100-pages manuals.
+![Design coordination across multiple teams.](img/refilling-instruction-5.jpg)
 
 ---
 
+{eyebrow} Usability testing
 
-{eyebrow} Process
+Electrolysers require piping connectors and extensive supporting equipment, which limited testing to onsite locations only.
 
-Developed Elegotchi in collaboration with electrical engineer.
+![Onsite usabillity testing process.](refilling-instruction-7c.jpg)
 
-![Image description](overview-placeholder.png)
-![Our Elegotchi](overview-placeholder.png)
+Finding avaliable device was the main bottleneck in our usability testing. That's why we developed Elegotchi in collaboration with electrical engineer.
 
+![Our Elegotchi completely simulates the operation of real device.](refilling-instruction-6a.jpg)
+
+![Elegotchi with mobile app connected for testing.](refilling-instruction-6a.jpg)
+
+---
+
+{eyebrow} Scale the design
+
+Design should be easy to scale and reusable. Each iteration ....
+
+![Users frequently asked support how to connect the electrolyte bag because the unusual connector.](img/refilling-instruction-2.jpg)
+
+![Previously, electrolyte was supplied pre-prepared, this increased shipping costs. Now customers must prepare KOH solution by themself.](img/refilling-instruction-2.jpg)
+
+![Refilling uses the principle of communicating vessels; in case of overfilling, the excess could be easily drained for EL2.1, but not for EL4.1.](img/refilling-instruction-2.jpg)
+
+![Customers could prepare a solution for multiple devices from a single bag, which would further increase the risk of overfilling.](img/refilling-instruction-2.jpg)
+
+![Refilling Feature Development Flow](embed/refilling-process-flow)
 
 ---
 
@@ -75,5 +90,5 @@ Developed Elegotchi in collaboration with electrical engineer.
 
 1. 96% refilling success rate via the mobile app.
 2. Of the remaining 4%, most issues were not user-related (hardware or sensor errors).
-3. Support requests related to refilling reduced almost to 0;.
+3. Support requests related to refilling reduced almost to 0.
 

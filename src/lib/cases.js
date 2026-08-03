@@ -7,12 +7,13 @@ const markdownModules = import.meta.glob("/src/cases/*/index.md", {
 });
 
 const assetModules = import.meta.glob(
-  "/src/cases/*/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
+  "/src/cases/*/**/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
   { eager: true, query: "?url", import: "default" }
 );
 
 function slugFromPath(path) {
-  return path.split("/").at(-2);
+  const parts = path.split("/");
+  return parts[parts.indexOf("cases") + 1];
 }
 
 const assetsBySlug = {};

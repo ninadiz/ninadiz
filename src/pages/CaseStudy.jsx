@@ -2,10 +2,12 @@ import { Children } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { getCase } from "../lib/cases.js";
+import { getEmbed } from "../lib/embeds.js";
 import PillButton from "../components/PillButton.jsx";
 import "./CaseStudy.css";
 
 const VIDEO_EXTENSIONS = ["mp4", "webm", "mov"];
+const EMBED_PREFIX = "embed/";
 
 function isVideo(src) {
   const extension = src?.split(".").pop()?.toLowerCase();
@@ -13,6 +15,18 @@ function isVideo(src) {
 }
 
 function CaseMedia({ src, alt, assets }) {
+  if (src?.startsWith(EMBED_PREFIX)) {
+    const Embed = getEmbed(src.slice(EMBED_PREFIX.length));
+    if (Embed) {
+      return (
+        <figure className="case-study__figure">
+          <Embed />
+          {alt && <figcaption className="case-study__caption">{alt}</figcaption>}
+        </figure>
+      );
+    }
+  }
+
   const resolved = assets[src] ?? assets[src?.split("/").pop()];
 
   if (!resolved) {
@@ -66,6 +80,19 @@ function splitIntoSections(markdown) {
     .split(/\n[ \t]*---[ \t]*\n/)
     .map((section) => section.trim())
     .filter(Boolean);
+}
+
+const WIDE_TAG_RE = /^[ \t]*\{wide\}[ \t]*$\n?/m;
+const NO_BG_TAG_RE = /^[ \t]*\{no-bg\}[ \t]*$\n?/m;
+
+function extractFlags(section) {
+  const wide = WIDE_TAG_RE.test(section);
+  const noBg = NO_BG_TAG_RE.test(section);
+  const content = section
+    .replace(WIDE_TAG_RE, "")
+    .replace(NO_BG_TAG_RE, "")
+    .trim();
+  return { wide, noBg, content };
 }
 
 function BackButton() {
@@ -125,13 +152,19 @@ export default function CaseStudy() {
               </ul>
             )}
           </div>
-          {sections.map((section, i) => (
-            <div className="case-study__card" key={i}>
-              <ReactMarkdown components={markdownComponents}>
-                {section}
-              </ReactMarkdown>
-            </div>
-          ))}
+          {sections.map((section, i) => {
+            const { wide, noBg, content } = extractFlags(section);
+            return (
+              <div
+                className={`case-study__card${wide ? " case-study__card--wide" : ""}${noBg ? " case-study__card--no-bg" : ""}`}
+                key={i}
+              >
+                <ReactMarkdown components={markdownComponents}>
+                  {content}
+                </ReactMarkdown>
+              </div>
+            );
+          })}
         </div>
         <BackButton />
       </div>
