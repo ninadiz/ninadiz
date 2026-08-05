@@ -2,7 +2,7 @@
 date: "2026"
 title: "Electrolysers refilling in-app instructions reduced supports requests from 80% to zero"
 tags:
-  - "Design Thinking"
+  - "2020-2025"
   - "Process Management"
 
 ---
@@ -57,36 +57,58 @@ There was no ready-made documentation or simple given task. Only the problem.
 
 {eyebrow} Usability testing
 
-Electrolysers require piping connectors and extensive supporting equipment, which limited testing to onsite locations only.
+Electrolysers require piping connectors and extensive supporting equipment. Finding avaliable real device was the main bottleneck in usability & QA testing.
 
 ![Onsite usabillity testing process.](refilling-instruction-7c.jpg)
 
-Finding avaliable device was the main bottleneck in our usability testing. That's why we developed Elegotchi in collaboration with electrical engineer.
+ That's why we developed Elegotchi.
 
 ![Our Elegotchi completely simulates the operation of real device.](refilling-instruction-6a.jpg)
 
-![Elegotchi with mobile app connected for testing.](refilling-instruction-6a.jpg)
+Using Elegotchi we made the first remote usabillity testing with integrators.
+
+1. We used powered off devices for usabillity testing.
+2. First participants were Enapter employees, before it was allowed to proceed tests on external integrator's sites.
+
+![Usability testing guide](refilling-instruction-8.png)
+
+Download Guide Button
+
+{eyebrow} Usabillity Testing Insights
+
+Updates based on usabillity testing.
+
+Users frequently asked support how to connect the electrolyte bag because the unusual connector.
+
+![Connector detailed addded to illustration.](img/refilling-instruction-2.jpg)
+
+Users couldn't indicate then actually they can start maintenance or transportation (refilling wizard was started just after sucsess draining).
+
+![Added obvious screed indicates "maintenane allowed" ](img/refilling-instruction-2.jpg)
+
+And many more...
 
 ---
 
 {eyebrow} Scale the design
 
-Design should be easy to scale and reusable. Each iteration ....
+Design should be easy to scale and reusable. Some features were requested inhouse.
 
-![Users frequently asked support how to connect the electrolyte bag because the unusual connector.](img/refilling-instruction-2.jpg)
-
-![Previously, electrolyte was supplied pre-prepared, this increased shipping costs. Now customers must prepare KOH solution by themself.](img/refilling-instruction-2.jpg)
+![Previously, electrolyte was supplied pre-prepared, this increased shipping costs. Now customers must prepare KOH solution by themself with new KOH kit (pipes and bag) while old ones still have the outdated pipes kit.](img/refilling-instruction-2.jpg)
 
 ![Refilling uses the principle of communicating vessels; in case of overfilling, the excess could be easily drained for EL2.1, but not for EL4.1.](img/refilling-instruction-2.jpg)
 
-![Customers could prepare a solution for multiple devices from a single bag, which would further increase the risk of overfilling.](img/refilling-instruction-2.jpg)
+![Chemistry team asked to add "Flushing" for EL4.1 as a required step to avoid AEM membrane degradation.](img/refilling-instruction-2.jpg)
 
-![Refilling Feature Development Flow](embed/refilling-process-flow)
+![FAT team requested "Skip Flushing" feature to speed up factory acceptance testing, available only in "Expert mode".](img/refilling-instruction-2.jpg)
+
+![Using Customers could prepare a solution for multiple devices from a single bag, which would further increase the risk of overfilling.](img/refilling-instruction-2.jpg)
 
 ---
 
+![Refilling Feature Current Flow](embed/refilling-process-flow)
 
-{eyebrow} Impact
+{eyebrow} Core impact
 
 1. 96% refilling success rate via the mobile app.
 2. Of the remaining 4%, most issues were not user-related (hardware or sensor errors).
