@@ -14,9 +14,15 @@ export default function Header() {
         </Link>
         {!isCaseStudy && <> designs human experiences</>}
       </p>
-      <Link className="site-header__link" to={isPortfolio ? "/" : "/portfolio"}>
-        {isPortfolio ? "Back to Home" : "Portfolio"}
-      </Link>
+      {isCaseStudy ? (
+        <Link className="site-header__close" to="/" aria-label="Close case study" />
+      ) : (
+        isPortfolio && (
+          <Link className="site-header__link" to="/">
+            Back to Home
+          </Link>
+        )
+      )}
     </header>
   );
 }

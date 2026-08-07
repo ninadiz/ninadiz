@@ -5,6 +5,9 @@ import "./Footer.css";
 export default function Footer() {
   const { pathname } = useLocation();
   const isContact = pathname === "/contact";
+  const isCaseStudy = pathname.startsWith("/cases/");
+
+  if (isCaseStudy) return null;
 
   return (
     <footer className="site-footer">

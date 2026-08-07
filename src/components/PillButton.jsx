@@ -7,6 +7,7 @@ export default function PillButton({
   variant = "fill",
   showArrow = variant === "fill",
   newTab = false,
+  download = false,
 }) {
   const className = `pill-button pill-button--${variant}`;
   const content = (
@@ -17,7 +18,7 @@ export default function PillButton({
   );
   const newTabProps = newTab ? { target: "_blank", rel: "noopener noreferrer" } : {};
 
-  if (href?.startsWith("/")) {
+  if (!download && href?.startsWith("/")) {
     return (
       <Link className={className} to={href} {...newTabProps}>
         {content}
@@ -26,7 +27,7 @@ export default function PillButton({
   }
 
   return (
-    <a className={className} href={href} {...newTabProps}>
+    <a className={className} href={href} download={download || undefined} {...newTabProps}>
       {content}
     </a>
   );

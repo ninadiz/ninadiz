@@ -1,0 +1,101 @@
+.carousel {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 900px;
+  max-width: calc(100vw - 160px);
+}
+
+.carousel__viewport {
+  position: relative;
+}
+
+.carousel__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.carousel__image--placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-xs);
+  letter-spacing: var(--tracking);
+  text-align: center;
+  padding: var(--space-3);
+}
+
+.carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.carousel__nav:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.carousel__nav svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+
+.carousel__nav:hover svg {
+  stroke: var(--color-text);
+}
+
+.carousel__nav--prev {
+  left: var(--space-2);
+}
+
+.carousel__nav--next {
+  right: var(--space-2);
+}
+
+.carousel__caption {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.carousel__dot {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0;
+  cursor: pointer;
+}
+
+.carousel__dot--active {
+  background: var(--color-text);
+}

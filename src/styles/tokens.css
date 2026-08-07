@@ -23,6 +23,10 @@
   --leading-xs: 14.4px;
   --text-lg: 22px;
   --leading-lg: 26.4px;
+  --text-xl: 32px;
+  --leading-xl: 38.4px;
+  --text-2xl: 36px;
+  --leading-2xl: 43.2px;
   --tracking: normal;
   --weight-regular: 400;
 
