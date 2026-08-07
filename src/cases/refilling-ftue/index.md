@@ -88,7 +88,7 @@ Testing process:
 4. Moderator observes the participant's actions and, based on timing, triggers the relevant sensors on the Elegotchi board to simulate the refilling process.
 
 {wide}
-![](refilling-instruction-8.png)
+![](img/refilling-instruction-u-testing-guide.jpg)
 
 {h2} Usability Testing Insights
 
