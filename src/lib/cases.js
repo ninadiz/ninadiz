@@ -7,7 +7,7 @@ const markdownModules = import.meta.glob("/src/cases/*/index.md", {
 });
 
 const assetModules = import.meta.glob(
-  "/src/cases/*/**/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
+  "/src/cases/*/**/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov,pdf,docx}",
   { eager: true, query: "?url", import: "default" }
 );
 
@@ -27,7 +27,16 @@ for (const [path, url] of Object.entries(assetModules)) {
 function parseCase(raw) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!match) {
-    return { date: "", title: "", tags: [], content: raw };
+    return {
+      date: "",
+      title: "",
+      tags: [],
+      description: "",
+      client: "",
+      clientLogo: "",
+      clientDescription: "",
+      content: raw,
+    };
   }
   const [, frontmatter, content] = match;
   const data = load(frontmatter) ?? {};
@@ -35,6 +44,10 @@ function parseCase(raw) {
     date: data.date ?? "",
     title: data.title ?? "",
     tags: data.tags ?? [],
+    description: data.description ?? "",
+    client: data.client ?? "",
+    clientLogo: data.clientLogo ?? "",
+    clientDescription: data.clientDescription ?? "",
     content: content.trim(),
   };
 }
