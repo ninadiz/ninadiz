@@ -21,7 +21,7 @@ clientDescription: "Makes AEM electrolysers and energy management tools for rene
 1. Add refilling step-by-step guides to Enapter mobile apps and [electrolyser's WebGUI.](# "A web interface embedded in the firmware, designed to monitor and control devices locally.")
 
 {wide}
-![Added obvious screen indicates "maintenance allowed" ](img/refilling-instruction-2.jpg)
+![](img/refilling-instruction-2-white.jpg)
 
 {h2} Why it's important
 
@@ -40,9 +40,9 @@ clientDescription: "Makes AEM electrolysers and energy management tools for rene
 
 There was no ready-made documentation or simple given task. Only the problem.
 
-1. Find information and define the problem across 1500+ support tickets.
-2. Align ideas with RnD and Factory team. Get insights about upcoming EL4.1 model.
-3. A lot of calls with engineers and firmware developers before first prototypes.
+1. Found information and defined the problem across 1500+ support tickets.
+2. Aligned ideas with RnD and Factory team, gaining insights about the upcoming EL4.1 model.
+3. Held numerous calls with engineers and firmware developers before building first prototypes.
 
 {wide}
 ![](img/refilling-instruction-research.jpg)
