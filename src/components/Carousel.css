@@ -99,3 +99,10 @@
 .carousel__dot--active {
   background: var(--color-text);
 }
+
+@media (max-width: 640px) {
+  .carousel__nav {
+    width: 28px;
+    height: 28px;
+  }
+}

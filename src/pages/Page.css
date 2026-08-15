@@ -10,3 +10,9 @@
   letter-spacing: var(--tracking);
   font-weight: var(--weight-regular);
 }
+
+@media (max-width: 1024px) {
+  .page {
+    padding: var(--space-6) var(--page-padding);
+  }
+}
