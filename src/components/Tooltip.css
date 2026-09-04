@@ -12,6 +12,7 @@
   color: inherit;
   cursor: pointer;
   text-decoration: underline;
+  text-decoration-style: dashed;
   text-decoration-color: var(--color-underline);
   text-decoration-thickness: var(--underline-thickness);
   text-underline-offset: var(--underline-offset);
@@ -39,13 +40,24 @@
   z-index: 10;
 }
 
-.tooltip:hover .tooltip__content,
 .tooltip--open .tooltip__content {
   opacity: 1;
   visibility: visible;
 }
 
-.tooltip:hover .tooltip__trigger,
 .tooltip--open .tooltip__trigger {
   text-decoration: none;
+}
+
+/* Hover preview only for devices with a real, precise pointer — on touch
+   screens :hover can stick after a tap and would fight the click toggle. */
+@media (hover: hover) and (pointer: fine) {
+  .tooltip:hover .tooltip__content {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .tooltip:hover .tooltip__trigger {
+    text-decoration: none;
+  }
 }
