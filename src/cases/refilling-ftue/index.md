@@ -51,8 +51,10 @@ There was no ready-made documentation or simple given task. Only the problem.
 
 <div class="case-study__row">
   <div class="case-study__row-label">Step Artifacts</div>
-  <div class="case-study__row-value"><a href="img/usability-testing-guide.docx" title="button"> FigJam Userflow (soon) ↗</a></div>
-  <div class="case-study__row-value"><a href="img/usability-testing-guide.docx" title="button"> Figma Screens (soon) ↗</a></div>
+  <div class="case-study__row-value">
+    <a href="img/usability-testing-guide.docx" title="button"> FigJam Userflow (soon) ↗</a>
+    <a href="img/usability-testing-guide.docx" title="button"> Figma Screens (soon) ↗</a>
+  </div>
 </div>
 
 I’ve brought all the data together and developed a clear MVP plan, complete with a roadmap for the wizard’s future evolution.
