@@ -5,17 +5,18 @@ This is where my portfolio lives: [ninadiz.tech](https://ninadiz.tech).
 
 ![Site preview](public/og-image.png)
 
-Psst, about the site itself: no, it's not AI slop, and no, I didn't ask Claude for "a portfolio, make it pretty" and call it a day. 🙅‍♀️
+About the portfolio itself: no, it's not AI slop, and no, I didn't ask Claude for "a portfolio, make it pretty".
 
 What's under the hood instead:
 
-- 🤖 **Sane, deliberate use of AI.** Claude is my pair programmer, not the boss. I decide what gets built and why, it helps me build it faster, and nothing ships until I've looked at it with my own eyes.
-- 📝 **A modern way of managing content.** Every word on the site lives in plain `.md` and `.yaml` files. No CMS to log into, no copy-pasting into code, no pain.
-- 📖 **Thoughtful case descriptions and real storytelling.** Each case is written by a human who actually did the work, so it reads like a story with a point, not a list of buzzwords that sounds the same as everyone else's.
+- 🤖 **Reasonable and careful use of AI.** Claude is my junior programmer. It helps me build it faster, but still I decide what gets built and why.
+- 📝 **A modern way of managing content.** Every word on the site lives in plain `.md` and `.yaml` files with AI-friendly structure. No CMS to log into. No more Wordpress, no pain.
+- 📖 **Human storytelling.** Each case is written by the person who actually did the work (me!). So it's a real story with a beginning, a middle and a point, not a wall of buzzwords. 😉
 
-## How this site works
+## Want to build the same site?
 
-The content of the site is managed through plain Markdown and YAML files, and everything is documented:
+Go ahead! Let's be honest, who can stop anyone from copying anything these days? 😄 I just hope my experience will be useful to you, and that you'll mention me in your LinkedIn post.
 
+- [How to run the same portfolio?](docs/setup.md)
 - [How the timeline on the home page works](docs/timeline.md)
 - [How to create a new case study](docs/cases.md)
