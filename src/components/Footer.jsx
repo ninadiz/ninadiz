@@ -18,9 +18,11 @@ export default function Footer() {
           </li>
         ))}
       </ul>
-      <Link className="site-footer__contact" to={isContact ? "/" : "/contact"}>
-        {isContact ? "Back to Home" : "Contact"}
-      </Link>
+      {isContact && (
+        <Link className="site-footer__contact" to="/">
+          Back to Home
+        </Link>
+      )}
     </footer>
   );
 }

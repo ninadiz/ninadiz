@@ -4,7 +4,7 @@ import "./Timeline.css";
 
 export default function Timeline() {
   return (
-    <main>
+    <main className="timeline-panel">
       <section className="timeline">
         {timelineItems.map((item, i) => (
           <TimelineItem
