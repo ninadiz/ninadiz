@@ -1,6 +1,7 @@
 # Hi, I'm Antonina 👋
 
-I'm a Staff UX Designer for Industrial & Deep-Tech Sectors. This is where my portfolio lives: [ninadiz.tech](https://ninadiz.tech).
+I'm a Staff UX Designer for Industrial & Deep-Tech Sectors.<br>
+This is where my portfolio lives: [ninadiz.tech](https://ninadiz.tech).
 
 ![Site preview](public/og-image.png)
 
