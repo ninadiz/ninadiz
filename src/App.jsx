@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { Agentation } from "agentation";
 import AnnouncementBanner from "./components/AnnouncementBanner.jsx";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/cases/:caseName" element={<CaseStudy />} />
       </Routes>
       <Footer />
+      {import.meta.env.DEV && <Agentation />}
     </>
   );
 }
