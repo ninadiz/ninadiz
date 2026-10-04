@@ -10,19 +10,19 @@ This is where my portfolio lives: [ninadiz.tech](https://ninadiz.tech)
 About the portfolio itself: no, it's not AI slop, and no, I didn't ask Claude for "a portfolio, make it pretty".
 
 <details>
-<summary><b>Reasonable and careful use of AI</b></summary>
+<summary>Reasonable and careful use of AI</summary>
 <br>
 Claude is my junior programmer. It helps me build faster, but I still decide what gets built and why.
 </details>
 
 <details>
-<summary><b>A modern way of managing content</b></summary>
+<summary>A modern way of managing content</summary>
 <br>
 Every word on the site lives in plain <code>.md</code> and <code>.yaml</code> files with AI-friendly structure. No CMS to log into. No more WordPress, no pain.
 </details>
 
 <details>
-<summary><b>Human storytelling</b></summary>
+<summary>Human storytelling</summary>
 <br>
 Each case is written by the person who actually did the work (me!). So it's a real story with a beginning, a middle and a point, not a wall of buzzwords. 😉
 </details>
