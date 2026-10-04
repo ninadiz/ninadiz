@@ -22,8 +22,17 @@ function usePageviewTracking() {
   }, [location]);
 }
 
+function useScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+}
+
 export default function App() {
   usePageviewTracking();
+  useScrollToTop();
 
   return (
     <>
