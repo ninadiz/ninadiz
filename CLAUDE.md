@@ -66,7 +66,7 @@ scripts/
   prerender-meta.mjs      Post-build step: per-case HTML with correct meta tags
 src/
   main.jsx                Entry point: BrowserRouter + global styles
-  App.jsx                 Layout (banner, header, footer), routes, page-view tracking
+  App.jsx                 Layout (header, footer), routes, page-view tracking
   pages/                  One component per route
     Home.jsx                Renders the timeline
     Portfolio.jsx           Stub (title only)
@@ -109,7 +109,6 @@ An unknown `:caseName` renders "Case not found." There is no catch-all 404 route
 | Timeline images and videos | `src/img/` (or a case folder) |
 | Footer social links | `src/data/socialLinks.js` |
 | Contact page text | `src/pages/Contact.jsx` |
-| Top announcement banner text | `src/components/AnnouncementBanner.jsx` |
 | Default meta tags, analytics ID | `index.html` |
 | Colors, type scale, spacing | `src/styles/tokens.css` |
 

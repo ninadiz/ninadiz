@@ -1,7 +1,6 @@
 /*
   Design tokens extracted from the reference layout (colors, type scale,
-  spacing, radii). Font is a licensed grotesque (Haas Grot Disp) in the
-  reference — swapped here for a freely available fallback stack.
+  spacing, radii). Fonts are Inter (body, header) and Unbounded (headings), loaded from Google Fonts in index.html.
   Values are plain CSS custom properties, no framework prefixes.
 */
 :root {
@@ -18,6 +17,7 @@
   --underline-offset: 6px;
 
   /* typography */
+  --font-heading: "Unbounded", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --text-xs: 12px;
   --leading-xs: 14.4px;
@@ -45,6 +45,6 @@
 
   /* layout */
   --page-padding: 20px;
+  --gutter: 20px; /* side offset of the home header, hero and timeline panel */
   --content-max-width: 520px;
-  --banner-height: 44px;
 }

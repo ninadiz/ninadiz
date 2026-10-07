@@ -1,7 +1,41 @@
+/* Full-width opaque card. Later cards paint over earlier ones (DOM order, no
+   z-index, so the fixed header and footer stay on top). */
 .timeline-item {
-  position: relative;
+  position: sticky;
+  top: calc(var(--pin, 0px) - var(--drift, 0px));
+  min-height: calc(100vh - var(--pin, 0px) + var(--drift-max, 0px));
+  min-height: calc(100dvh - var(--pin, 0px) + var(--drift-max, 0px));
+  background: var(--color-bg);
+}
+
+/* Per the Figma cards: the first card is rounded on top, the last on bottom. */
+.timeline-item:first-child {
+  border-radius: 28px 28px 0 0;
+}
+
+.timeline-item:last-child {
+  border-radius: 0 0 28px 28px;
+}
+
+/* Cards after the first have a 12px top padding (64px for the first). Their
+   pin position (--pin) is set in Timeline.jsx. */
+.timeline-item:not(:first-child) {
+  --stack-offset: 12px;
+}
+
+.timeline-item__inner {
   display: flex;
   align-items: stretch;
+  min-height: inherit;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: 80px;
+}
+
+@media (max-width: 1024px) {
+  .timeline-item__inner {
+    padding: 0 var(--page-padding);
+  }
 }
 
 .timeline-item__rail {
@@ -16,17 +50,32 @@
   height: var(--dot-size);
   border-radius: 50%;
   border: var(--line-width) solid var(--color-line);
+  background: var(--color-bg);
   flex-shrink: 0;
 }
 
+/* Every card draws the same full-height line, so the line looks fixed while
+   the dot rides along with its card. */
 .timeline-item__line {
   width: var(--line-width);
   flex: 1;
   background: var(--color-line);
 }
 
+.timeline-item__line--before {
+  flex: 0 0 var(--stack-offset);
+}
+
+/* The first card has nothing above it and the last nothing below it, so the
+   line only starts / ends at the dot there. The space is kept for layout. */
+.timeline-item:first-child .timeline-item__line--before,
+.timeline-item:last-child .timeline-item__line--after {
+  visibility: hidden;
+}
+
 .timeline-item__date {
   flex: 0 0 130px;
+  padding-top: var(--stack-offset);
   padding-right: var(--space-1);
   text-align: right;
   font-size: var(--text-xs);
@@ -38,18 +87,26 @@
 .timeline-item__content {
   flex: 1 1 auto;
   max-width: var(--content-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-top: var(--stack-offset);
   padding-left: var(--space-5);
   padding-bottom: var(--space-6);
 }
 
-.timeline-item:last-child .timeline-item__content {
-  padding-bottom: 0;
+.timeline-item__text {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .timeline-item__title {
-  padding-bottom: var(--space-3);
-  font-size: var(--text-lg);
-  line-height: var(--leading-lg);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 1.25;
   letter-spacing: var(--tracking);
   font-weight: var(--weight-regular);
 }
@@ -63,19 +120,23 @@
 }
 
 .timeline-item__subheader {
-  padding-bottom: var(--space-4);
-  font-size: 14px;
-  line-height: 16.8px;
+  font-size: 15px;
+  line-height: 1.4;
   color: var(--color-text-muted);
 }
 
+.timeline-item__media {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 100%;
+}
+
 .timeline-item__image-description {
-  padding-bottom: var(--space-3);
   color: var(--color-text-muted);
 }
 
 .timeline-item__image {
-  margin-bottom: var(--space-3);
   width: 487px;
   height: 274px;
   max-width: 100%;
@@ -102,8 +163,11 @@
   }
 
   .timeline-item__title {
-    font-size: 19px;
-    line-height: 24px;
+    font-size: 16px;
+  }
+
+  .timeline-item__media {
+    align-self: stretch;
   }
 
   .timeline-item__image {

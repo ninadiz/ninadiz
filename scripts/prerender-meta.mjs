@@ -8,7 +8,7 @@ const DIST = join(ROOT, "dist");
 const CASES_DIR = join(ROOT, "src/cases");
 const SITE_URL = "https://ninadiz.tech";
 const DEFAULT_DESCRIPTION =
-  "Ninadiz designs human experiences — product design portfolio and case studies.";
+  "Portfolio of Antonina, Staff UX/UI Designer. Enterprise Software Design for Industrial & Deep-Tech Sectors.";
 
 function escapeHtml(text) {
   return text
@@ -56,7 +56,7 @@ function findHeroAssetUrl(content) {
 
 function renderPage(template, { title, description, url, image, hasCustomImage }) {
   let html = template;
-  const fullTitle = escapeHtml(`${title} — Ninadiz`);
+  const fullTitle = escapeHtml(`${title} — Antonina`);
   const safeDescription = escapeHtml(description);
 
   html = html.replace(/<title>.*?<\/title>/, `<title>${fullTitle}</title>`);

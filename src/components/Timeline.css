@@ -1,11 +1,30 @@
+/* Stacked cards: each .timeline-item sticks to the top and the next one slides
+   over it. The panel must not set overflow, or position: sticky stops working. */
+.timeline-panel {
+  --stack-offset: 64px;
+}
+
+/* The stack is an inset panel: gutters (--gutter) from the browser edge, rounded on
+   top by the first card and at the bottom by the last one. */
+/* The cards beneath the last one end at the same bottom edge with square
+   corners and would fill its rounded corners, so the whole stack is clipped to
+   a rounded box. overflow: clip (unlike hidden) keeps position: sticky working. */
 .timeline {
-  padding: calc(240px + var(--banner-height)) 0 160px 80px;
-  max-width: 900px;
-  margin: 0 auto;
+  margin: 0 var(--gutter) var(--stack-end-space);
+  border-radius: 28px;
+  overflow: clip;
+}
+
+/* Free space after the last card, so scrolling does not stop with the card
+   flush against the bottom of the browser (117px gap + 128px footer area, as in
+   the Figma layout). Below 1024px the footer is in the flow and brings its own
+   117px gap. */
+.timeline-panel {
+  --stack-end-space: 245px;
 }
 
 @media (max-width: 1024px) {
-  .timeline {
-    padding: var(--space-6) var(--page-padding);
+  .timeline-panel {
+    --stack-end-space: 0px;
   }
 }

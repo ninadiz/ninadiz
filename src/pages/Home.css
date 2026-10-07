@@ -1,0 +1,9 @@
+/* Layered home: white base, with the timeline as a panel resting on top. */
+.home {
+  background: var(--color-surface);
+}
+
+/* The static mobile header sits above .home, so the page base must be white too. */
+body:has(.home) {
+  background: var(--color-surface);
+}

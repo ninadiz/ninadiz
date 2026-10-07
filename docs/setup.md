@@ -41,7 +41,6 @@ The site is content-driven, so most of the work is editing text files. Go throug
 | Case studies: delete the existing ones, add yours | `src/cases/` (see [case study guide](cases.md)) |
 | Timeline media of the original author | `src/img/` (remove files you do not use) |
 | Header name and tagline | `src/components/Header.jsx` |
-| Top announcement banner (or remove `<AnnouncementBanner />` from `src/App.jsx`) | `src/components/AnnouncementBanner.jsx` |
 | Contact page: email, messenger | `src/pages/Contact.jsx` |
 | Footer social links | `src/data/socialLinks.js` |
 | Page title, description, canonical URL, Open Graph and Twitter tags | `index.html` |

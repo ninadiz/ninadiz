@@ -1,0 +1,25 @@
+.hero {
+  padding: 160px var(--gutter) 80px;
+}
+
+.hero__title {
+  font-family: var(--font-heading);
+  max-width: 720px;
+  font-size: var(--text-xl);
+  line-height: var(--leading-xl);
+  letter-spacing: var(--tracking);
+  font-weight: var(--weight-regular);
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    padding: var(--space-6) var(--gutter) var(--space-5);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__title {
+    font-size: 26px;
+    line-height: 31px;
+  }
+}
