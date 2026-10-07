@@ -7,6 +7,7 @@ import Home from "./pages/Home.jsx";
 import Portfolio from "./pages/Portfolio.jsx";
 import Contact from "./pages/Contact.jsx";
 import CaseStudy from "./pages/CaseStudy.jsx";
+import { scrollToImmediate, useSmoothScroll } from "./lib/smoothScroll.js";
 
 function usePageviewTracking() {
   const location = useLocation();
@@ -25,11 +26,12 @@ function useScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    scrollToImmediate(0);
   }, [pathname]);
 }
 
 export default function App() {
+  useSmoothScroll();
   usePageviewTracking();
   useScrollToTop();
 

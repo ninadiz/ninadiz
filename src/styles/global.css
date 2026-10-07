@@ -8,7 +8,16 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+
+/* html propagates its overflow to the viewport. body uses clip, because
+   overflow: hidden would make it a scroll container and break sticky. */
+html {
   overflow-x: hidden;
+}
+
+body {
+  overflow-x: clip;
 }
 
 body {

@@ -77,7 +77,7 @@ items:
       May '13
       – September '08
     title: "Say my name, Mister White: Master’s degree in Chemistry unlocked."
-    subheader: "I moved into a new field, but the analytical habits and problem-solving skills from my degree never left."
+    subheader: "I moved into a new field, but the analytical and problem-solving skills from my degree never left."
     image: "chemistry.gif"
     imageDescription: ""
     buttonPrimary:
