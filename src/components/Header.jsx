@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 
@@ -15,6 +15,11 @@ const ITEMS = [
 const DETACH_DISTANCE = 30;
 const CORNER = 0.34; // visible corner radius as a share of the pill height
 const ANIMATION_MS = 600; // longest margin transition (0.5s) plus slack
+
+// The header stays put for the first PIN_DISTANCE px of scroll, then fades
+// out over FADE_DISTANCE px.
+const PIN_DISTANCE = 20;
+const FADE_DISTANCE = 80;
 
 const pt = ([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`;
 
@@ -103,12 +108,31 @@ function usePillShape(navRef, pathRef) {
   }, [navRef, pathRef]);
 }
 
+function useScrollFade(headerRef) {
+  useEffect(() => {
+    const el = headerRef.current;
+    const update = () => {
+      const progress = Math.min(
+        Math.max((window.scrollY - PIN_DISTANCE) / FADE_DISTANCE, 0),
+        1
+      );
+      el.style.setProperty("--header-progress", progress);
+      el.toggleAttribute("data-hidden", progress >= 1);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, [headerRef]);
+}
+
 export default function Header() {
   const { pathname } = useLocation();
   const [hovered, setHovered] = useState(null);
   const navRef = useRef(null);
   const pathRef = useRef(null);
+  const headerRef = useRef(null);
   usePillShape(navRef, pathRef);
+  useScrollFade(headerRef);
 
   const activeIndex = ITEMS.findIndex((item) =>
     item.to === "/cases"
@@ -117,7 +141,10 @@ export default function Header() {
   );
 
   return (
-    <header className={"site-header" + (pathname === "/" ? "" : " site-header--on-gray")}>
+    <header
+      className={"site-header" + (pathname === "/" ? "" : " site-header--on-gray")}
+      ref={headerRef}
+    >
       <Link className="site-header__btn site-header__brand" to="/">
         Home
       </Link>
