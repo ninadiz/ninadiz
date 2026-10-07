@@ -54,7 +54,7 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 Hosting: the repo has no deploy configuration (no CI, `vercel.json`, `netlify.toml` or `CNAME`), so deploys are done outside the repo. Any static host works. Configure it to:
 
 - run `npm run build` and serve `dist/`;
-- fall back to `index.html` for unknown paths, so direct visits to `/portfolio` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
+- fall back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/cases`, `/blog` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
 
 ## Project structure
 
@@ -70,6 +70,8 @@ src/
   pages/                  One component per route
     Home.jsx                Renders the timeline
     Portfolio.jsx           Stub (title only)
+    Cases.jsx               List of all case studies
+    Blog.jsx                Stub (title only)
     Contact.jsx             Contact details (email, Telegram)
     CaseStudy.jsx           Renders a case from Markdown
   components/             UI components, each with its own .css
@@ -94,6 +96,8 @@ Defined in `src/App.jsx`:
 |---|---|
 | `/` | `Home`: the timeline |
 | `/portfolio` | `Portfolio`: currently an empty stub |
+| `/cases` | `Cases`: list of all case studies |
+| `/blog` | `Blog`: stub (title only) |
 | `/contact` | `Contact` |
 | `/cases/:caseName` | `CaseStudy`: `:caseName` is the case folder name |
 
