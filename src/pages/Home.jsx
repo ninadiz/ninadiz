@@ -5,12 +5,16 @@ import { socialLinks } from "../data/socialLinks.js";
 import avatar from "../../content/home/src/avatar.jpg";
 import "./Home.css";
 
-// The desktop layout is a 1600x900 artboard scaled to fit the window. Cards sit
-// in a horizontal lane; the wheel scrolls it sideways. Up to MOBILE_MAX the
-// lane becomes a plain vertical stack.
-const CANVAS_WIDTH = 1600;
-const CANVAS_HEIGHT = 900;
-const MOBILE_QUERY = "(max-width: 768px)";
+// Desktop cards keep a fixed size: only a short window scales them down (never
+// above 1x). A wider window just shows more cards in the horizontal lane; the
+// wheel scrolls it sideways. The free height is split into three equal gaps:
+// header to lane, lane to pagination, pagination to window bottom. Up to
+// MOBILE_QUERY the lane becomes a plain vertical stack.
+const LANE_HEIGHT = 595;
+const PAGINATION_HEIGHT = 24;
+const MIN_GAP = 16;
+const MIN_SCALE = 0.5;
+const MOBILE_QUERY = "(max-width: 1000px)";
 
 const sections = [
   { id: "intro", size: "large", kind: "intro" },
@@ -123,21 +127,32 @@ function useDesktopScale(laneRef, onResize) {
       const lane = laneRef.current;
       if (window.matchMedia(MOBILE_QUERY).matches) {
         root.setProperty("--desktop-scale", "1");
-        root.setProperty("--desktop-offset-y", "0px");
         onResize();
         return;
       }
       // Keep the scroll position as a share of the lane while it is resized.
       const range = lane.scrollWidth - lane.clientWidth;
       const ratio = range > 0 ? lane.scrollLeft / range : 0;
+      const header = document.querySelector(".site-header");
+      const headerBottom = header ? header.offsetTop + header.offsetHeight : 0;
+      const content = LANE_HEIGHT + PAGINATION_HEIGHT;
       const scale = Math.min(
-        window.innerWidth / CANVAS_WIDTH,
-        window.innerHeight / CANVAS_HEIGHT
+        1,
+        Math.max(
+          MIN_SCALE,
+          (window.innerHeight - headerBottom - 3 * MIN_GAP) / content
+        )
       );
+      const gap = Math.max(
+        MIN_GAP,
+        (window.innerHeight - headerBottom - content * scale) / 3
+      );
+      const laneY = headerBottom + gap;
       root.setProperty("--desktop-scale", String(scale));
+      root.setProperty("--lane-y", `${laneY}px`);
       root.setProperty(
-        "--desktop-offset-y",
-        `${Math.max(0, (window.innerHeight - CANVAS_HEIGHT * scale) / 2)}px`
+        "--pagination-y",
+        `${laneY + LANE_HEIGHT * scale + gap}px`
       );
       lane.scrollLeft = ratio * (lane.scrollWidth - lane.clientWidth);
       onResize();
@@ -147,7 +162,8 @@ function useDesktopScale(laneRef, onResize) {
     return () => {
       window.removeEventListener("resize", update);
       root.removeProperty("--desktop-scale");
-      root.removeProperty("--desktop-offset-y");
+      root.removeProperty("--lane-y");
+      root.removeProperty("--pagination-y");
     };
   }, [laneRef, onResize]);
 }
@@ -173,21 +189,17 @@ export default function Home() {
   const laneRef = useRef(null);
   const [active, setActive] = useState(0);
 
-  // The active card is the one whose centre is closest to the lane's centre.
+  // The active card is the first one that is not mostly scrolled off the left.
   const updateActive = useCallback(() => {
     const lane = laneRef.current;
     if (!lane || window.matchMedia(MOBILE_QUERY).matches) return;
-    const mid = lane.getBoundingClientRect().left + lane.clientWidth / 2;
-    let best = 0;
-    let bestDistance = Infinity;
-    [...lane.querySelectorAll(".home-section")].forEach((el, i) => {
+    const left = lane.getBoundingClientRect().left;
+    const cards = [...lane.querySelectorAll(".home-section")];
+    let best = cards.findIndex((el) => {
       const rect = el.getBoundingClientRect();
-      const distance = Math.abs(rect.left + rect.width / 2 - mid);
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        best = i;
-      }
+      return rect.left + rect.width / 2 >= left;
     });
+    if (best < 0) best = cards.length - 1;
     // At the very ends the first/last card wins, even if it is off-centre.
     const range = lane.scrollWidth - lane.clientWidth;
     if (lane.scrollLeft <= 1) best = 0;
@@ -201,7 +213,7 @@ export default function Home() {
   const goTo = (id) => {
     document
       .getElementById(id)
-      ?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      ?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
   };
 
   return (
