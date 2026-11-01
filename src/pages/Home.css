@@ -139,6 +139,14 @@ html:has(.home) body {
   object-fit: cover;
 }
 
+/* name next to the avatar, same type as the caption (also on phones) */
+.home-card__name {
+  font-size: 16px;
+  line-height: 18px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
 .home-card__headline {
   position: absolute;
   top: 173px;
@@ -327,7 +335,7 @@ html:has(.home) body {
 }
 
 /* Mobile: vertical stack, natural page scroll. */
-@media (max-width: 1000px) {
+@media (max-width: 760px) {
   html:has(.home),
   html:has(.home) body {
     height: auto;
@@ -336,8 +344,8 @@ html:has(.home) body {
 
   .home {
     position: static;
-    /* the header wraps to two rows on phones */
-    padding: 120px 8px 8px;
+    /* room for the one-row header (avatar and menu button, 44px) */
+    padding: 80px var(--gutter) var(--gutter);
   }
 
   .home-lane {
@@ -364,16 +372,34 @@ html:has(.home) body {
 
   .home-surface {
     height: auto;
-    border-radius: 24px;
+    border-radius: var(--card-radius);
   }
 
+  /* intro card: same notch and size as on desktop, turned to the left
+     and right edges. It is drawn at a fixed size (the card is as tall as its
+     content, so a stretched mask would distort the arcs). Each notch is a
+     mask layer subtracted from a solid one, in the middle of the edge. */
   .home-surface--intro {
-    background: var(--color-surface);
-    border-radius: 24px;
+    background: transparent;
+    border-radius: var(--card-radius);
+    /* the avatar rises out of the card */
+    overflow: visible;
   }
 
   .home-surface--intro::before {
-    display: none;
+    border-radius: var(--card-radius);
+    --notch-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45 90'%3E%3Cpath fill='black' d='M0 0A45 45 0 0 0 45 45A45 45 0 0 0 0 90Z'/%3E%3C/svg%3E");
+    --notch-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45 90'%3E%3Cpath fill='black' d='M45 0A45 45 0 0 1 0 45A45 45 0 0 1 45 90Z'/%3E%3C/svg%3E");
+    -webkit-mask:
+      var(--notch-left) left center / 45px 90px no-repeat,
+      var(--notch-right) right center / 45px 90px no-repeat,
+      linear-gradient(#000, #000);
+    -webkit-mask-composite: xor, xor;
+    mask:
+      var(--notch-left) left center / 45px 90px no-repeat,
+      var(--notch-right) right center / 45px 90px no-repeat,
+      linear-gradient(#000, #000);
+    mask-composite: exclude, exclude;
   }
 
   .home-surface > * {
@@ -386,10 +412,31 @@ html:has(.home) body {
   .home-card--contact {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 80px;
     min-height: 420px;
     padding: 24px;
+  }
+
+  .home-card--intro {
+    padding: 32px;
+    /* the card is as tall as its content; the notches sit at half its height,
+       so the gap between the blocks sets how far they are from the headline */
+    min-height: 0;
+    gap: 24px;
+  }
+
+  /* 160px from the headline to the caption: the 24px gap plus 136px */
+  .home-card--intro .home-card__caption {
+    margin-top: 136px;
+  }
+
+  /* avatar on the level of the Menu button, above the card */
+  .home-surface--intro .home-card__identity {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    z-index: 1;
   }
 
   .home-card--case {
@@ -421,29 +468,19 @@ html:has(.home) body {
   }
 
   .home-card__avatar {
-    width: 61px;
-    height: 61px;
-    border-radius: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .home-card__name {
+    font-size: 14px;
+    line-height: 16px;
   }
 
   .home-card__caption {
     font-size: 20px;
     line-height: 28px;
-  }
-
-  .home-card__icons li + li {
-    margin-left: -6px;
-  }
-
-  .home-card__icon {
-    width: 50px;
-    height: 50px;
-    border-width: 2px;
-  }
-
-  .home-card__icon svg {
-    width: 24px;
-    height: 24px;
   }
 
   .home-card--contact .home-card__contacts {

@@ -32,7 +32,7 @@
   --stack-end-space: 245px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 760px) {
   .timeline-panel {
     --stack-end-space: 0px;
   }

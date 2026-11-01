@@ -145,11 +145,131 @@
   }
 }
 
+/* desktop: the wrapper is transparent and the toggle is not shown */
+.site-header__menu {
+  display: contents;
+}
+
+.site-header__toggle {
+  display: none;
+  pointer-events: auto;
+}
+
+/* phones: only a Menu button on the right, the rest drops down under it */
 @media (max-width: 760px) {
   .site-header {
-    flex-direction: column;
+    --pill-padding: 13px 20px;
+    justify-content: flex-end;
     align-items: flex-start;
-    gap: 4px;
+  }
+
+  .site-header__toggle {
+    display: inline-flex;
+    height: 44px;
+  }
+
+  .site-header__menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    flex-direction: column;
+    gap: 8px;
+    width: min(260px, 100%);
+    padding: 8px;
+    border-radius: 24px;
+    background: var(--pill-bg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+    pointer-events: auto;
+  }
+
+  .site-header.is-open .site-header__menu {
+    display: flex;
+  }
+
+  .site-header__shape {
+    display: none;
+  }
+
+  .site-header__nav {
+    flex-direction: column;
+  }
+
+  /* other pages are a bit grey; the current one is black with a dot */
+  .site-header__pill {
+    border-radius: 16px;
+    color: rgba(36, 31, 33, 0.5);
+  }
+
+  .site-header__pill.is-active {
+    color: var(--pill-text);
+  }
+
+  /* the desktop pill spacing is drawn by the hidden shape */
+  .site-header__pill:is(.is-hover, .is-active):not(:first-of-type),
+  .site-header__pill:is(.is-hover, .is-active):not(:last-of-type) {
+    margin: 0;
+  }
+
+  /* the active dot moves from under the label to the left of it */
+  .site-header__pill.is-active::after {
+    left: 10px;
+    top: 50%;
+    bottom: auto;
+    margin: -2px 0 0;
+  }
+
+  .site-header__actions {
+    justify-content: flex-start;
+    gap: 8px;
+    padding-top: 8px;
+  }
+
+  /* panel radius 24px = item radius 16px + panel padding 8px, so the corners
+     are concentric */
+  .site-header__actions .site-header__btn {
+    background: var(--color-bg);
+    border-radius: 16px;
+  }
+
+  /* Download CV takes the free width, so the buttons end 8px from the right
+     edge of the panel, like on the left and at the bottom */
+  .site-header__actions .site-header__btn:first-child {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* hover and press feedback for everything in the menu */
+  .site-header__pill,
+  .site-header__btn,
+  .site-header__toggle {
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out),
+      transform 0.2s var(--ease-out), opacity 0.2s var(--ease-out);
+  }
+
+  .site-header__pill:not(.is-active):hover {
+    background: var(--color-bg);
+    color: var(--pill-text);
+  }
+
+  .site-header__actions .site-header__btn:hover {
+    background: #e6e6e6;
+    opacity: 1;
+  }
+
+  .site-header__pill:not(.is-active):active {
+    background: #dcdcdc;
+    color: var(--pill-text);
+    transform: scale(0.97);
+  }
+
+  .site-header__actions .site-header__btn:active {
+    background: #dcdcdc;
+    transform: scale(0.96);
+  }
+
+  .site-header__toggle:active {
+    transform: scale(0.95);
   }
 }
 
@@ -163,4 +283,35 @@
   .site-header__pill.is-active {
     transition: none;
   }
+}
+
+/* Case study: cross in the top right corner instead of the menu. */
+.site-close {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--gutter);
+  width: 32px;
+  height: 32px;
+  z-index: 10;
+}
+
+.site-close::before,
+.site-close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-text-muted);
+  transform: rotate(45deg);
+}
+
+.site-close::after {
+  transform: rotate(-45deg);
+}
+
+.site-close:hover::before,
+.site-close:hover::after {
+  background: var(--color-text);
 }
