@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender-meta.mjs",
+    "build": "vite build && node metatags/prerender-meta.mjs",
     "preview": "vite preview",
     "deploy": "npm run build && rsync -avz --delete --exclude .htaccess -e 'ssh -p 8228' dist/ s277295@81.90.180.134:www/ninadiz.tech/"
   },

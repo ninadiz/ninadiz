@@ -1,13 +1,13 @@
 import { load } from "js-yaml";
 
-const timelineModules = import.meta.glob("/src/timeline/timeline.md", {
+const timelineModules = import.meta.glob("/content/timeline/timeline.md", {
   eager: true,
   query: "?raw",
   import: "default",
 });
 
 const imageModules = import.meta.glob(
-  "/src/img/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
+  "/content/timeline/src/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
   { eager: true, query: "?url", import: "default" }
 );
 
@@ -17,13 +17,13 @@ for (const [path, url] of Object.entries(imageModules)) {
 }
 
 const caseImageModules = import.meta.glob(
-  "/src/cases/*/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
+  "/content/cases/*/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
   { eager: true, query: "?url", import: "default" }
 );
 
 const caseImagesByRelativePath = {};
 for (const [path, url] of Object.entries(caseImageModules)) {
-  caseImagesByRelativePath[path.replace("/src/cases/", "cases/")] = url;
+  caseImagesByRelativePath[path.replace("/content/cases/", "cases/")] = url;
 }
 
 function resolveImage(image) {

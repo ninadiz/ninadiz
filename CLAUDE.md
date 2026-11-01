@@ -4,8 +4,8 @@ Developer notes for ninadiz.tech, the personal product design portfolio (a caree
 
 Content authoring guides:
 
-- [Experience page timeline](docs/timeline.md)
-- [Case studies, including how to add a new one](docs/cases.md)
+- [Experience page timeline](content/timeline/README.md)
+- [Case studies, including how to add a new one](content/cases/cases.md)
 
 ## Tech stack
 
@@ -42,7 +42,7 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 | Command | What it does |
 |---|---|
 | `npm run dev` | Vite dev server with hot reload |
-| `npm run build` | `vite build`, then `node scripts/prerender-meta.mjs` (see [Build and deploy](#build-and-deploy)) |
+| `npm run build` | `vite build`, then `node metatags/prerender-meta.mjs` (see [Build and deploy](#build-and-deploy)) |
 | `npm run preview` | Serves the production build from `dist/` at http://localhost:4173 |
 
 ## Build and deploy
@@ -50,7 +50,7 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 `npm run build` produces a static site in `dist/` (git-ignored). It is a single-page app, so the build has two steps:
 
 1. `vite build`: bundles the app into `dist/` with a single `index.html`.
-2. `scripts/prerender-meta.mjs`: for every folder in `src/cases/`, writes `dist/cases/<slug>/index.html`, a copy of `dist/index.html` with that case's `<title>`, description, canonical URL and Open Graph/Twitter tags. This lets link previews (Slack, Telegram, LinkedIn…) show the right title, description and image, because crawlers do not run JavaScript. The preview image is the first image in the case body; if there is none, it falls back to `public/og-image.png`.
+2. `metatags/prerender-meta.mjs`: for every folder in `content/cases/`, writes `dist/cases/<slug>/index.html`, a copy of `dist/index.html` with that case's `<title>`, description, canonical URL and Open Graph/Twitter tags. This lets link previews (Slack, Telegram, LinkedIn…) show the right title, description and image, because crawlers do not run JavaScript. The preview image is the first image in the case body; if there is none, it falls back to `metatags/og-image.png`.
 
 Hosting: the repo has no deploy configuration (no CI, `vercel.json`, `netlify.toml` or `CNAME`), so deploys are done outside the repo. Any static host works. Configure it to:
 
@@ -61,24 +61,36 @@ Hosting: the repo has no deploy configuration (no CI, `vercel.json`, `netlify.to
 
 ```
 index.html                Page template: default meta/OG tags, favicons, analytics
-public/                   Static files served as-is: favicons, og-image.png
-docs/                     Content authoring guides (timeline, cases)
-scripts/
-  prerender-meta.mjs      Post-build step: per-case HTML with correct meta tags
+SETUP.md                  How to run your own copy of this portfolio
+.htaccess                 Apache fallback to index.html, copied to dist/ by vite.config.js
+plan/                     Working plans
+content/                  All site content
+  home/                     Home page
+    home.md                   Home page content (empty for now)
+    src/                      Home page media (avatar)
+  cases/                    Case studies
+    cases.md                  How to write and add a case
+    <slug>/                   One folder per case: index.md + src/ (its images/files)
+  timeline/                 Experience page timeline
+    timeline.md               Timeline content (YAML frontmatter)
+    README.md                 How the timeline works
+    src/                      Media used by timeline items (gif, mp4…)
+fav/                      Favicons, served from the site root
+metatags/                 Link-preview assets and tooling
+  og-image.png              Default share image, served from the site root
+  prerender-meta.mjs        Post-build step: per-case HTML with correct meta tags
+vite.config.js            Also serves/copies .htaccess and fav/, metatags/ images to the root
 src/
   main.jsx                Entry point: BrowserRouter + global styles
   App.jsx                 Layout (header, footer), routes, page-view tracking
   pages/                  One component per route
-    Home.jsx                Renders the hero
+    Home.jsx                Renders the card lane
     Portfolio.jsx           Stub (title only)
     Experience.jsx          Renders the timeline
     Cases.jsx               List of all case studies
     Contact.jsx             Contact details (email, Telegram)
     CaseStudy.jsx           Renders a case from Markdown
   components/             UI components, each with its own .css
-  cases/<slug>/           One folder per case study: index.md + its images/files
-  timeline/timeline.md    Content of the Experience page timeline (YAML frontmatter)
-  img/                    Media used by timeline items (gif, mp4…)
   data/socialLinks.js     Footer social links
   lib/
     cases.js                Loads and parses all cases at build time
@@ -108,18 +120,19 @@ An unknown `:caseName` renders "Case not found." There is no catch-all 404 route
 
 | Content | Location |
 |---|---|
-| Timeline entries on the Experience page | `src/timeline/timeline.md` |
-| Case studies | `src/cases/<slug>/index.md` |
-| Case images, videos, downloadable files | next to the case's `index.md` |
-| Timeline images and videos | `src/img/` (or a case folder) |
+| Timeline entries on the Experience page | `content/timeline/timeline.md` |
+| Case studies | `content/cases/<slug>/index.md` |
+| Case images, videos, downloadable files | `content/cases/<slug>/src/` |
+| Timeline images and videos | `content/timeline/src/` (or a case folder) |
 | Footer social links | `src/data/socialLinks.js` |
 | Contact page text | `src/pages/Contact.jsx` |
 | Default meta tags, analytics ID | `index.html` |
+| Favicons / default share image | `fav/` / `metatags/og-image.png` |
 | Colors, type scale, spacing | `src/styles/tokens.css` |
 
 ## Known limitations
 
 - `Portfolio` (`/portfolio`) is an empty stub and is not linked from the UI.
 - `vuaerizm` is a placeholder case (lorem ipsum) and is not linked from the timeline.
-- Case asset lookup is by filename, so duplicate filenames in different subfolders of one case collide (details in [docs/cases.md](docs/cases.md#how-assets-are-resolved)).
+- Case asset lookup is by filename, so duplicate filenames in different subfolders of one case collide (details in [cases/cases.md](content/cases/cases.md#how-assets-are-resolved)).
 - The git remote uses SSH (`git@github.com:ninadiz/ninadiz.git`). The repo is named like the GitHub account, so this README is also the GitHub profile page.

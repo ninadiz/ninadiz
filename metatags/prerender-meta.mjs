@@ -5,7 +5,7 @@ import { load } from "js-yaml";
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const DIST = join(ROOT, "dist");
-const CASES_DIR = join(ROOT, "src/cases");
+const CASES_DIR = join(ROOT, "content/cases");
 const SITE_URL = "https://ninadiz.tech";
 const DEFAULT_DESCRIPTION =
   "Portfolio of Antonina, Staff UX/UI Designer. Enterprise Software Design for Industrial & Deep-Tech Sectors.";

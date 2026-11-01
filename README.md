@@ -3,7 +3,7 @@
 I'm a Staff UX Designer for Industrial & Deep-Tech Sectors.<br>
 This is where my portfolio lives: [ninadiz.tech](https://ninadiz.tech)
 
-![Site preview](public/og-image.png)
+![Site preview](metatags/og-image.png)
 
 ## How was the portfolio built?
 
@@ -31,6 +31,6 @@ Each case is written by the person who actually did the work (me!). So it's a re
 
 Go ahead! Let's be honest: who can stop anyone from copying anything these days? 😄 I just hope my experience turns out useful to you, and that you'll mention me in your LinkedIn post.
 
-- [How to run the same portfolio?](docs/setup.md)
-- [How the timeline on the home page works](docs/timeline.md)
-- [How to create a new case study](docs/cases.md)
+- [How to run the same portfolio?](SETUP.md)
+- [How the timeline on the home page works](content/timeline/README.md)
+- [How to create a new case study](content/cases/cases.md)

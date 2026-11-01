@@ -3,13 +3,13 @@ date: "2026"
 title: "In-app self-service guides for electrolysers brought refilling-related support requests down from over 80% to zero."
 description: "B2B SaaS companies allocate about [~9% of ARR](https://www.saas-capital.com/blog-posts/spending-benchmarks-for-private-b2b-saas-companies/) <sup>2026</sup> to support costs. Reducing ticket volume directly impacts profitability while improving customer experience and [time-to-resolution](# \"Time required for support to resolve a customer's issue\")."
 client: "Enapter"
-clientLogo: "img/logo-enapter.svg"
+clientLogo: "src/logo-enapter.svg"
 clientDescription: "Makes AEM electrolysers and energy management tools for renewable energy projects."
 
 ---
 
 {wide}
-![](img/refilling-instruction-1.jpg)
+![](src/refilling-instruction-1.jpg)
 
 {h2} Where we started
 
@@ -21,7 +21,7 @@ clientDescription: "Makes AEM electrolysers and energy management tools for rene
 1. Add refilling step-by-step guides to Enapter mobile apps and [electrolyser's WebGUI.](# "A web interface embedded in the firmware, designed to monitor and control devices locally.")
 
 {wide}
-![](img/refilling-instruction-2-white.jpg)
+![](src/refilling-instruction-2-white.jpg)
 
 {h2} Why it's important
 
@@ -35,7 +35,7 @@ clientDescription: "Makes AEM electrolysers and energy management tools for rene
 
 <div class="case-study__row">
   <div class="case-study__row-label">Step Artifacts</div>
-  <div class="case-study__row-value"><a href="img/usability-testing-guide.docx" title="button">  PRD (soon) ↗</a></div>
+  <div class="case-study__row-value"><a href="src/usability-testing-guide.docx" title="button">  PRD (soon) ↗</a></div>
 </div>
 
 There was no ready-made documentation or simple given task. Only the problem.
@@ -45,15 +45,15 @@ There was no ready-made documentation or simple given task. Only the problem.
 3. Held numerous calls with engineers and firmware developers before building first prototypes.
 
 {wide}
-![](img/refilling-instruction-research.jpg)
+![](src/refilling-instruction-research.jpg)
 
 {h2} Design and Development
 
 <div class="case-study__row">
   <div class="case-study__row-label">Step Artifacts</div>
   <div class="case-study__row-value">
-    <a href="img/usability-testing-guide.docx" title="button"> FigJam Userflow (soon) ↗</a>
-    <a href="img/usability-testing-guide.docx" title="button"> Figma Screens (soon) ↗</a>
+    <a href="src/usability-testing-guide.docx" title="button"> FigJam Userflow (soon) ↗</a>
+    <a href="src/usability-testing-guide.docx" title="button"> Figma Screens (soon) ↗</a>
   </div>
 </div>
 
@@ -63,16 +63,16 @@ I’ve brought all the data together and developed a clear MVP plan, complete wi
 2. I designed all the error scenarios – human-friendly headers and clear resolution steps defined for each error code and listed at GitLab.
 
 {carousel}
-![](img/refilling-instruction-diff-el21-el-41.jpg)
-![](img/refilling-instruction-skip.jpg)
-![](img/refilling-instruction-errors.jpg)
+![](src/refilling-instruction-diff-el21-el-41.jpg)
+![](src/refilling-instruction-skip.jpg)
+![](src/refilling-instruction-errors.jpg)
 {/carousel}
 
 {h2} Usability testing challenge
 
 <div class="case-study__row">
   <div class="case-study__row-label">Step Artifacts</div>
-  <div class="case-study__row-value"><a href="img/usability-testing-guide.docx" title="button"> testing-guide.docx ↓</a></div>
+  <div class="case-study__row-value"><a href="src/usability-testing-guide.docx" title="button"> testing-guide.docx ↓</a></div>
 </div>
 
 Electrolyzers require piping connectors and extensive supporting equipment. Finding an available real device was the main bottleneck in usability & QA testing.
@@ -90,20 +90,20 @@ Testing process:
 4. Moderator observes the participant's actions and, based on timing, triggers the relevant sensors on the Elegotchi board to simulate the refilling process.
 
 {wide}
-![](img/refilling-instruction-u-testing-guide.jpg)
+![](src/refilling-instruction-u-testing-guide.jpg)
 
 {h2} Usability Testing Insights
 
 <div class="case-study__row">
   <div class="case-study__row-label">Step Artifacts</div>
-  <div class="case-study__row-value"><a href="img/usability-testing-guide.docx" title="button"> testing-insights.docx (soon) </a></div>
+  <div class="case-study__row-value"><a href="src/usability-testing-guide.docx" title="button"> testing-insights.docx (soon) </a></div>
 </div>
 
 Example updates based on usability testing.
 
 {carousel}
-![Users failed connecting the electrolyte bag because of the unusual connector.](img/refilling-instruction-connector.jpg)
-![Users couldn't indicate when they could actually start maintenance or transportation.](img/refilling-instruction-connector.jpg)
+![Users failed connecting the electrolyte bag because of the unusual connector.](src/refilling-instruction-connector.jpg)
+![Users couldn't indicate when they could actually start maintenance or transportation.](src/refilling-instruction-connector.jpg)
 {/carousel}
 
 

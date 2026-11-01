@@ -1,6 +1,6 @@
 # Experience page timeline
 
-The Experience page (`/experience`) is a vertical timeline of career milestones. Its content lives in a single file, [`src/timeline/timeline.md`](../src/timeline/timeline.md), so adding or editing an entry never requires touching React code.
+The Experience page (`/experience`) is a vertical timeline of career milestones. Its content lives in a single file, [`content/timeline/timeline.md`](timeline.md), so adding or editing an entry never requires touching React code.
 
 ## How it works
 
@@ -52,14 +52,14 @@ items:
 
 `image` accepts either:
 
-- a filename from [`src/img/`](../src/img), for example `chemistry.gif`;
+- a filename from [`content/timeline/src/`](src), for example `chemistry.gif`;
 - a path into a case folder, `cases/<slug>/<file>`, for example `cases/vuaerizm/vuaerizm-1.jpeg`. The file must be directly in the case folder, not in a subfolder.
 
 Supported types: `png jpg jpeg gif svg webp mp4 webm mov`. Videos (`mp4`, `webm`, `mov`) autoplay muted in a loop. If the name is not found, the value is used as-is, which usually means a broken image, so check the spelling.
 
 ## Adding a new entry
 
-1. If the entry has media, put the file into `src/img/`.
-2. Add a new item to `items` in `src/timeline/timeline.md`, in the right chronological place (newest on top).
-3. If the entry should lead to a case study, set `buttonPrimary.href` to `/cases/<slug>`. Creating the case itself is described in [How to create a case study](cases.md).
+1. If the entry has media, put the file into `content/timeline/src/`.
+2. Add a new item to `items` in `content/timeline/timeline.md`, in the right chronological place (newest on top).
+3. If the entry should lead to a case study, set `buttonPrimary.href` to `/cases/<slug>`. Creating the case itself is described in [How to create a case study](../cases/cases.md).
 4. Run `npm run dev` and check the Experience page.

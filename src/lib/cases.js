@@ -1,13 +1,13 @@
 import { load } from "js-yaml";
 
-const markdownModules = import.meta.glob("/src/cases/*/index.md", {
+const markdownModules = import.meta.glob("/content/cases/*/index.md", {
   eager: true,
   query: "?raw",
   import: "default",
 });
 
 const assetModules = import.meta.glob(
-  "/src/cases/*/**/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov,pdf,docx}",
+  "/content/cases/*/**/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov,pdf,docx}",
   { eager: true, query: "?url", import: "default" }
 );
 
@@ -67,7 +67,7 @@ export function getCase(slug) {
 }
 
 // The cover is the first image in the case body, the same rule the build uses
-// for link previews (scripts/prerender-meta.mjs).
+// for link previews (metatags/prerender-meta.mjs).
 export function coverOf(caseData) {
   const src = caseData.content.match(/!\[[^\]]*\]\(([^)\s]+)/)?.[1];
   if (!src) return null;

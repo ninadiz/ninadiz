@@ -37,15 +37,15 @@ The site is content-driven, so most of the work is editing text files. Go throug
 
 | What | Where |
 |---|---|
-| Home page timeline: your career, your buttons | `src/timeline/timeline.md` (see [timeline guide](timeline.md)) |
-| Case studies: delete the existing ones, add yours | `src/cases/` (see [case study guide](cases.md)) |
-| Timeline media of the original author | `src/img/` (remove files you do not use) |
+| Home page timeline: your career, your buttons | `content/timeline/timeline.md` (see [timeline guide](content/timeline/README.md)) |
+| Case studies: delete the existing ones, add yours | `content/cases/` (see [case study guide](content/cases/cases.md)) |
+| Timeline media of the original author | `content/timeline/src/` (remove files you do not use) |
 | Header name and tagline | `src/components/Header.jsx` |
 | Contact page: email, messenger | `src/pages/Contact.jsx` |
 | Footer social links | `src/data/socialLinks.js` |
 | Page title, description, canonical URL, Open Graph and Twitter tags | `index.html` |
-| Domain and default description used for per-case link previews | `scripts/prerender-meta.mjs` (`SITE_URL`, `DEFAULT_DESCRIPTION`, and the `— Ninadiz` title suffix) |
-| Favicons and the default share image | `public/` (`favicon.*`, `apple-touch-icon.png`, `og-image.png`, 1200×630) |
+| Domain and default description used for per-case link previews | `metatags/prerender-meta.mjs` (`SITE_URL`, `DEFAULT_DESCRIPTION`, and the `— Ninadiz` title suffix) |
+| Favicons and the default share image | `fav/` (favicons) and `metatags/og-image.png` (1200×630) |
 | Colors, fonts, spacing | `src/styles/tokens.css` |
 
 ### Analytics
@@ -77,13 +77,13 @@ It opens at http://localhost:4173.
 - run `npm run build` and serve the `dist/` folder;
 - send unknown paths to `index.html` (a "single-page app" or "SPA fallback" setting), so direct visits to `/contact` and `/portfolio` work.
 
-Then point your domain at the host and update the domain in `index.html` and `scripts/prerender-meta.mjs` (see the checklist above).
+Then point your domain at the host and update the domain in `index.html` and `metatags/prerender-meta.mjs` (see the checklist above).
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
 | `Port 5173 is already in use` | The dev server does not switch ports on its own. Stop the other process or use `PORT=3000 npm run dev` |
-| An image in a case shows a placeholder | The filename or path in `index.md` does not match a file in the case folder (see [assets](cases.md#how-assets-are-resolved)) |
+| An image in a case shows a placeholder | The filename or path in `index.md` does not match a file in the case folder (see [assets](content/cases/cases.md#how-assets-are-resolved)) |
 | Link previews show the wrong title or image | Previews are generated only by `npm run build`, not in dev mode. Check the case's frontmatter and its first image |
 | `dist/index.html not found` during build | `vite build` failed before the prerender step. Scroll up for the first error |

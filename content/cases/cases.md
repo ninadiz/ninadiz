@@ -1,18 +1,18 @@
 # Case studies
 
-A case study is a Markdown file with YAML frontmatter, rendered by [`src/pages/CaseStudy.jsx`](../src/pages/CaseStudy.jsx). The URL and the folder are tied together: `src/cases/refilling-ftue/index.md` is served at `/cases/refilling-ftue`.
+A case study is a Markdown file with YAML frontmatter, rendered by [`src/pages/CaseStudy.jsx`](../../src/pages/CaseStudy.jsx). The URL and the folder are tied together: `content/cases/refilling-ftue/index.md` is served at `/cases/refilling-ftue`.
 
 ## How to add a new case
 
 1. **Create the folder.** The folder name becomes the URL slug, so use lowercase kebab-case.
 
    ```bash
-   mkdir src/cases/my-new-case
+   mkdir cases/my-new-case
    ```
 
-2. **Add the assets** (images, videos, PDFs, docx) into that folder, for example `src/cases/my-new-case/img/cover.jpg`. Supported types: `png jpg jpeg gif svg webp mp4 webm mov pdf docx`. Subfolders are fine.
+2. **Add the assets** (images, videos, PDFs, docx) into that folder, for example `content/cases/my-new-case/src/cover.jpg`. Supported types: `png jpg jpeg gif svg webp mp4 webm mov pdf docx`. Subfolders are fine.
 
-3. **Create `src/cases/my-new-case/index.md`.** Start from this template. The `---` frontmatter block must be at the very first line of the file:
+3. **Create `content/cases/my-new-case/index.md`.** Start from this template. The `---` frontmatter block must be at the very first line of the file:
 
    ```markdown
    ---
@@ -21,12 +21,12 @@ A case study is a Markdown file with YAML frontmatter, rendered by [`src/pages/C
    tags: ["Product design", "B2B"]
    description: "Short intro under the title. Markdown and links allowed."
    client: "Company"
-   clientLogo: "img/logo.svg"
+   clientLogo: "src/logo.svg"
    clientDescription: "One line about the client."
    ---
 
    {wide}
-   ![Caption](img/cover.jpg)
+   ![Caption](src/cover.jpg)
 
    {h2} Where we started
 
@@ -38,7 +38,7 @@ A case study is a Markdown file with YAML frontmatter, rendered by [`src/pages/C
    Paragraph text with a [link](https://example.com).
    ```
 
-4. **Link it from the home page.** A case does **not** appear anywhere automatically. Add (or edit) an item in [`src/timeline/timeline.md`](../src/timeline/timeline.md) and point a button at the case (see [timeline docs](timeline.md)):
+4. **Link it from the home page.** A case does **not** appear anywhere automatically. Add (or edit) an item in [`content/timeline/timeline.md`](../timeline/timeline.md) and point a button at the case (see [timeline docs](timeline.md)):
 
    ```yaml
    buttonPrimary:
@@ -78,17 +78,17 @@ Standard Markdown plus a few custom tags. Custom tags go on their own line.
 | `{title} Text` | Large `h1`-style heading inside the body (rarely needed: the title comes from frontmatter) |
 | `{p} Text` | Plain paragraph (the tag is just stripped) |
 | `{wide}` on the line above `![alt](file)` | Makes that one image full-width |
-| `![caption](img/file.jpg)` | Image or video (video extensions autoplay muted in a loop). The alt text is shown as a caption |
+| `![caption](src/file.jpg)` | Image or video (video extensions autoplay muted in a loop). The alt text is shown as a caption |
 | `{carousel}` … `{/carousel}` around several `![alt](file)` lines | Image carousel with arrows and dots |
 | `![caption](embed/<key>)` | Interactive React component from `src/lib/embeds.js` (see [below](#adding-an-interactive-diagram)) |
 | `[text](# "Explanation")` | Tooltip with the explanation. Any link with a title becomes a tooltip trigger |
 | `[text](https://…)` | Regular link, opens in a new tab |
-| `<a href="img/file.docx" title="button">Label</a>` | Download button (pill style). The href is resolved against the case's assets |
+| `<a href="src/file.docx" title="button">Label</a>` | Download button (pill style). The href is resolved against the case's assets |
 | Raw HTML | Allowed (`rehype-raw`), for example the `case-study__row` blocks in `refilling-ftue` for "Step Artifacts" rows |
 
 ## How assets are resolved
 
-Paths in `index.md` (images, `clientLogo`, download buttons, carousel items) are matched against the files in the case folder, either by relative path (`img/cover.jpg`) or by bare filename (`cover.jpg`). Practical consequences:
+Paths in `index.md` (images, `clientLogo`, download buttons, carousel items) are matched against the files in the case folder, either by relative path (`src/cover.jpg`) or by bare filename (`cover.jpg`). Practical consequences:
 
 - Use **unique filenames** within a case. Matching is by filename, so two files with the same name in different subfolders will collide.
 - Files must be inside the case's own folder. Another case's files are not visible.
@@ -113,10 +113,10 @@ For custom visuals that Markdown cannot express:
 
 ## Link previews and SEO
 
-Everything comes from the frontmatter and the first image of the case, via [`scripts/prerender-meta.mjs`](../scripts/prerender-meta.mjs) during `npm run build`:
+Everything comes from the frontmatter and the first image of the case, via [`metatags/prerender-meta.mjs`](../../metatags/prerender-meta.mjs) during `npm run build`:
 
 - Put a meaningful `title` and a short plain-text `description` in the frontmatter.
-- Put the image you want in the preview **first** in the body. The script takes the first `![](…)` in the file. Without any image it falls back to `public/og-image.png`.
+- Put the image you want in the preview **first** in the body. The script takes the first `![](…)` in the file. Without any image it falls back to `metatags/og-image.png`.
 - Meta tags are generated only at build time, so they do not appear in `npm run dev`.
 
 ## Known limitations

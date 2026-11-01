@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { Link } from "react-router-dom";
 import { cases, coverOf } from "../lib/cases.js";
 import { socialLinks } from "../data/socialLinks.js";
-import avatar from "../img/avatar.jpg";
+import avatar from "../../content/home/src/avatar.jpg";
 import "./Home.css";
 
 // The desktop layout is a 1600x900 artboard scaled to fit the window. Cards sit
