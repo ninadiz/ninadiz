@@ -17,7 +17,7 @@
   --underline-offset: 6px;
 
   /* typography */
-  --font-heading: "Unbounded", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --text-xs: 12px;
   --leading-xs: 14.4px;

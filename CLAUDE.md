@@ -4,7 +4,7 @@ Developer notes for ninadiz.tech, the personal product design portfolio (a caree
 
 Content authoring guides:
 
-- [Home page timeline](docs/timeline.md)
+- [Experience page timeline](docs/timeline.md)
 - [Case studies, including how to add a new one](docs/cases.md)
 
 ## Tech stack
@@ -17,6 +17,7 @@ Content authoring guides:
 | Case rendering | `react-markdown` + `rehype-raw` (Markdown with inline HTML) |
 | Content parsing | `js-yaml` (frontmatter and timeline) |
 | Interactive diagrams | `@xyflow/react`, `lucide-react` |
+| Smooth scroll, scroll effects | `@fiddle-digital/string-tune` (`src/lib/stringTune.js`) |
 | Dev-only feedback tool | `agentation` (rendered only when `import.meta.env.DEV`) |
 | Analytics | Google Analytics (gtag snippet in `index.html`, SPA page views sent from `src/App.jsx`) |
 
@@ -54,7 +55,7 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 Hosting: the repo has no deploy configuration (no CI, `vercel.json`, `netlify.toml` or `CNAME`), so deploys are done outside the repo. Any static host works. Configure it to:
 
 - run `npm run build` and serve `dist/`;
-- fall back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/cases`, `/blog` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
+- fall back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/cases`, `/experience` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
 
 ## Project structure
 
@@ -68,15 +69,15 @@ src/
   main.jsx                Entry point: BrowserRouter + global styles
   App.jsx                 Layout (header, footer), routes, page-view tracking
   pages/                  One component per route
-    Home.jsx                Renders the timeline
+    Home.jsx                Renders the hero
     Portfolio.jsx           Stub (title only)
+    Experience.jsx          Renders the timeline
     Cases.jsx               List of all case studies
-    Blog.jsx                Stub (title only)
     Contact.jsx             Contact details (email, Telegram)
     CaseStudy.jsx           Renders a case from Markdown
   components/             UI components, each with its own .css
   cases/<slug>/           One folder per case study: index.md + its images/files
-  timeline/timeline.md    Content of the home page timeline (YAML frontmatter)
+  timeline/timeline.md    Content of the Experience page timeline (YAML frontmatter)
   img/                    Media used by timeline items (gif, mp4…)
   data/socialLinks.js     Footer social links
   lib/
@@ -94,10 +95,10 @@ Defined in `src/App.jsx`:
 
 | Route | Page |
 |---|---|
-| `/` | `Home`: the timeline |
+| `/` | `Home`: the hero |
 | `/portfolio` | `Portfolio`: currently an empty stub |
+| `/experience` | `Experience`: the timeline |
 | `/cases` | `Cases`: list of all case studies |
-| `/blog` | `Blog`: stub (title only) |
 | `/contact` | `Contact` |
 | `/cases/:caseName` | `CaseStudy`: `:caseName` is the case folder name |
 
@@ -107,7 +108,7 @@ An unknown `:caseName` renders "Case not found." There is no catch-all 404 route
 
 | Content | Location |
 |---|---|
-| Timeline entries on the home page | `src/timeline/timeline.md` |
+| Timeline entries on the Experience page | `src/timeline/timeline.md` |
 | Case studies | `src/cases/<slug>/index.md` |
 | Case images, videos, downloadable files | next to the case's `index.md` |
 | Timeline images and videos | `src/img/` (or a case folder) |

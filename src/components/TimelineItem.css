@@ -5,16 +5,22 @@
   top: calc(var(--pin, 0px) - var(--drift, 0px));
   min-height: calc(100vh - var(--pin, 0px) + var(--drift-max, 0px));
   min-height: calc(100dvh - var(--pin, 0px) + var(--drift-max, 0px));
-  background: var(--color-bg);
+  background: var(--card-bg, var(--color-surface));
 }
 
 /* Per the Figma cards: the first card is rounded on top, the last on bottom. */
 .timeline-item:first-child {
-  border-radius: 28px 28px 0 0;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+}
+
+/* The first card leaves room for the top of the second one on the first screen. */
+.timeline-item:first-child {
+  min-height: calc(100vh - var(--timeline-top) - var(--peek));
+  min-height: calc(100dvh - var(--timeline-top) - var(--peek));
 }
 
 .timeline-item:last-child {
-  border-radius: 0 0 28px 28px;
+  border-radius: 0 0 var(--card-radius) var(--card-radius);
 }
 
 /* Cards after the first have a 12px top padding (64px for the first). Their
@@ -27,9 +33,9 @@
   display: flex;
   align-items: stretch;
   min-height: inherit;
-  max-width: 900px;
-  margin: 0 auto;
-  padding-left: 80px;
+  /* Optical correction: the right-aligned dates already leave empty space on
+     the left of their column, so the left padding is smaller than the right. */
+  padding: 0 var(--space-5) 0 var(--space-2);
 }
 
 @media (max-width: 1024px) {
@@ -50,7 +56,7 @@
   height: var(--dot-size);
   border-radius: 50%;
   border: var(--line-width) solid var(--color-line);
-  background: var(--color-bg);
+  background: var(--card-bg, var(--color-surface));
   flex-shrink: 0;
 }
 
@@ -86,7 +92,7 @@
 
 .timeline-item__content {
   flex: 1 1 auto;
-  max-width: var(--content-max-width);
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

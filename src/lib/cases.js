@@ -65,3 +65,11 @@ export const cases = Object.fromEntries(
 export function getCase(slug) {
   return cases[slug];
 }
+
+// The cover is the first image in the case body, the same rule the build uses
+// for link previews (scripts/prerender-meta.mjs).
+export function coverOf(caseData) {
+  const src = caseData.content.match(/!\[[^\]]*\]\(([^)\s]+)/)?.[1];
+  if (!src) return null;
+  return caseData.assets[src] ?? caseData.assets[src.split("/").pop()] ?? null;
+}

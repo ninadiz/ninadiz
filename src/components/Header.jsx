@@ -3,9 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 
 const ITEMS = [
+  { to: "/", label: "Home" },
   { to: "/cases", label: "Cases" },
+  { to: "/experience", label: "Experience" },
   { to: "/contact", label: "Contacts" },
-  { to: "/blog", label: "Blog" },
 ];
 
 // Pill backgrounds are drawn in one SVG behind the links, ported from
@@ -142,12 +143,9 @@ export default function Header() {
 
   return (
     <header
-      className={"site-header" + (pathname === "/" ? "" : " site-header--on-gray")}
+      className="site-header"
       ref={headerRef}
     >
-      <Link className="site-header__btn site-header__brand" to="/">
-        Home
-      </Link>
       <nav
         className="site-header__nav"
         aria-label="Main"

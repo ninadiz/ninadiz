@@ -1,9 +1,419 @@
-/* Layered home: white base, with the timeline as a panel resting on top. */
+/* Desktop: a 1600x900 artboard scaled by --desktop-scale (set in Home.jsx),
+   cards in a horizontal lane. Card contents are laid out at design size and
+   scaled with transform. */
+:root {
+  --lane-top: 83px;
+  --lane-height: 739px;
+  --card-large: 972px;
+  --card-small: 590px;
+  --card-gap: 12px;
+  --card-radius: 56px;
+  --desktop-scale: 1;
+  --desktop-offset-y: 0px;
+}
+
+html:has(.home),
+html:has(.home) body {
+  height: 100%;
+  overflow: hidden;
+}
+
 .home {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+}
+
+.home-lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--desktop-offset-y) + var(--lane-top) * var(--desktop-scale));
+  height: calc(var(--lane-height) * var(--desktop-scale));
+  overflow: auto hidden;
+  overscroll-behavior: none;
+  scrollbar-width: none;
+}
+
+.home-lane::-webkit-scrollbar {
+  display: none;
+}
+
+.home-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  /* same side offset as the header, unscaled */
+  padding-inline: var(--gutter);
+}
+
+.home-section {
+  position: relative;
+  flex: none;
+  height: 100%;
+  padding-inline: calc(var(--card-gap) * var(--desktop-scale) / 2);
+  --card-content-width: 960px;
+}
+
+.home-section:first-child {
+  padding-left: 0;
+}
+
+.home-section:last-child {
+  padding-right: 0;
+}
+
+.home-section--large {
+  width: calc(var(--card-large) * var(--desktop-scale));
+}
+
+.home-section--small {
+  width: calc(var(--card-small) * var(--desktop-scale));
+  --card-content-width: 578px;
+}
+
+.home-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--card-radius) * var(--desktop-scale));
   background: var(--color-surface);
 }
 
-/* The static mobile header sits above .home, so the page base must be white too. */
-body:has(.home) {
+/* intro card: the surface is drawn through a mask with a rounded notch cut
+   into the middle of the top and bottom edges (viewBox = card content size) */
+.home-surface--intro {
+  background: transparent;
+  border-radius: 0;
+}
+
+.home-surface--intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: var(--color-surface);
+  --notch-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 966 739' preserveAspectRatio='none'%3E%3Cpath fill='black' d='M56 0H427A56 56 0 0 1 483 56A56 56 0 0 1 539 0H910A56 56 0 0 1 966 56V683A56 56 0 0 1 910 739H539A56 56 0 0 1 483 683A56 56 0 0 1 427 739H56A56 56 0 0 1 0 683V56A56 56 0 0 1 56 0Z'/%3E%3C/svg%3E");
+  -webkit-mask: var(--notch-mask) center / 100% 100% no-repeat;
+  mask: var(--notch-mask) center / 100% 100% no-repeat;
+}
+
+.home-surface--contact {
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.home-surface > * {
+  width: var(--card-content-width);
+  height: var(--lane-height);
+  transform: scale(var(--desktop-scale));
+  transform-origin: 0 0;
+}
+
+.home-card {
+  position: relative;
+  display: block;
+  color: inherit;
+}
+
+.home-card:hover {
+  text-decoration: none;
+}
+
+.home-card__identity {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.home-card__avatar {
+  width: 61px;
+  height: 61px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.home-card__headline {
+  position: absolute;
+  top: 215px;
+  left: 40px;
+  width: 720px;
+  font-family: var(--font-heading);
+  font-size: 48px;
+  line-height: 54px;
+  letter-spacing: -0.03em;
+  font-weight: var(--weight-regular);
+}
+
+.home-card__headline span {
+  display: block;
+  text-wrap: balance;
+}
+
+.home-card__headline-muted {
+  color: var(--color-text-muted);
+}
+
+.home-card__headline-primary {
+  margin-top: 6px;
+}
+
+.home-card__caption {
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
+  /* ends before the notch (starts at 427px of the 966px card) */
+  width: 365px;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--color-text-muted);
+}
+
+.home-card__icons {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  display: flex;
+}
+
+.home-card__icons li + li {
+  margin-left: -6px;
+}
+
+.home-card__icon {
+  /* positioned for every icon so they all paint in markup order; a lone
+     transform would lift the hovered one above its later neighbours */
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  /* card-coloured ring separates the overlapping icons */
+  border: 2px solid var(--color-surface);
+  color: #fff;
+  transition: transform 0.15s ease-in;
+}
+
+.home-card__icon:hover {
+  transform: scale(1.12);
+  text-decoration: none;
+}
+
+.home-card__icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.home-card__icon--telegram {
+  background: #2aabee;
+}
+
+.home-card__icon--linkedin {
+  background: #0a66c2;
+}
+
+.home-card__icon--github {
+  background: #1a1a1a;
+}
+
+.home-card__contacts a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-underline);
+  text-underline-offset: var(--underline-offset);
+}
+
+.home-surface--contact a {
+  color: inherit;
+}
+
+.home-card--contact .home-card__headline {
+  width: 692px;
+}
+
+.home-card--contact .home-card__contacts {
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
+  font-size: 22px;
+  line-height: 26.4px;
+}
+
+/* case card */
+.home-card--case {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 12px 28px;
+}
+
+.home-card__cover {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 44px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.home-card__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.home-card--case:hover .home-card__cover img {
+  transform: scale(1.03);
+}
+
+.home-card__meta {
+  margin: 20px 16px 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-muted);
+}
+
+.home-card__title {
+  margin: 6px 16px 0;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: var(--weight-regular);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* pagination */
+.home-pagination {
+  position: fixed;
+  left: 50%;
+  top: calc(var(--desktop-offset-y) + 845px * var(--desktop-scale));
+  transform: translateX(-50%) scale(var(--desktop-scale));
+  transform-origin: top;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 30px;
+  padding-inline: 18px;
+  border-radius: 50px;
+  background: var(--color-surface);
+}
+
+.home-pagination__dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.home-pagination__dot.is-active {
+  background: var(--color-text);
+  opacity: 1;
+}
+
+/* Mobile: vertical stack, natural page scroll. */
+@media (max-width: 768px) {
+  html:has(.home),
+  html:has(.home) body {
+    height: auto;
+    overflow: visible;
+  }
+
+  .home {
+    position: static;
+    /* the header wraps to two rows on phones */
+    padding: 120px 8px 8px;
+  }
+
+  .home-lane {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .home-track {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    height: auto;
+    padding: 0;
+  }
+
+  .home-section,
+  .home-section--large,
+  .home-section--small {
+    width: 100%;
+    height: auto;
+    padding: 0;
+  }
+
+  .home-surface {
+    height: auto;
+    border-radius: 24px;
+  }
+
+  .home-surface--intro {
+    background: var(--color-surface);
+    border-radius: 24px;
+  }
+
+  .home-surface--intro::before {
+    display: none;
+  }
+
+  .home-surface > * {
+    width: 100%;
+    height: auto;
+    transform: none;
+  }
+
+  .home-card--intro,
+  .home-card--contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 80px;
+    min-height: 420px;
+    padding: 24px;
+  }
+
+  .home-card--case {
+    padding: 8px 8px 24px;
+  }
+
+  .home-card__cover {
+    flex: none;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+  }
+
+  .home-card__identity,
+  .home-card__headline,
+  .home-card__caption,
+  .home-card__icons,
+  .home-card--contact .home-card__contacts {
+    position: static;
+    width: auto;
+  }
+
+  .home-card__headline {
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  .home-pagination {
+    display: none;
+  }
 }

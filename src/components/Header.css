@@ -1,6 +1,6 @@
 .site-header {
   --header-progress: 0;
-  --pill-bg: #efefef;
+  --pill-bg: #fff;
   --pill-text: #241f21;
   --pill-space: 20px;
   --pill-padding: 10px 20px;
@@ -11,7 +11,7 @@
   left: var(--gutter);
   right: var(--gutter);
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: 12px;
   z-index: 10;
@@ -30,29 +30,14 @@
   pointer-events: none;
 }
 
-/* Home is white, other pages are gray: the pills take the opposite color. */
-.site-header--on-gray {
-  --pill-bg: #fff;
-}
-
 .site-header a:hover {
   text-decoration: none;
 }
 
-.site-header__brand,
 .site-header__actions {
   display: flex;
   align-items: center;
   pointer-events: auto;
-}
-
-.site-header__brand {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto 0;
-  height: fit-content;
 }
 
 .site-header__actions {
@@ -160,16 +145,10 @@
   }
 }
 
-@media (max-width: 900px) {
-  .site-header__brand {
-    display: none;
-  }
-}
-
 @media (max-width: 760px) {
   .site-header {
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 4px;
   }
 }

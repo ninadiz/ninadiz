@@ -1,6 +1,6 @@
-# Home page timeline
+# Experience page timeline
 
-The home page (`/`) is a vertical timeline of career milestones. Its content lives in a single file, [`src/timeline/timeline.md`](../src/timeline/timeline.md), so adding or editing an entry never requires touching React code.
+The Experience page (`/experience`) is a vertical timeline of career milestones. Its content lives in a single file, [`src/timeline/timeline.md`](../src/timeline/timeline.md), so adding or editing an entry never requires touching React code.
 
 ## How it works
 
@@ -62,4 +62,4 @@ Supported types: `png jpg jpeg gif svg webp mp4 webm mov`. Videos (`mp4`, `webm`
 1. If the entry has media, put the file into `src/img/`.
 2. Add a new item to `items` in `src/timeline/timeline.md`, in the right chronological place (newest on top).
 3. If the entry should lead to a case study, set `buttonPrimary.href` to `/cases/<slug>`. Creating the case itself is described in [How to create a case study](cases.md).
-4. Run `npm run dev` and check the home page.
+4. Run `npm run dev` and check the Experience page.

@@ -7,7 +7,8 @@ export default function Footer() {
   const isContact = pathname === "/contact";
   const isCaseStudy = pathname.startsWith("/cases/");
 
-  if (isCaseStudy) return null;
+  // The home page carries the social links in its intro card.
+  if (isCaseStudy || pathname === "/") return null;
 
   return (
     <footer className="site-footer">
