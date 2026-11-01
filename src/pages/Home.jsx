@@ -32,13 +32,14 @@ const iconPaths = {
     "M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.700-.3-5.500-1.3-5.500-5.900 0-1.3.5-2.400 1.2-3.200-.1-.3-.5-1.500.1-3.200 0 0 1-.3 3.300 1.2a11.500 11.500 0 0 1 6 0c2.300-1.500 3.300-1.2 3.300-1.2.7 1.700.2 2.900.1 3.200.8.800 1.2 1.900 1.2 3.200 0 4.600-2.8 5.600-5.500 5.900.4.400.8 1.1.8 2.200v3.300c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z",
 };
 
+const iconOrder = ["github", "telegram", "linkedin"];
+
 const iconLinks = [
   { name: "telegram", label: "Telegram", href: "https://t.me/ninadiz" },
   ...socialLinks
     .filter((link) => ["Linkedin", "Github"].includes(link.label))
-    .map((link) => ({ ...link, name: link.label.toLowerCase() }))
-    .sort((a) => (a.name === "linkedin" ? -1 : 1)),
-];
+    .map((link) => ({ ...link, name: link.label.toLowerCase() })),
+].sort((a, b) => iconOrder.indexOf(a.name) - iconOrder.indexOf(b.name));
 
 function Intro() {
   return (
@@ -72,6 +73,8 @@ function Intro() {
             <a
               className={`home-card__icon home-card__icon--${link.name}`}
               href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={link.label}
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">

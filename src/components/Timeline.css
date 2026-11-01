@@ -45,12 +45,7 @@
   }
 }
 
-/* Experience page: white page, grey cards and menu. */
+/* Experience page: grey page and cards, white menu. */
 .page-experience {
-  --color-bg: #ffffff;
   --card-bg: #f0f0f0;
-}
-
-.page-experience .site-header {
-  --pill-bg: #f0f0f0;
 }
