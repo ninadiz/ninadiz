@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { Link } from "react-router-dom";
 import { cases, coverOf } from "../lib/cases.js";
 import { socialLinks } from "../data/socialLinks.js";
+import { MOBILE_QUERY } from "../lib/breakpoints.js";
 import avatar from "../../content/home/src/avatar.jpg";
 import "./Home.css";
 
@@ -14,7 +15,6 @@ const LANE_HEIGHT = 595;
 const PAGINATION_HEIGHT = 24;
 const MIN_GAP = 16;
 const MIN_SCALE = 0.5;
-const MOBILE_QUERY = "(max-width: 1000px)";
 
 const sections = [
   { id: "intro", size: "large", kind: "intro" },
@@ -55,13 +55,18 @@ function Intro() {
           alt="Antonina Khisametdinova"
           draggable="false"
         />
+        <p className="home-card__name">
+          Antonina,
+          <br />
+          Staff UX designer
+        </p>
       </div>
       <h1 className="home-card__headline">
         <span className="home-card__headline-muted">
-          Product shaping and delivery for modern enterprise software
+          Shaping and delivering modern enterprise software
         </span>
         <span className="home-card__headline-primary">
-          in industrial and deep-tech sectors.
+          for industrial and deep-tech sectors
         </span>
       </h1>
       <div className="home-card__caption">

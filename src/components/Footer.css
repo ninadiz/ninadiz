@@ -38,7 +38,7 @@
   text-underline-offset: var(--underline-offset);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 760px) {
   .site-footer {
     position: static;
     /* White gap under the timeline panel so the last card's rounded bottom

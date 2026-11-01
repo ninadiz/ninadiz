@@ -126,13 +126,28 @@ function useScrollFade(headerRef) {
   }, [headerRef]);
 }
 
-export default function Header() {
-  const { pathname } = useLocation();
+function SiteHeader({ pathname }) {
   const [hovered, setHovered] = useState(null);
+  const [open, setOpen] = useState(false);
   const navRef = useRef(null);
   const pathRef = useRef(null);
   const headerRef = useRef(null);
   usePillShape(navRef, pathRef);
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const close = (event) => {
+      if (event.type === "keydown" && event.key !== "Escape") return;
+      if (event.type === "pointerdown" && headerRef.current.contains(event.target)) return;
+      setOpen(false);
+    };
+    document.addEventListener("pointerdown", close);
+    document.addEventListener("keydown", close);
+    return () => {
+      document.removeEventListener("pointerdown", close);
+      document.removeEventListener("keydown", close);
+    };
+  }, [open]);
   useScrollFade(headerRef);
 
   const activeIndex = ITEMS.findIndex((item) =>
@@ -143,9 +158,19 @@ export default function Header() {
 
   return (
     <header
-      className="site-header"
+      className={"site-header" + (open ? " is-open" : "")}
       ref={headerRef}
     >
+      {/* phones: the pill menu and the buttons collapse behind this button */}
+      <button
+        className="site-header__btn site-header__toggle"
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        {open ? "Close" : "Menu"}
+      </button>
+      <div className="site-header__menu">
       <nav
         className="site-header__nav"
         aria-label="Main"
@@ -167,7 +192,7 @@ export default function Header() {
             aria-current={i === activeIndex ? "page" : undefined}
             onMouseEnter={() => setHovered(i)}
           >
-            {item.label}
+            <span className="site-header__label">{item.label}</span>
           </Link>
         ))}
       </nav>
@@ -179,6 +204,18 @@ export default function Header() {
           EN
         </button>
       </span>
+      </div>
     </header>
   );
+}
+
+// A case study has no menu, only a cross that returns to the home page.
+export default function Header() {
+  const { pathname } = useLocation();
+  if (pathname.startsWith("/cases/")) {
+    return (
+      <Link className="site-close" to="/" aria-label="Close case study" />
+    );
+  }
+  return <SiteHeader pathname={pathname} />;
 }
