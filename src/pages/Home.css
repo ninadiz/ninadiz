@@ -474,8 +474,12 @@ html:has(.home) body {
   }
 
   .home-card__name {
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 13px;
+    line-height: 15px;
+    font-weight: 500;
+    /* the caption's 60% black on white is #666; here the text sits on the
+       grey page, where the same 60% black would come out darker */
+    color: #666;
   }
 
   .home-card__caption {

@@ -192,7 +192,7 @@ function SiteHeader({ pathname }) {
             aria-current={i === activeIndex ? "page" : undefined}
             onMouseEnter={() => setHovered(i)}
           >
-            {item.label}
+            <span className="site-header__label">{item.label}</span>
           </Link>
         ))}
       </nav>
