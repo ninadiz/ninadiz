@@ -139,11 +139,14 @@ html:has(.home) body {
   object-fit: cover;
 }
 
-/* name next to the avatar, same type as the caption (also on phones) */
+/* name next to the avatar. #666 is the caption's 60% black on white; on
+   phones the name sits on the grey page, where 60% black would be darker */
 .home-card__name {
-  font-size: 16px;
-  line-height: 18px;
-  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #666;
   white-space: nowrap;
 }
 
@@ -471,15 +474,6 @@ html:has(.home) body {
     width: 44px;
     height: 44px;
     border-radius: 14px;
-  }
-
-  .home-card__name {
-    font-size: 13px;
-    line-height: 15px;
-    font-weight: 500;
-    /* the caption's 60% black on white is #666; here the text sits on the
-       grey page, where the same 60% black would come out darker */
-    color: #666;
   }
 
   .home-card__caption {
