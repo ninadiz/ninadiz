@@ -52,16 +52,17 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 1. `vite build`: bundles the app into `dist/` with a single `index.html`.
 2. `metatags/prerender-meta.mjs`: for every folder in `content/cases/`, writes `dist/cases/<slug>/index.html`, a copy of `dist/index.html` with that case's `<title>`, description, canonical URL and Open Graph/Twitter tags. This lets link previews (Slack, Telegram, LinkedIn…) show the right title, description and image, because crawlers do not run JavaScript. The preview image is the first image in the case body; if there is none, it falls back to `metatags/og-image.png`.
 
-Hosting: the repo has no deploy configuration (no CI, `vercel.json`, `netlify.toml` or `CNAME`), so deploys are done outside the repo. Any static host works. Configure it to:
+Deploy: every push to `main` is built and uploaded by GitHub Actions (`.github/workflows/deploy.yml`). How it works, the required secrets and the server requirements are in [DEPLOY.md](DEPLOY.md). Any static host works if it:
 
-- run `npm run build` and serve `dist/`;
-- fall back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/cases`, `/experience` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
+- serves `dist/`;
+- falls back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/cases`, `/experience` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
 
 ## Project structure
 
 ```
 index.html                Page template: default meta/OG tags, favicons, analytics
 SETUP.md                  How to run your own copy of this portfolio
+DEPLOY.md                 How the site is built and deployed (no hosting details)
 .htaccess                 Apache fallback to index.html, copied to dist/ by vite.config.js
 plan/                     Working plans
 content/                  All site content
