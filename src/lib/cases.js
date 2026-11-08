@@ -1,4 +1,7 @@
 import { load } from "js-yaml";
+import { findPoster } from "./poster.js";
+
+const VIDEO_RE = /\.(mp4|webm|mov)$/i;
 
 const markdownModules = import.meta.glob("/content/cases/*/index.md", {
   eager: true,
@@ -67,9 +70,14 @@ export function getCase(slug) {
 }
 
 // The cover is the first image in the case body, the same rule the build uses
-// for link previews (metatags/prerender-meta.mjs).
+// for link previews (metatags/prerender-meta.mjs). Covers are shown as <img>,
+// so when that first image is a video its poster is used instead.
 export function coverOf(caseData) {
   const src = caseData.content.match(/!\[[^\]]*\]\(([^)\s]+)/)?.[1];
   if (!src) return null;
-  return caseData.assets[src] ?? caseData.assets[src.split("/").pop()] ?? null;
+  const filename = src.split("/").pop();
+  if (VIDEO_RE.test(filename)) {
+    return findPoster(filename, (name) => caseData.assets[name]) ?? null;
+  }
+  return caseData.assets[src] ?? caseData.assets[filename] ?? null;
 }

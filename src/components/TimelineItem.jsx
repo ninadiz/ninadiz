@@ -1,4 +1,5 @@
 import PillButton from "./PillButton.jsx";
+import LoopVideo from "./LoopVideo.jsx";
 import "./TimelineItem.css";
 
 const VIDEO_EXTENSIONS = ["mp4", "webm", "mov"];
@@ -56,13 +57,11 @@ export default function TimelineItem({ item }) {
           {hasMedia && (
             <div className="timeline-item__media">
               {item.image && isVideo(item.image) && (
-                <video
+                <LoopVideo
                   className="timeline-item__image"
                   src={item.image}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                  poster={item.imagePoster}
+                  alt={item.imageDescription}
                 />
               )}
               {item.image && !isVideo(item.image) && (

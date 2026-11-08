@@ -7,6 +7,8 @@ import { getEmbed } from "../lib/embeds.js";
 import Tooltip from "../components/Tooltip.jsx";
 import PillButton from "../components/PillButton.jsx";
 import Carousel from "../components/Carousel.jsx";
+import LoopVideo from "../components/LoopVideo.jsx";
+import { findPoster } from "../lib/poster.js";
 import "./CaseStudy.css";
 
 const VIDEO_EXTENSIONS = ["mp4", "webm", "mov"];
@@ -45,13 +47,11 @@ function CaseMedia({ src, alt, wide, assets }) {
   return (
     <figure className={figureClassName}>
       {isVideo(resolved) ? (
-        <video
+        <LoopVideo
           className="case-study__image"
           src={resolved}
-          autoPlay
-          muted
-          loop
-          playsInline
+          poster={findPoster(src.split("/").pop(), (name) => assets[name])}
+          alt={alt}
         />
       ) : (
         <img className="case-study__image" src={resolved} alt={alt ?? ""} />

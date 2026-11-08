@@ -4,11 +4,11 @@
    --pagination-y so that header, lane, pagination and window bottom are
    evenly spaced. */
 :root {
-  --lane-height: 595px;
+  --lane-height: 600px;
   --card-large: 782px;
-  --card-small: 475px;
+  --card-small: 529px;
   --card-gap: 9px;
-  --card-radius: 45px;
+  --card-radius: 40px;
   --desktop-scale: 1;
   --lane-y: 0px;
   --pagination-y: 0px;
@@ -72,7 +72,16 @@ html:has(.home) body {
 
 .home-section--small {
   width: calc(var(--card-small) * var(--desktop-scale));
-  --card-content-width: 466px;
+  --card-content-width: 520px;
+}
+
+/* The intro card is always 60% of the window width (its height still follows
+   --desktop-scale). The section adds the half gap on its right; the content,
+   laid out unscaled and then scaled down, is 60vw divided by the scale. */
+.home-section--intro {
+  --intro-width: 60vw;
+  width: calc(var(--intro-width) + var(--card-gap) * var(--desktop-scale) / 2);
+  --card-content-width: calc(var(--intro-width) / var(--desktop-scale));
 }
 
 .home-surface {
@@ -84,8 +93,14 @@ html:has(.home) body {
   background: var(--color-surface);
 }
 
-/* intro card: the surface is drawn through a mask with a rounded notch cut
-   into the middle of the top and bottom edges (viewBox = card content size) */
+/* Desktop card shapes. Intro: corners of radius 40 with Figma's 60% corner
+   smoothing (border-radius + corner-shape, Chromium) and a notch (plain
+   circular arc of radius 40) in the middle of the top and bottom edges. Its
+   width follows the window, so the notches are fixed-size mask layers rather
+   than one stretched mask; the mask sits on ::before so the avatar can rise
+   out of the card on phones. Case cards: no notches on desktop, their corners
+   come from border-radius (below); on phones they get notches too (see the
+   mobile block). */
 .home-surface--intro {
   background: transparent;
   border-radius: 0;
@@ -96,14 +111,40 @@ html:has(.home) body {
   position: absolute;
   inset: 0;
   background: var(--color-surface);
-  --notch-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 778 595' preserveAspectRatio='none'%3E%3Cpath fill='black' d='M45 0H344A45 45 0 0 1 389 45A45 45 0 0 1 434 0H733A45 45 0 0 1 778 45V550A45 45 0 0 1 733 595H434A45 45 0 0 1 389 550A45 45 0 0 1 344 595H45A45 45 0 0 1 0 550V45A45 45 0 0 1 45 0Z'/%3E%3C/svg%3E");
-  -webkit-mask: var(--notch-mask) center / 100% 100% no-repeat;
-  mask: var(--notch-mask) center / 100% 100% no-repeat;
 }
 
 .home-surface--contact {
-  background: var(--color-text);
-  color: var(--color-surface);
+  border-radius: 0;
+}
+
+/* intro on desktop: corners from border-radius + corner-shape (60%
+   smoothing in Chromium), notches subtracted from a solid layer, at their
+   real 80 x 40 size times --desktop-scale */
+.home-surface--intro::before {
+  --notch-w: calc(80px * var(--desktop-scale));
+  --notch-h: calc(40px * var(--desktop-scale));
+  --notch-top: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'%3E%3Cpath fill='black' d='M0 0A40 40 0 0 1 40 40A40 40 0 0 1 80 0Z'/%3E%3C/svg%3E");
+  --notch-bottom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'%3E%3Cpath fill='black' d='M0 40A40 40 0 0 0 40 0A40 40 0 0 0 80 40Z'/%3E%3C/svg%3E");
+  border-radius: calc(var(--card-radius) * var(--desktop-scale));
+  corner-shape: superellipse(1.6);
+  -webkit-mask:
+    var(--notch-top) center top / var(--notch-w) var(--notch-h) no-repeat,
+    var(--notch-bottom) center bottom / var(--notch-w) var(--notch-h) no-repeat,
+    linear-gradient(#000, #000);
+  -webkit-mask-composite: xor, xor;
+  mask:
+    var(--notch-top) center top / var(--notch-w) var(--notch-h) no-repeat,
+    var(--notch-bottom) center bottom / var(--notch-w) var(--notch-h) no-repeat,
+    linear-gradient(#000, #000);
+  mask-composite: exclude, exclude;
+}
+
+/* Case card corners: border-radius with corner-shape superellipse(1.6), the
+   60% smoothing (Chromium; other browsers show plain round corners). */
+.home-surface--case {
+  background: transparent;
+  border-radius: calc(var(--card-radius) * var(--desktop-scale));
+  corner-shape: superellipse(1.6);
 }
 
 .home-surface > * {
@@ -154,7 +195,8 @@ html:has(.home) body {
   position: absolute;
   top: 173px;
   left: 32px;
-  width: 580px;
+  /* narrower on a narrow intro card (60% of a small window) */
+  width: min(580px, 100% - 64px);
   font-family: var(--font-heading);
   font-size: 39px;
   line-height: 44px;
@@ -162,9 +204,35 @@ html:has(.home) body {
   font-weight: var(--weight-regular);
 }
 
-.home-card__headline span {
+.home-card__headline > span {
   display: block;
   text-wrap: balance;
+}
+
+/* Headline reveal when the site is opened on the home page: words rise and
+   come into focus one after another, 70ms apart. Home.jsx starts the case
+   videos on the last word's animationend. */
+.home-card__word {
+  display: inline-block;
+}
+
+.is-revealing .home-card__word {
+  opacity: 0;
+  animation: home-word-in 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--word) * 70ms);
+}
+
+@keyframes home-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
 }
 
 .home-card__headline-muted {
@@ -179,8 +247,8 @@ html:has(.home) body {
   position: absolute;
   left: 32px;
   bottom: 32px;
-  /* ends before the notch (starts at 344px of the 778px card) */
-  width: 294px;
+  /* ends 31px before the notch (40px left of the card's centre) */
+  width: min(286px, 50% - 103px);
   font-size: 16px;
   line-height: 23px;
   color: var(--color-text-muted);
@@ -257,50 +325,203 @@ html:has(.home) body {
   line-height: 21px;
 }
 
-/* case card */
+/* case card: 520 x 600. The media (520 x 396) is centred vertically. On
+   hover it moves down and the client, year and title, centred, fade in above
+   it (40px from the top). Desktop only: the mobile block keeps the phone layout as it was. */
 .home-card--case {
-  display: flex;
-  flex-direction: column;
-  padding: 9px 9px 23px;
-}
-
-.home-card__cover {
-  flex: 1;
-  min-height: 0;
   overflow: hidden;
-  border-radius: 36px;
-  background: rgba(0, 0, 0, 0.06);
+  background: var(--case-card-color, var(--color-surface));
 }
 
-.home-card__cover img {
+.home-card--tinted {
+  color: #fff;
+}
+
+.home-card__media {
+  position: absolute;
+  top: 102px;
+  left: 0;
+  width: 100%;
+  height: 396px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0, 1);
+}
+
+/* on hover the media moves down to 36px from the bottom to make room for the text above it */
+.home-card--case:hover .home-card__media,
+.home-card--case:focus-visible .home-card__media {
+  transform: translateY(66px);
+}
+
+.home-card__media video,
+.home-card__media img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: opacity 0.4s ease;
 }
 
-.home-card--case:hover .home-card__cover img {
-  transform: scale(1.03);
+/* Loading skeleton: a soft block with a light sweep across it, shown until
+   the card's poster, first video frame or image has loaded. The media stays
+   hidden meanwhile and fades in over it. */
+.home-card__media.is-loading video,
+.home-card__media.is-loading img {
+  opacity: 0;
+}
+
+.home-card__media::before {
+  content: "";
+  position: absolute;
+  inset: 24px;
+  border-radius: 16px;
+  background-color: rgba(0, 0, 0, 0.05);
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.home-card__media.is-loading::before {
+  opacity: 1;
+  animation: home-skeleton 1.4s ease-in-out infinite;
+}
+
+.home-card--tinted .home-card__media::before {
+  background-color: rgba(255, 255, 255, 0.08);
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 70%
+  );
+}
+
+/* the avatar is opaque: its skeleton just sits under it until it loads */
+.home-card__avatar {
+  background-color: rgba(0, 0, 0, 0.06);
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: home-skeleton 1.4s ease-in-out infinite;
+}
+
+.home-card__avatar.is-loaded {
+  background: none;
+  animation: none;
+}
+
+@keyframes home-skeleton {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card__media.is-loading::before,
+  .home-card__avatar {
+    animation: none;
+  }
+}
+
+.home-card__text {
+  position: absolute;
+  top: 40px;
+  left: 48px;
+  right: 48px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.home-card--case:hover .home-card__text,
+.home-card--case:focus-visible .home-card__text {
+  opacity: 1;
+  transform: none;
 }
 
 .home-card__meta {
-  margin: 16px 13px 0;
-  font-size: 13px;
-  line-height: 16px;
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
+.home-card--tinted .home-card__meta {
+  color: rgba(255, 255, 255, 0.6);
+}
+
 .home-card__title {
-  margin: 5px 13px 0;
+  margin-top: 16px;
   font-family: var(--font-heading);
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 20px;
+  line-height: 24px;
   font-weight: var(--weight-regular);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+}
+
+/* Hover background (hoverColor in home.md): a circle of that colour spreads
+   from the point where the pointer entered (--hover-x/y, set in Home.jsx)
+   until it covers the card, and shrinks back towards where the pointer left.
+   It is a real circle scaled with transform (no repaint per frame), twice
+   the card's diagonal so it covers the card from any point. The media and
+   text sit above it; on a dark hoverColor the text turns white. */
+.home-card--hover-fill::before {
+  content: "";
+  position: absolute;
+  left: var(--hover-x, 50%);
+  top: var(--hover-y, 100%);
+  width: 1600px;
+  height: 1600px;
+  margin: -800px 0 0 -800px;
+  border-radius: 50%;
+  background: var(--case-card-hover-color);
+  transform: scale(0);
+  /* shrinking back (pointer left) is quicker than spreading */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.home-card--hover-fill:hover::before,
+.home-card--hover-fill:focus-visible::before {
+  transform: scale(1);
+  transition-duration: 0.7s;
+}
+
+.home-card--hover-fill .home-card__media,
+.home-card--hover-fill .home-card__text {
+  z-index: 1;
+}
+
+/* The text is only visible on hover, over the hover colour, so on a dark
+   hoverColor it is simply always white: no colour change that could flash
+   while the text fades in or out. */
+.home-card--hover-dark .home-card__title {
+  color: #fff;
+}
+
+.home-card--hover-dark .home-card__meta {
+  color: var(--case-card-hover-meta, rgba(255, 255, 255, 0.6));
+}
+
+/* let the colour spread a little before the text appears */
+.home-card--hover-fill:hover .home-card__text,
+.home-card--hover-fill:focus-visible .home-card__text {
+  transition-delay: 0.15s;
 }
 
 /* pagination */
@@ -357,6 +578,21 @@ html:has(.home) body {
     overflow: visible;
   }
 
+
+
+  .home-card--hover-fill::before {
+    display: none;
+  }
+
+  .home-card--hover-dark .home-card__title {
+    color: inherit;
+  }
+
+  .home-card--hover-dark .home-card__meta {
+    color: var(--color-text-muted);
+  }
+
+
   .home-track {
     flex-direction: column;
     gap: 8px;
@@ -367,21 +603,34 @@ html:has(.home) body {
 
   .home-section,
   .home-section--large,
-  .home-section--small {
+  .home-section--small,
+  .home-section--intro {
     width: 100%;
     height: auto;
     padding: 0;
   }
 
+  /* The cards are as tall as their content, so the corners cannot come from
+     a fixed-size mask: they use border-radius, with corner-shape for the 60%
+     smoothing (Chromium only; other browsers show plain round corners). */
   .home-surface {
     height: auto;
     border-radius: var(--card-radius);
+    corner-shape: superellipse(1.6);
   }
 
-  /* intro card: same notch and size as on desktop, turned to the left
-     and right edges. It is drawn at a fixed size (the card is as tall as its
-     content, so a stretched mask would distort the arcs). Each notch is a
-     mask layer subtracted from a solid one, in the middle of the edge. */
+  /* Notched cards turn their notches to the sides: intro and contact have
+     them left and right, the first case left and top, the second bottom and
+     right. They are drawn at a fixed size (the card is as tall as its content,
+     so a stretched mask would distort the arcs). Each notch is a mask layer
+     subtracted from a solid one, in the middle of its edge. */
+  .home-surface {
+    --notch-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 80'%3E%3Cpath fill='black' d='M0 0A40 40 0 0 0 40 40A40 40 0 0 0 0 80Z'/%3E%3C/svg%3E");
+    --notch-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 80'%3E%3Cpath fill='black' d='M40 0A40 40 0 0 1 0 40A40 40 0 0 1 40 80Z'/%3E%3C/svg%3E");
+    --notch-top: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'%3E%3Cpath fill='black' d='M0 0A40 40 0 0 1 40 40A40 40 0 0 1 80 0Z'/%3E%3C/svg%3E");
+    --notch-bottom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'%3E%3Cpath fill='black' d='M0 40A40 40 0 0 0 40 0A40 40 0 0 0 80 40Z'/%3E%3C/svg%3E");
+  }
+
   .home-surface--intro {
     background: transparent;
     border-radius: var(--card-radius);
@@ -391,16 +640,60 @@ html:has(.home) body {
 
   .home-surface--intro::before {
     border-radius: var(--card-radius);
-    --notch-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45 90'%3E%3Cpath fill='black' d='M0 0A45 45 0 0 0 45 45A45 45 0 0 0 0 90Z'/%3E%3C/svg%3E");
-    --notch-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45 90'%3E%3Cpath fill='black' d='M45 0A45 45 0 0 1 0 45A45 45 0 0 1 45 90Z'/%3E%3C/svg%3E");
+    corner-shape: superellipse(1.6);
     -webkit-mask:
-      var(--notch-left) left center / 45px 90px no-repeat,
-      var(--notch-right) right center / 45px 90px no-repeat,
+      var(--notch-left) left center / 40px 80px no-repeat,
+      var(--notch-right) right center / 40px 80px no-repeat,
       linear-gradient(#000, #000);
     -webkit-mask-composite: xor, xor;
     mask:
-      var(--notch-left) left center / 45px 90px no-repeat,
-      var(--notch-right) right center / 45px 90px no-repeat,
+      var(--notch-left) left center / 40px 80px no-repeat,
+      var(--notch-right) right center / 40px 80px no-repeat,
+      linear-gradient(#000, #000);
+    mask-composite: exclude, exclude;
+  }
+
+  .home-surface--contact,
+  .home-surface--n1,
+  .home-surface--n2 {
+    border-radius: var(--card-radius);
+  }
+
+  .home-surface--contact {
+    -webkit-mask:
+      var(--notch-left) left center / 40px 80px no-repeat,
+      var(--notch-right) right center / 40px 80px no-repeat,
+      linear-gradient(#000, #000);
+    -webkit-mask-composite: xor, xor;
+    mask:
+      var(--notch-left) left center / 40px 80px no-repeat,
+      var(--notch-right) right center / 40px 80px no-repeat,
+      linear-gradient(#000, #000);
+    mask-composite: exclude, exclude;
+  }
+
+  .home-surface--n1 {
+    -webkit-mask:
+      var(--notch-left) left center / 40px 80px no-repeat,
+      var(--notch-top) center top / 80px 40px no-repeat,
+      linear-gradient(#000, #000);
+    -webkit-mask-composite: xor, xor;
+    mask:
+      var(--notch-left) left center / 40px 80px no-repeat,
+      var(--notch-top) center top / 80px 40px no-repeat,
+      linear-gradient(#000, #000);
+    mask-composite: exclude, exclude;
+  }
+
+  .home-surface--n2 {
+    -webkit-mask:
+      var(--notch-bottom) center bottom / 80px 40px no-repeat,
+      var(--notch-right) right center / 40px 80px no-repeat,
+      linear-gradient(#000, #000);
+    -webkit-mask-composite: xor, xor;
+    mask:
+      var(--notch-bottom) center bottom / 80px 40px no-repeat,
+      var(--notch-right) right center / 40px 80px no-repeat,
       linear-gradient(#000, #000);
     mask-composite: exclude, exclude;
   }
@@ -419,6 +712,12 @@ html:has(.home) body {
     gap: 80px;
     min-height: 420px;
     padding: 24px;
+  }
+
+  /* headline on top, contacts at the bottom: clear of the side notches */
+  .home-card--contact {
+    justify-content: space-between;
+    padding: 32px;
   }
 
   .home-card--intro {
@@ -443,13 +742,31 @@ html:has(.home) body {
   }
 
   .home-card--case {
-    padding: 8px 8px 24px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0 32px;
   }
 
-  .home-card__cover {
-    flex: none;
-    aspect-ratio: 4 / 3;
-    border-radius: 18px;
+  .home-card__media,
+  .home-card--case:hover .home-card__media {
+    transform: none;
+  }
+
+  .home-card__media {
+    position: relative;
+    top: 0;
+    height: auto;
+    aspect-ratio: 520 / 396;
+  }
+
+  .home-card__text {
+    position: static;
+    width: auto;
+    margin-top: 24px;
+    padding-inline: 24px;
+    text-align: left;
+    opacity: 1;
+    transform: none;
   }
 
   .home-card__identity,
@@ -486,16 +803,16 @@ html:has(.home) body {
     line-height: 26.4px;
   }
 
-  .home-card__meta {
-    margin: 20px 16px 0;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
   .home-card__title {
-    margin: 6px 16px 0;
+    margin-top: 12px;
     font-size: 18px;
     line-height: 24px;
+  }
+
+  .home-card__meta {
+    font-size: 14px;
+    font-weight: inherit;
+    text-transform: none;
   }
 
   .home-pagination {

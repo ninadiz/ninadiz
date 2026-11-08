@@ -4,6 +4,7 @@ Developer notes for ninadiz.tech, the personal product design portfolio (a caree
 
 Content authoring guides:
 
+- [Home page](content/home/README.md)
 - [Experience page timeline](content/timeline/README.md)
 - [Case studies, including how to add a new one](content/cases/cases.md)
 
@@ -67,8 +68,9 @@ DEPLOY.md                 How the site is built and deployed (no hosting details
 plan/                     Working plans
 content/                  All site content
   home/                     Home page
-    home.md                   Home page content (empty for now)
-    src/                      Home page media (avatar)
+    home.md                   Home page content: intro, case cards, contact (YAML frontmatter)
+    README.md                 How the home page works
+    src/                      Home page media: avatar, one folder per case card
   cases/                    Case studies
     cases.md                  How to write and add a case
     <slug>/                   One folder per case: index.md + src/ (its images/files)
@@ -85,7 +87,7 @@ src/
   main.jsx                Entry point: BrowserRouter + global styles
   App.jsx                 Layout (header, footer), routes, page-view tracking
   pages/                  One component per route
-    Home.jsx                Renders the card lane
+    Home.jsx                Renders the card lane from home.md
     Portfolio.jsx           Stub (title only)
     Experience.jsx          Renders the timeline
     Cases.jsx               List of all case studies
@@ -95,6 +97,7 @@ src/
   data/socialLinks.js     Footer social links
   lib/
     cases.js                Loads and parses all cases at build time
+    home.js                 Loads the home page content and resolves its media
     timeline.js             Loads the timeline and resolves its image paths
     embeds.js               Registry of React components usable inside cases
   styles/
@@ -121,6 +124,8 @@ An unknown `:caseName` renders "Case not found." There is no catch-all 404 route
 
 | Content | Location |
 |---|---|
+| Home page: intro, case cards, contact | `content/home/home.md` |
+| Home page media (avatar, case card videos) | `content/home/src/` |
 | Timeline entries on the Experience page | `content/timeline/timeline.md` |
 | Case studies | `content/cases/<slug>/index.md` |
 | Case images, videos, downloadable files | `content/cases/<slug>/src/` |

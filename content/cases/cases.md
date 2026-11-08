@@ -66,7 +66,7 @@ A case study is a Markdown file with YAML frontmatter, rendered by [`src/pages/C
 | `description` | Intro under the heading (Markdown and inline HTML allowed). Also the meta description for link previews: plain text, cut to 200 characters. If empty, the site-wide default is used |
 | `tags` | List of tags shown under the title |
 | `client`, `clientLogo`, `clientDescription` | Client block. Shown only when **both** `clientLogo` and `clientDescription` are set. `clientLogo` is a path inside the case folder |
-| `date` | Parsed but not displayed on the page at the moment |
+| `date` | Not shown on the case page. On the home page card it follows the client name ("Enapter · 2026", in capitals on desktop). The rest of the home page card (title, video, colour) is set in [`content/home/home.md`](../home/README.md) |
 
 ## Authoring syntax
 
@@ -78,13 +78,23 @@ Standard Markdown plus a few custom tags. Custom tags go on their own line.
 | `{title} Text` | Large `h1`-style heading inside the body (rarely needed: the title comes from frontmatter) |
 | `{p} Text` | Plain paragraph (the tag is just stripped) |
 | `{wide}` on the line above `![alt](file)` | Makes that one image full-width |
-| `![caption](src/file.jpg)` | Image or video (video extensions autoplay muted in a loop). The alt text is shown as a caption |
+| `![caption](src/file.jpg)` | Image or video (video extensions autoplay muted in a loop). The alt text is shown as a caption. A video can have a placeholder image, see [Video placeholders](#video-placeholders) |
 | `{carousel}` … `{/carousel}` around several `![alt](file)` lines | Image carousel with arrows and dots |
 | `![caption](embed/<key>)` | Interactive React component from `src/lib/embeds.js` (see [below](#adding-an-interactive-diagram)) |
 | `[text](# "Explanation")` | Tooltip with the explanation. Any link with a title becomes a tooltip trigger |
 | `[text](https://…)` | Regular link, opens in a new tab |
 | `<a href="src/file.docx" title="button">Label</a>` | Download button (pill style). The href is resolved against the case's assets |
 | Raw HTML | Allowed (`rehype-raw`), for example the `case-study__row` blocks in `refilling-ftue` for "Step Artifacts" rows |
+
+## Video placeholders
+
+Put an image next to the video with the same name plus `.poster` before the extension: `src/slider.mp4` → `src/slider.poster.webp` (`webp`, `jpg`, `jpeg` or `png`). Nothing to write in `index.md`, it is picked up automatically. The placeholder:
+
+- is shown while the video loads;
+- replaces the video entirely on a very slow connection (2G) or when the visitor has data saver on. Safari and Firefox do not report connection speed, so there the video always loads, with the placeholder until it is ready;
+- is used as the case cover and the link-preview image when the video is the first image of the case (a video cannot be either).
+
+Use the first frame of the video so the switch is not noticeable, and keep it light (WebP, under ~100 KB).
 
 ## How assets are resolved
 
@@ -116,7 +126,7 @@ For custom visuals that Markdown cannot express:
 Everything comes from the frontmatter and the first image of the case, via [`metatags/prerender-meta.mjs`](../../metatags/prerender-meta.mjs) during `npm run build`:
 
 - Put a meaningful `title` and a short plain-text `description` in the frontmatter.
-- Put the image you want in the preview **first** in the body. The script takes the first `![](…)` in the file. Without any image it falls back to `metatags/og-image.png`.
+- Put the image you want in the preview **first** in the body. The script takes the first `![](…)` in the file. If that is a video, its [placeholder](#video-placeholders) is used. Without any image (or a video without a placeholder) it falls back to `metatags/og-image.png`.
 - Meta tags are generated only at build time, so they do not appear in `npm run dev`.
 
 ## Known limitations
