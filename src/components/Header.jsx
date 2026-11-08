@@ -4,9 +4,9 @@ import "./Header.css";
 
 const ITEMS = [
   { to: "/", label: "Home" },
+  { to: "/skills", label: "Skills" },
   { to: "/cases", label: "Cases" },
   { to: "/experience", label: "Experience" },
-  { to: "/contact", label: "Contacts" },
 ];
 
 // Pill backgrounds are drawn in one SVG behind the links, ported from

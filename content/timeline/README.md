@@ -55,7 +55,7 @@ items:
 - a filename from [`content/timeline/src/`](src), for example `chemistry.gif`;
 - a path into a case folder, `cases/<slug>/<file>`, for example `cases/vuaerizm/vuaerizm-1.jpeg`. The file must be directly in the case folder, not in a subfolder.
 
-Supported types: `png jpg jpeg gif svg webp mp4 webm mov`. Videos (`mp4`, `webm`, `mov`) autoplay muted in a loop. If the name is not found, the value is used as-is, which usually means a broken image, so check the spelling.
+Supported types: `png jpg jpeg gif svg webp mp4 webm mov`. Videos (`mp4`, `webm`, `mov`) autoplay muted in a loop. A video can have a placeholder image next to it, named like the video with `.poster` before the extension (`enapter.mp4` → `enapter.poster.webp`); it shows while the video loads and replaces it on a very slow connection, as described in [Video placeholders](../cases/cases.md#video-placeholders). If the name is not found, the value is used as-is, which usually means a broken image, so check the spelling.
 
 ## Adding a new entry
 

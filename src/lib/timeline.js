@@ -1,4 +1,5 @@
 import { load } from "js-yaml";
+import { findPoster } from "./poster.js";
 
 const timelineModules = import.meta.glob("/content/timeline/timeline.md", {
   eager: true,
@@ -26,12 +27,14 @@ for (const [path, url] of Object.entries(caseImageModules)) {
   caseImagesByRelativePath[path.replace("/content/cases/", "cases/")] = url;
 }
 
+function lookupImage(image) {
+  if (image.startsWith("cases/")) return caseImagesByRelativePath[image];
+  return imagesByFilename[image];
+}
+
 function resolveImage(image) {
   if (!image) return image;
-  if (image.startsWith("cases/")) {
-    return caseImagesByRelativePath[image] ?? image;
-  }
-  return imagesByFilename[image] ?? image;
+  return lookupImage(image) ?? image;
 }
 
 const [source] = Object.values(timelineModules);
@@ -41,4 +44,5 @@ const data = frontmatterMatch ? load(frontmatterMatch[1]) : {};
 export const timelineItems = (data.items ?? []).map((item) => ({
   ...item,
   image: resolveImage(item.image),
+  imagePoster: findPoster(item.image, lookupImage),
 }));

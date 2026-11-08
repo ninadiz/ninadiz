@@ -50,7 +50,12 @@ function findHeroAssetUrl(content) {
   const stem = basename.replace(/\.[^.]+$/, "");
   const assetsDir = join(DIST, "assets");
   if (!existsSync(assetsDir)) return null;
-  const found = readdirSync(assetsDir).find((file) => file.startsWith(`${stem}-`));
+  const files = readdirSync(assetsDir);
+  // A video cannot be a link preview: use its poster (<name>.poster.<ext>) if there is one.
+  const isVideo = /\.(mp4|webm|mov)$/i.test(basename);
+  const found = isVideo
+    ? files.find((file) => file.startsWith(`${stem}.poster-`))
+    : files.find((file) => file.startsWith(`${stem}-`));
   return found ? `${SITE_URL}/assets/${found}` : null;
 }
 

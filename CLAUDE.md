@@ -4,6 +4,7 @@ Developer notes for ninadiz.tech, the personal product design portfolio (a caree
 
 Content authoring guides:
 
+- [Home page](content/home/README.md)
 - [Experience page timeline](content/timeline/README.md)
 - [Case studies, including how to add a new one](content/cases/cases.md)
 
@@ -55,7 +56,7 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 Deploy: every push to `main` is built and uploaded by GitHub Actions (`.github/workflows/deploy.yml`). How it works, the required secrets and the server requirements are in [DEPLOY.md](DEPLOY.md). Any static host works if it:
 
 - serves `dist/`;
-- falls back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/cases`, `/experience` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
+- falls back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/skills`, `/cases` and `/experience` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
 
 ## Project structure
 
@@ -67,8 +68,9 @@ DEPLOY.md                 How the site is built and deployed (no hosting details
 plan/                     Working plans
 content/                  All site content
   home/                     Home page
-    home.md                   Home page content (empty for now)
-    src/                      Home page media (avatar)
+    home.md                   Home page content: intro, case cards, contact (YAML frontmatter)
+    README.md                 How the home page works
+    src/                      Home page media: avatar, one folder per case card
   cases/                    Case studies
     cases.md                  How to write and add a case
     <slug>/                   One folder per case: index.md + src/ (its images/files)
@@ -85,16 +87,17 @@ src/
   main.jsx                Entry point: BrowserRouter + global styles
   App.jsx                 Layout (header, footer), routes, page-view tracking
   pages/                  One component per route
-    Home.jsx                Renders the card lane
+    Home.jsx                Renders the card lane from home.md
     Portfolio.jsx           Stub (title only)
     Experience.jsx          Renders the timeline
     Cases.jsx               List of all case studies
-    Contact.jsx             Contact details (email, Telegram)
+    Skills.jsx              Stub (title only)
     CaseStudy.jsx           Renders a case from Markdown
   components/             UI components, each with its own .css
   data/socialLinks.js     Footer social links
   lib/
     cases.js                Loads and parses all cases at build time
+    home.js                 Loads the home page content and resolves its media
     timeline.js             Loads the timeline and resolves its image paths
     embeds.js               Registry of React components usable inside cases
   styles/
@@ -110,9 +113,9 @@ Defined in `src/App.jsx`:
 |---|---|
 | `/` | `Home`: the hero |
 | `/portfolio` | `Portfolio`: currently an empty stub |
+| `/skills` | `Skills`: currently an empty stub |
 | `/experience` | `Experience`: the timeline |
 | `/cases` | `Cases`: list of all case studies |
-| `/contact` | `Contact` |
 | `/cases/:caseName` | `CaseStudy`: `:caseName` is the case folder name |
 
 An unknown `:caseName` renders "Case not found." There is no catch-all 404 route.
@@ -121,12 +124,13 @@ An unknown `:caseName` renders "Case not found." There is no catch-all 404 route
 
 | Content | Location |
 |---|---|
+| Home page: intro, case cards, contact | `content/home/home.md` |
+| Home page media (avatar, case card videos) | `content/home/src/` |
 | Timeline entries on the Experience page | `content/timeline/timeline.md` |
 | Case studies | `content/cases/<slug>/index.md` |
 | Case images, videos, downloadable files | `content/cases/<slug>/src/` |
 | Timeline images and videos | `content/timeline/src/` (or a case folder) |
 | Footer social links | `src/data/socialLinks.js` |
-| Contact page text | `src/pages/Contact.jsx` |
 | Default meta tags, analytics ID | `index.html` |
 | Favicons / default share image | `fav/` / `metatags/og-image.png` |
 | Colors, type scale, spacing | `src/styles/tokens.css` |

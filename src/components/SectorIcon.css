@@ -1,0 +1,207 @@
+/* Industry icons in grey circles (home intro card). The circle grows on
+   hover like the social icons, and one part of the drawing moves. */
+.sector-icon {
+  /* line width of every industry icon, in units of the 24 x 24 grid; the
+     icon is drawn at 24px, so one unit is one pixel */
+  --sector-stroke: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  /* slightly grey at rest, black on hover. A solid grey rather than
+     translucent black, so lines that cross (blades over the hub, the mast
+     on the ground) do not show darker overlaps. #666 is the 60% black of
+     the muted text on white. */
+  color: #666;
+  transition:
+    transform 0.15s ease-in,
+    color 0.15s ease-in;
+}
+
+.sector-icon:hover {
+  transform: scale(1.12);
+  color: var(--color-text);
+}
+
+.sector-icon svg {
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sector-icon svg * {
+  stroke-width: var(--sector-stroke);
+}
+
+.sector-icon__motion,
+.sector-icon__motion-2,
+.sector-icon__motion-3 {
+  transform-box: view-box;
+}
+
+/* renewable energy: the rotor turns around the hub; the two gusts of wind
+   drift off to the right and come back, each on its own beat. While it
+   spins the rotor shrinks a little (the separate `scale` property eases in
+   and out, the animation drives `transform`), so a blade pointing down
+   stays clear of the ground line. */
+.sector-icon--renewable .sector-icon__motion {
+  transform-origin: 10px 11px;
+  transition: scale 0.25s ease-out;
+}
+
+.sector-icon--renewable:hover .sector-icon__motion {
+  scale: 0.82;
+  animation: sector-spin 1.4s linear infinite;
+}
+
+.sector-icon--renewable:hover .sector-icon__motion-2 {
+  animation: sector-gust 1.4s ease-in-out infinite;
+}
+
+/* the lower gust is shorter and quicker, and starts half a beat later */
+.sector-icon--renewable:hover .sector-icon__motion-3 {
+  animation: sector-gust 1.1s ease-in-out -0.55s infinite;
+}
+
+@keyframes sector-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sector-gust {
+  50% {
+    transform: translateX(1.5px);
+    opacity: 0.4;
+  }
+}
+
+/* oil & gas: the drop falls from the pipe, fades out and forms again */
+.sector-icon--oilgas .sector-icon__motion {
+  transform-origin: 16.6px 13.6px;
+}
+
+.sector-icon--oilgas:hover .sector-icon__motion {
+  animation: sector-drip 1.4s ease-in infinite;
+}
+
+@keyframes sector-drip {
+  0% {
+    transform: translateY(-2px) scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    transform: none;
+    opacity: 1;
+  }
+  55% {
+    transform: none;
+    opacity: 1;
+  }
+  85%,
+  100% {
+    transform: translateY(2.5px);
+    opacity: 0;
+  }
+}
+
+/* utilities: the bolt flickers */
+.sector-icon--utilities:hover .sector-icon__motion {
+  animation: sector-flicker 1.2s steps(1, end) infinite;
+}
+
+@keyframes sector-flicker {
+  10% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.35;
+  }
+  45% {
+    opacity: 1;
+  }
+}
+
+/* resource extraction: the pickaxe swings from the end of its handle */
+.sector-icon--extraction .sector-icon__motion {
+  transform-origin: 5px 19px;
+}
+
+.sector-icon--extraction:hover .sector-icon__motion {
+  animation: sector-swing 0.9s ease-in-out infinite;
+}
+
+@keyframes sector-swing {
+  35% {
+    transform: rotate(-22deg);
+  }
+  60% {
+    transform: rotate(6deg);
+  }
+  75% {
+    transform: none;
+  }
+}
+
+/* medTech: a pulse runs along the heartbeat line; the line itself stays
+   faint underneath so the icon reads at rest */
+.sector-icon__track {
+  opacity: 0;
+}
+
+.sector-icon--medtech .sector-icon__motion {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+}
+
+.sector-icon--medtech:hover .sector-icon__track {
+  opacity: 0.25;
+}
+
+.sector-icon--medtech:hover .sector-icon__motion {
+  animation: sector-pulse 1.4s linear infinite;
+}
+
+@keyframes sector-pulse {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+/* agriTech: the sprout sways from the ground */
+.sector-icon--agritech .sector-icon__motion {
+  transform-origin: 12px 22px;
+}
+
+.sector-icon--agritech:hover .sector-icon__motion {
+  animation: sector-sway 1.6s ease-in-out infinite;
+}
+
+@keyframes sector-sway {
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sector-icon:hover .sector-icon__motion,
+  .sector-icon:hover .sector-icon__motion-2,
+  .sector-icon:hover .sector-icon__motion-3 {
+    animation: none;
+  }
+}
