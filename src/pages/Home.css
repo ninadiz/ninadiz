@@ -209,29 +209,58 @@ html:has(.home) body {
   text-wrap: balance;
 }
 
-/* Headline reveal when the site is opened on the home page: words rise and
-   come into focus one after another, 70ms apart. Home.jsx starts the case
-   videos on the last word's animationend. */
-.home-card__word {
-  display: inline-block;
+/* Entrance when the site is opened on the home page, driven by Home.jsx:
+   the menu dissolves in (through .is-entering on <html>), then the intro
+   card, then, once its headline is in, the other cards and the pagination
+   one after another; then the case videos start. Fill mode "backwards"
+   keeps each element hidden during its delay and hands opacity back to the
+   element's own styles when it ends (the menu fades on scroll). */
+.is-entering .site-header {
+  animation: home-dissolve 0.6s ease backwards;
 }
 
-.is-revealing .home-card__word {
+.home-section.is-waiting,
+.home-pagination.is-waiting {
   opacity: 0;
-  animation: home-word-in 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(var(--word) * 70ms);
 }
 
-@keyframes home-word-in {
+.home-section.is-dissolving,
+.home-pagination.is-dissolving {
+  animation: home-dissolve 0.7s ease backwards;
+}
+
+@keyframes home-dissolve {
   from {
     opacity: 0;
-    transform: translateY(0.35em);
-    filter: blur(6px);
   }
+}
+
+/* Headline reveal when the site is opened on the home page: each visual
+   line slides up from under an invisible edge, one after another. Home.jsx
+   lays the words out invisibly, measures the lines, wraps each in a mask
+   (.home-card__line) with its delay, and starts the case videos when the
+   last one is in place. The mask is padded a little below the line box so
+   descenders are not clipped, with a negative margin to keep the spacing. */
+.is-revealing .home-card__measure {
+  visibility: hidden;
+}
+
+.home-card__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.home-card__line-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: home-line-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes home-line-up {
   to {
-    opacity: 1;
     transform: none;
-    filter: blur(0);
   }
 }
 

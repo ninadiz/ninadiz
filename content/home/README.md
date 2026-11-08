@@ -76,7 +76,7 @@ One entry per card, in the order they appear. A case that is not listed is not s
 - `home-card.mov`: the same video as HEVC with alpha (`hvc1`), for Safari and every browser on iOS, which ignore WebM transparency. It is found by name;
 - `home-card.poster.webp`: the first frame, transparent too. It shows while the video loads and replaces it on a very slow connection, see [Video placeholders](../cases/cases.md#video-placeholders).
 
-**Loading and start.** Until the poster, the first video frame or the image has loaded, the card shows a shimmering skeleton in the media area (the avatar has one too). When the site is opened on the home page, the intro headline appears word by word and the case videos wait on their first frame until it is done; coming back to the home page later without a reload shows the headline at once and plays the videos straight away. With "reduce motion" turned on in the system, there is no headline animation and the videos start at once.
+**Loading and start.** Until the poster, the first video frame or the image has loaded, the card shows a shimmering skeleton in the media area (the avatar has one too). When the site is opened on the home page, it comes in step by step, each part dissolving in: the menu, then the intro card, whose headline lines slide up one after another from under an invisible edge, then the other cards and the pagination, one after another. The case videos wait on their first frame until the last card is in. Coming back to the home page later without a reload shows everything at once and plays the videos straight away. With "reduce motion" turned on in the system, there is no entrance animation and the videos start at once.
 
 ### `contact`
 

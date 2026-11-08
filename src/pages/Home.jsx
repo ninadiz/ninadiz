@@ -17,11 +17,13 @@ const PAGINATION_HEIGHT = 24;
 const PAGINATION_GAP = 24;
 const MIN_GAP = 16;
 const MIN_SCALE = 0.5;
-// When the site is opened on the home page, the headline appears word by word
-// (timing in .home-card__word in Home.css) and the case card videos start
-// when the last word's animation ends. Coming back to the home page later
-// inside the app (no reload) shows the headline at once and plays the videos
-// straight away.
+// Entrance when the site is opened on the home page (see Home() below and
+// "Entrance" in Home.css): menu, then the intro card with its headline lines
+// sliding up, then the other cards, then the case videos. Coming back to the
+// home page later inside the app (no reload) shows everything at once and
+// plays the videos straight away.
+const INTRO_DELAY = 250; // ms after the menu starts to dissolve in
+const CARD_STAGGER = 120; // ms between cards dissolving in
 const openedOnHome =
   typeof window !== "undefined" && window.location.pathname === "/";
 let introShown = false;
@@ -62,31 +64,78 @@ function Lines({ text }) {
   ));
 }
 
-// Headline words wrapped in spans with a running index (--word) for the
-// staggered reveal. Spaces stay outside the spans so lines wrap as before.
-function Words({ text, start, animate }) {
-  const words = (text ?? "").split(/\s+/).filter(Boolean);
-  if (!animate) return text;
-  return words.map((word, i) => (
-    <span key={i}>
-      {i > 0 && " "}
-      <span className="home-card__word" style={{ "--word": start + i }}>
-        {word}
-      </span>
-    </span>
-  ));
+// Headline reveal: each visual line slides up from under a mask, the next
+// one LINE_STAGGER ms after the previous (duration in .home-card__line-inner
+// in Home.css). Line breaks depend on the window width, so the words are
+// first laid out invisibly, measured once the font has loaded, and regrouped
+// into one masked span per line.
+const LINE_START = 650; // ms before the first line starts: the intro card is mostly in by then
+const LINE_STAGGER = 110;
+
+const splitWords = (text) => (text ?? "").split(/\s+/).filter(Boolean);
+
+function measureLines(headline) {
+  const lines = [];
+  headline.querySelectorAll("[data-part]").forEach((part) => {
+    let line = null;
+    part.querySelectorAll(".home-card__measure").forEach((word) => {
+      if (!line || word.offsetTop !== line.top) {
+        line = { part: part.dataset.part, top: word.offsetTop, words: [] };
+        lines.push(line);
+      }
+      line.words.push(word.textContent);
+    });
+  });
+  return lines.map((l, i) => ({
+    part: l.part,
+    text: l.words.join(" "),
+    delay: LINE_START + i * LINE_STAGGER,
+  }));
 }
 
-const wordCount = (text) => (text ?? "").split(/\s+/).filter(Boolean).length;
+function RevealPart({ part, text, animate, lines }) {
+  if (!animate) return text;
+  if (!lines) {
+    return splitWords(text).map((word, i) => (
+      <span key={i}>
+        {i > 0 && " "}
+        <span className="home-card__measure">{word}</span>
+      </span>
+    ));
+  }
+  return lines
+    .filter((line) => line.part === part)
+    .map((line, i) => (
+      <span key={i} className="home-card__line">
+        <span className="home-card__line-inner" style={{ animationDelay: `${line.delay}ms` }}>
+          {line.text}
+        </span>
+      </span>
+    ));
+}
 
 function Intro({ animate, onRevealEnd }) {
   const intro = home.intro;
-  const mutedCount = wordCount(intro.headlineMuted);
-  const lastWord = mutedCount + wordCount(intro.headlinePrimary) - 1;
+  const headlineRef = useRef(null);
+  const [lines, setLines] = useState(null);
+
+  useLayoutEffect(() => {
+    if (!animate) return;
+    let cancelled = false;
+    document.fonts.ready.then(() => {
+      if (!cancelled && headlineRef.current) {
+        setLines(measureLines(headlineRef.current));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [animate]);
+
+  // The last line coming to rest ends the reveal.
   const onAnimationEnd = (event) => {
-    if (event.target.style?.getPropertyValue("--word") === String(lastWord)) {
-      onRevealEnd();
-    }
+    const all = event.currentTarget.querySelectorAll(".home-card__line-inner");
+    if (event.target === all[all.length - 1]) onRevealEnd();
   };
   return (
     <div className="home-card home-card--intro">
@@ -105,15 +154,15 @@ function Intro({ animate, onRevealEnd }) {
         </p>
       </div>
       <h1
+        ref={headlineRef}
         className={"home-card__headline" + (animate ? " is-revealing" : "")}
-        aria-label={animate ? `${intro.headlineMuted} ${intro.headlinePrimary}` : undefined}
         onAnimationEnd={animate ? onAnimationEnd : undefined}
       >
-        <span className="home-card__headline-muted" aria-hidden={animate || undefined}>
-          <Words text={intro.headlineMuted} start={0} animate={animate} />
+        <span className="home-card__headline-muted" data-part="muted">
+          <RevealPart part="muted" text={intro.headlineMuted} animate={animate} lines={lines} />
         </span>
-        <span className="home-card__headline-primary" aria-hidden={animate || undefined}>
-          <Words text={intro.headlinePrimary} start={mutedCount} animate={animate} />
+        <span className="home-card__headline-primary" data-part="primary">
+          <RevealPart part="primary" text={intro.headlinePrimary} animate={animate} lines={lines} />
         </span>
       </h1>
       <div className="home-card__caption">
@@ -293,19 +342,33 @@ function useWheelToHorizontal(laneRef) {
 export default function Home() {
   const laneRef = useRef(null);
   const [active, setActive] = useState(0);
-  // Animate the headline only the first time, and only if the site was opened
-  // on the home page. Videos are held until the animation is over.
-  const [animateIntro] = useState(
+  // Entrance, only the first time and only if the site was opened on the
+  // home page: the menu dissolves in, then the intro card, whose headline
+  // lines slide up ("intro"); then the other cards and the pagination
+  // dissolve in one after another ("cards"); then the videos start ("done").
+  const [entrance] = useState(
     () => openedOnHome && !introShown && !prefersReducedMotion()
   );
-  const [introDone, setIntroDone] = useState(!animateIntro);
+  const [stage, setStage] = useState(entrance ? "intro" : "done");
+
+  useLayoutEffect(() => {
+    introShown = true;
+    if (!entrance) return;
+    // The menu lives outside this page: it is animated from Home.css
+    // through this class on <html>.
+    document.documentElement.classList.add("is-entering");
+    return () => document.documentElement.classList.remove("is-entering");
+  }, [entrance]);
 
   useEffect(() => {
-    introShown = true;
-  }, []);
+    if (stage === "done") document.documentElement.classList.remove("is-entering");
+  }, [stage]);
 
-  // The headline's last word finishing its animation starts the videos.
-  const onIntroEnd = useCallback(() => setIntroDone(true), []);
+  const onIntroEnd = useCallback(() => setStage("cards"), []);
+  const lastCardIndex = sections.length - 1;
+  const onSectionAnimationEnd = (event, i) => {
+    if (event.target === event.currentTarget && i === lastCardIndex) setStage("done");
+  };
 
   // The active card is the first one that is not mostly scrolled off the left.
   const updateActive = useCallback(() => {
@@ -338,20 +401,33 @@ export default function Home() {
     <div className="home">
       <main className="home-lane" ref={laneRef} onScroll={updateActive}>
         <div className="home-track">
-          {sections.map((section) => (
+          {sections.map((section, i) => (
             <section
               key={section.id}
               id={section.id}
-              className={`home-section home-section--${section.size} home-section--${section.kind}`}
+              className={
+                `home-section home-section--${section.size} home-section--${section.kind}` +
+                (entrance && i === 0 && stage === "intro" ? " is-dissolving" : "") +
+                (i > 0 && stage === "intro" ? " is-waiting" : "") +
+                (i > 0 && stage === "cards" ? " is-dissolving" : "")
+              }
+              style={
+                i > 0 && stage === "cards"
+                  ? { animationDelay: `${(i - 1) * CARD_STAGGER}ms` }
+                  : i === 0 && entrance && stage === "intro"
+                    ? { animationDelay: `${INTRO_DELAY}ms` }
+                    : undefined
+              }
+              onAnimationEnd={stage === "cards" ? (event) => onSectionAnimationEnd(event, i) : undefined}
             >
               <div className={`home-surface home-surface--${section.kind}${
                   section.notch ? ` home-surface--${section.notch}` : ""
                 }`}>
                 {section.kind === "intro" && (
-                  <Intro animate={animateIntro} onRevealEnd={onIntroEnd} />
+                  <Intro animate={stage === "intro"} onRevealEnd={onIntroEnd} />
                 )}
                 {section.kind === "case" && (
-                  <CaseCard item={section.item} holdVideo={!introDone} />
+                  <CaseCard item={section.item} holdVideo={stage !== "done"} />
                 )}
                 {section.kind === "contact" && <Contact />}
               </div>
@@ -359,7 +435,14 @@ export default function Home() {
           ))}
         </div>
       </main>
-      <nav className="home-pagination" aria-label="Sections">
+      <nav
+        className={
+          "home-pagination" +
+          (stage === "intro" ? " is-waiting" : "") +
+          (stage === "cards" ? " is-dissolving" : "")
+        }
+        aria-label="Sections"
+      >
         {sections.map((section, i) => (
           <button
             key={section.id}
