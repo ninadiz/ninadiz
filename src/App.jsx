@@ -6,7 +6,7 @@ import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import Portfolio from "./pages/Portfolio.jsx";
 import Experience from "./pages/Experience.jsx";
-import Contact from "./pages/Contact.jsx";
+import Skills from "./pages/Skills.jsx";
 import Cases from "./pages/Cases.jsx";
 import CaseStudy from "./pages/CaseStudy.jsx";
 import { scrollToImmediate, useStringTune } from "./lib/stringTune.js";
@@ -43,9 +43,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/experience" element={<Experience />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/skills" element={<Skills />} />
         <Route path="/cases" element={<Cases />} />
+        <Route path="/experience" element={<Experience />} />
         <Route path="/cases/:caseName" element={<CaseStudy />} />
       </Routes>
       <Footer />

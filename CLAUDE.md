@@ -56,7 +56,7 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 Deploy: every push to `main` is built and uploaded by GitHub Actions (`.github/workflows/deploy.yml`). How it works, the required secrets and the server requirements are in [DEPLOY.md](DEPLOY.md). Any static host works if it:
 
 - serves `dist/`;
-- falls back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/cases`, `/experience` and `/contact` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
+- falls back to `index.html` for unknown paths, so direct visits to `/portfolio`, `/skills`, `/cases` and `/experience` work. Case pages have their own prerendered `index.html`, so they work without the fallback.
 
 ## Project structure
 
@@ -91,7 +91,7 @@ src/
     Portfolio.jsx           Stub (title only)
     Experience.jsx          Renders the timeline
     Cases.jsx               List of all case studies
-    Contact.jsx             Contact details (email, Telegram)
+    Skills.jsx              Stub (title only)
     CaseStudy.jsx           Renders a case from Markdown
   components/             UI components, each with its own .css
   data/socialLinks.js     Footer social links
@@ -113,9 +113,9 @@ Defined in `src/App.jsx`:
 |---|---|
 | `/` | `Home`: the hero |
 | `/portfolio` | `Portfolio`: currently an empty stub |
+| `/skills` | `Skills`: currently an empty stub |
 | `/experience` | `Experience`: the timeline |
 | `/cases` | `Cases`: list of all case studies |
-| `/contact` | `Contact` |
 | `/cases/:caseName` | `CaseStudy`: `:caseName` is the case folder name |
 
 An unknown `:caseName` renders "Case not found." There is no catch-all 404 route.
@@ -131,7 +131,6 @@ An unknown `:caseName` renders "Case not found." There is no catch-all 404 route
 | Case images, videos, downloadable files | `content/cases/<slug>/src/` |
 | Timeline images and videos | `content/timeline/src/` (or a case folder) |
 | Footer social links | `src/data/socialLinks.js` |
-| Contact page text | `src/pages/Contact.jsx` |
 | Default meta tags, analytics ID | `index.html` |
 | Favicons / default share image | `fav/` / `metatags/og-image.png` |
 | Colors, type scale, spacing | `src/styles/tokens.css` |

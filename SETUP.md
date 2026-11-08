@@ -41,7 +41,6 @@ The site is content-driven, so most of the work is editing text files. Go throug
 | Case studies: delete the existing ones, add yours | `content/cases/` (see [case study guide](content/cases/cases.md)) |
 | Timeline media of the original author | `content/timeline/src/` (remove files you do not use) |
 | Header name and tagline | `src/components/Header.jsx` |
-| Contact page: email, messenger | `src/pages/Contact.jsx` |
 | Footer social links | `src/data/socialLinks.js` |
 | Page title, description, canonical URL, Open Graph and Twitter tags | `index.html` |
 | Domain and default description used for per-case link previews | `metatags/prerender-meta.mjs` (`SITE_URL`, `DEFAULT_DESCRIPTION`, and the `— Ninadiz` title suffix) |
@@ -75,7 +74,7 @@ It opens at http://localhost:4173.
 `dist/` is a plain static site, so any static host will do (Vercel, Netlify, Cloudflare Pages, GitHub Pages, your own server). Set up the host to:
 
 - run `npm run build` and serve the `dist/` folder;
-- send unknown paths to `index.html` (a "single-page app" or "SPA fallback" setting), so direct visits to `/contact` and `/portfolio` work.
+- send unknown paths to `index.html` (a "single-page app" or "SPA fallback" setting), so direct visits to `/skills` and `/experience` work.
 
 Then point your domain at the host and update the domain in `index.html` and `metatags/prerender-meta.mjs` (see the checklist above).
 

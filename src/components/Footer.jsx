@@ -1,10 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { socialLinks } from "../data/socialLinks.js";
 import "./Footer.css";
 
 export default function Footer() {
   const { pathname } = useLocation();
-  const isContact = pathname === "/contact";
   const isCaseStudy = pathname.startsWith("/cases/");
 
   // The home page carries the social links in its intro card.
@@ -19,11 +18,6 @@ export default function Footer() {
           </li>
         ))}
       </ul>
-      {isContact && (
-        <Link className="site-footer__contact" to="/">
-          Back to Home
-        </Link>
-      )}
     </footer>
   );
 }

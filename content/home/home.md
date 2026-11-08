@@ -7,7 +7,19 @@ intro:
     Staff UX designer
   headlineMuted: "Shaping and delivering modern enterprise software"
   headlinePrimary: "for industrial and deep-tech sectors"
-  caption: "13 years of experience in the highly technical sectors: renewable energy, oil & gas, utilities, resource extraction, medTech, agriTech and others."
+  sectors:
+    - icon: "renewable"
+      label: "Renewable energy"
+    - icon: "oilgas"
+      label: "Oil & gas"
+    - icon: "extraction"
+      label: "Resource extraction"
+    - icon: "utilities"
+      label: "Utilities"
+    - icon: "medtech"
+      label: "MedTech"
+    - icon: "agritech"
+      label: "AgriTech"
   links:
     - icon: "github"
       label: "Github"

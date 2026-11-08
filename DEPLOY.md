@@ -64,7 +64,7 @@ leaked.
 
 - Serve the files from the target directory as a static site.
 - Fall back to `index.html` for unknown paths, so a direct visit to `/cases`,
-  `/experience` or `/contact` works. The repo ships an Apache `.htaccess` with this
+  `/experience` or `/skills` works. The repo ships an Apache `.htaccess` with this
   rule (`vite.config.js` copies it into `dist/`). On another server, configure the
   equivalent rewrite.
 - Case pages (`/cases/<slug>/`) have their own prerendered `index.html`, so they

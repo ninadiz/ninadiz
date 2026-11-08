@@ -272,21 +272,38 @@ html:has(.home) body {
   margin-top: 5px;
 }
 
-.home-card__caption {
+/* Bottom row of the intro card: industry icons on the left, social icons on
+   the right, on one level. */
+.home-card__bottom {
   position: absolute;
   left: 32px;
+  right: 32px;
   bottom: 32px;
-  /* ends 31px before the notch (40px left of the card's centre) */
-  width: min(286px, 50% - 103px);
-  font-size: 16px;
-  line-height: 23px;
-  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  /* the industry icons pick their layout from this row's width */
+  container-type: inline-size;
+}
+
+/* Industry icons, side by side without overlapping. Only two layouts: all
+   six in one line, or two rows of three, never a 5 + 1 or 4 + 2 split. One
+   line takes 6 x 40 + 5 x 8 = 280px and must end 16px before the bottom
+   notch (40px left of the card's centre, the row starts 32px in), so it
+   needs half the row minus 88px >= 280px: a row of 736px or more. */
+.home-card__sectors {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 8px;
+}
+
+@container (min-width: 736px) {
+  .home-card__sectors {
+    grid-template-columns: repeat(6, auto);
+  }
 }
 
 .home-card__icons {
-  position: absolute;
-  right: 32px;
-  bottom: 32px;
   display: flex;
 }
 
@@ -757,9 +774,31 @@ html:has(.home) body {
     gap: 24px;
   }
 
-  /* 160px from the headline to the caption: the 24px gap plus 136px */
-  .home-card--intro .home-card__caption {
+  /* 160px from the headline to the icons: the 24px gap plus 136px */
+  .home-card--intro .home-card__bottom {
     margin-top: 136px;
+  }
+
+  .home-card__bottom {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* phones: smaller circles; one line from 6 x 36 + 5 x 6 = 246px (a 375px
+     phone has 263px), else two rows of three */
+  .home-card__sectors {
+    gap: 6px;
+  }
+
+  @container (min-width: 246px) {
+    .home-card__sectors {
+      grid-template-columns: repeat(6, auto);
+    }
+  }
+
+  .home-card__sectors .sector-icon {
+    width: 36px;
+    height: 36px;
   }
 
   /* avatar on the level of the Menu button, above the card */
@@ -800,7 +839,7 @@ html:has(.home) body {
 
   .home-card__identity,
   .home-card__headline,
-  .home-card__caption,
+  .home-card__bottom,
   .home-card__icons,
   .home-card--contact .home-card__contacts {
     position: static;
@@ -820,11 +859,6 @@ html:has(.home) body {
     width: 44px;
     height: 44px;
     border-radius: 14px;
-  }
-
-  .home-card__caption {
-    font-size: 20px;
-    line-height: 28px;
   }
 
   .home-card--contact .home-card__contacts {

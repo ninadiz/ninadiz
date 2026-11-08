@@ -22,7 +22,9 @@ intro:
     Staff UX designer
   headlineMuted: "Shaping and delivering modern enterprise software"
   headlinePrimary: "for industrial and deep-tech sectors"
-  caption: "13 years of experience in…"
+  sectors:
+    - icon: "renewable"
+      label: "Renewable energy"
   links:
     - icon: "github"
       label: "Github"
@@ -52,7 +54,7 @@ contact:
 | `avatarAlt` | Alt text of the avatar |
 | `name` | Text next to the avatar. Use the `\|-` block form; each line break is kept |
 | `headlineMuted`, `headlinePrimary` | The headline: a grey part, then a black part on a new line |
-| `caption` | Paragraph in the bottom left corner |
+| `sectors` | Industry icons in grey circles in the bottom left corner, on the level of `links`, in this order. `icon` is one of `renewable`, `oilgas`, `extraction`, `utilities`, `medtech`, `agritech` (drawn in `src/components/SectorIcon.jsx` after the `icons` frame in Figma, where the moving layers are named `anim/…`; an unknown icon is skipped). `label` is the accessible name and the native tooltip. On hover a circle grows and its icon moves (the turbine spins, the oil drop falls, the pickaxe swings…). The line width of all of them is `--sector-stroke` in `src/components/SectorIcon.css` (2, which is 2px: the icons are drawn at 24px on a 24-unit grid) |
 | `links` | Round icon buttons in the bottom right corner, in this order. `icon` is one of `github`, `telegram`, `linkedin` (the icons are drawn in `Home.jsx`; a link with another icon is skipped). `label` is the accessible name. They open in a new tab |
 
 ### `cases`

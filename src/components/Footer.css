@@ -26,17 +26,6 @@
   text-underline-offset: var(--underline-offset);
 }
 
-.site-footer__contact {
-  font-size: var(--text-lg);
-  line-height: var(--leading-lg);
-  letter-spacing: var(--tracking);
-  font-weight: var(--weight-regular);
-  color: var(--color-text);
-  text-decoration: underline;
-  text-decoration-color: var(--color-underline);
-  text-decoration-thickness: var(--underline-thickness);
-  text-underline-offset: var(--underline-offset);
-}
 
 @media (max-width: 760px) {
   .site-footer {

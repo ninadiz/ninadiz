@@ -76,6 +76,7 @@ export const home = {
     ...intro,
     avatar: intro.avatar ? lookup(intro.avatar) : undefined,
     links: intro.links ?? [],
+    sectors: intro.sectors ?? [],
   },
   cases: (data.cases ?? []).map(caseCard).filter(Boolean),
   contact: { links: [], ...data.contact },

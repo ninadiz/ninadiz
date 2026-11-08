@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { home } from "../lib/home.js";
 import LoopVideo from "../components/LoopVideo.jsx";
 import { MOBILE_QUERY } from "../lib/breakpoints.js";
+import SectorIcon from "../components/SectorIcon.jsx";
 import "./Home.css";
 
 // Desktop cards keep a fixed size: only a short window scales them down (never
@@ -165,9 +166,14 @@ function Intro({ animate, onRevealEnd }) {
           <RevealPart part="primary" text={intro.headlinePrimary} animate={animate} lines={lines} />
         </span>
       </h1>
-      <div className="home-card__caption">
-        <p>{intro.caption}</p>
-      </div>
+      <div className="home-card__bottom">
+      <ul className="home-card__sectors" aria-label="Industries">
+        {intro.sectors.map((sector) => (
+          <li key={sector.icon}>
+            <SectorIcon icon={sector.icon} label={sector.label} />
+          </li>
+        ))}
+      </ul>
       <ul className="home-card__icons">
         {intro.links
           .filter((link) => iconPaths[link.icon])
@@ -187,6 +193,7 @@ function Intro({ animate, onRevealEnd }) {
             </li>
           ))}
       </ul>
+      </div>
     </div>
   );
 }
