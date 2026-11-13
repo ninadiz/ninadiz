@@ -20,9 +20,11 @@ Content authoring guides:
 | Interactive diagrams | `@xyflow/react`, `lucide-react` |
 | Smooth scroll, scroll effects | `@fiddle-digital/string-tune` (`src/lib/stringTune.js`) |
 | Dev-only feedback tool | `agentation` (rendered only when `import.meta.env.DEV`) |
-| Analytics | Google Analytics (gtag snippet in `index.html`, SPA page views sent from `src/App.jsx`) |
+| Analytics | Google Analytics (gtag snippet in `index.html`; each page sets its tab title and sends its page view through `usePage` in `src/lib/page.js`) |
 
 Plain CSS, one file per component, driven by design tokens in `src/styles/tokens.css`. No CSS framework.
+
+The font is Inter 4, self-hosted from `@fontsource-variable/inter` with the optical size axis (`opsz.css`, and `opsz-italic.css` for the italic in page titles). Large text automatically gets the tighter display design, the same as Inter Variable in Figma.
 
 ## Quick start
 
@@ -51,7 +53,7 @@ The dev server runs at http://localhost:5173. The port is strict (it fails inste
 `npm run build` produces a static site in `dist/` (git-ignored). It is a single-page app, so the build has two steps:
 
 1. `vite build`: bundles the app into `dist/` with a single `index.html`.
-2. `metatags/prerender-meta.mjs`: for every folder in `content/cases/`, writes `dist/cases/<slug>/index.html`, a copy of `dist/index.html` with that case's `<title>`, description, canonical URL and Open Graph/Twitter tags. This lets link previews (Slack, Telegram, LinkedIn…) show the right title, description and image, because crawlers do not run JavaScript. The preview image is the first image in the case body; if there is none, it falls back to `metatags/og-image.png`.
+2. `metatags/prerender-meta.mjs`: for every folder in `content/cases/`, writes `dist/cases/<slug>/index.html`, a copy of `dist/index.html` with that case's `<title>`, description, canonical URL and Open Graph/Twitter tags. This lets link previews (Slack, Telegram, LinkedIn…) show the right title, description and image, because crawlers do not run JavaScript. The preview image is the first image in the case body; if there is none, it falls back to `metatags/og-image.png`. It also writes `dist/cases/index.html` for the list page: the case pages make `cases/` a folder, and without its own `index.html` the server would answer `/cases` with 403.
 
 Deploy: every push to `main` is built and uploaded by GitHub Actions (`.github/workflows/deploy.yml`). How it works, the required secrets and the server requirements are in [DEPLOY.md](DEPLOY.md). Any static host works if it:
 
@@ -81,25 +83,29 @@ content/                  All site content
 fav/                      Favicons, served from the site root
 metatags/                 Link-preview assets and tooling
   og-image.png              Default share image, served from the site root
-  prerender-meta.mjs        Post-build step: per-case HTML with correct meta tags
+  prerender-meta.mjs        Post-build step: per-case HTML with correct meta tags, plus dist/cases/index.html
 vite.config.js            Also serves/copies .htaccess and fav/, metatags/ images to the root
 src/
   main.jsx                Entry point: BrowserRouter + global styles
-  App.jsx                 Layout (header, footer), routes, page-view tracking
+  App.jsx                 Layout (header, footer), routes, scroll to top on navigation
   pages/                  One component per route
     Home.jsx                Renders the card lane from home.md
-    Portfolio.jsx           Stub (title only)
-    Experience.jsx          Renders the timeline
-    Cases.jsx               List of all case studies
-    Skills.jsx              Stub (title only)
+    Portfolio.jsx           Stub (title only, not linked)
+    Experience.jsx          Renders the timeline under the page title
+    Cases.jsx               List of case studies: Heavy UX / Nice UI filter, UX vs UI fight scene, case cards
+    Skills.jsx              Stub (title and "Work in progress")
     CaseStudy.jsx           Renders a case from Markdown
+    NotFound.jsx            404 page for unknown paths and case slugs
+    Page.css                Shared page column (.page-wide, 1024px) and subtitle
   components/             UI components, each with its own .css
+    PageTitle.jsx           "home / <page>" heading of Cases, Skills, Experience, 404
   data/socialLinks.js     Footer social links
   lib/
     cases.js                Loads and parses all cases at build time
     home.js                 Loads the home page content and resolves its media
     timeline.js             Loads the timeline and resolves its image paths
     embeds.js               Registry of React components usable inside cases
+    page.js                 usePage(title): tab title + Google Analytics page view
   styles/
     tokens.css              Design tokens (colors, type scale, spacing, layout)
     global.css              Resets and base styles
@@ -112,13 +118,14 @@ Defined in `src/App.jsx`:
 | Route | Page |
 |---|---|
 | `/` | `Home`: the hero |
-| `/portfolio` | `Portfolio`: currently an empty stub |
-| `/skills` | `Skills`: currently an empty stub |
+| `/portfolio` | `Portfolio`: an empty stub |
+| `/skills` | `Skills`: an empty stub |
 | `/experience` | `Experience`: the timeline |
 | `/cases` | `Cases`: list of all case studies |
 | `/cases/:caseName` | `CaseStudy`: `:caseName` is the case folder name |
+| any other path | `NotFound`: the 404 page |
 
-An unknown `:caseName` renders "Case not found." There is no catch-all 404 route.
+An unknown `:caseName` also renders `NotFound`. Every page calls `usePage` from `src/lib/page.js` once, so the tab shows "<Page> — Antonina" (the site title on the home page) and Google Analytics gets one page view per page.
 
 ## Where content lives
 

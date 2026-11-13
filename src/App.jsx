@@ -13,23 +13,11 @@ const Experience = lazy(() => import("./pages/Experience.jsx"));
 const Skills = lazy(() => import("./pages/Skills.jsx"));
 const Cases = lazy(() => import("./pages/Cases.jsx"));
 const CaseStudy = lazy(() => import("./pages/CaseStudy.jsx"));
+const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 // dev-only feedback tool, never part of the production build
 const Agentation = import.meta.env.DEV
   ? lazy(() => import("agentation").then((m) => ({ default: m.Agentation })))
   : null;
-
-function usePageviewTracking() {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (typeof window.gtag !== "function") return;
-    window.gtag("event", "page_view", {
-      page_path: location.pathname + location.search,
-      page_title: document.title,
-      page_location: window.location.href,
-    });
-  }, [location]);
-}
 
 function useScrollToTop() {
   const { pathname } = useLocation();
@@ -41,7 +29,6 @@ function useScrollToTop() {
 
 export default function App() {
   useStringTune();
-  usePageviewTracking();
   useScrollToTop();
 
   return (
@@ -55,6 +42,7 @@ export default function App() {
         <Route path="/cases" element={<Cases />} />
         <Route path="/experience" element={<Experience />} />
         <Route path="/cases/:caseName" element={<CaseStudy />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
       <Footer />

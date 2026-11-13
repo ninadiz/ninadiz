@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { cases, coverOf } from "../lib/cases.js";
 import UxUiFight from "../components/UxUiFight.jsx";
 import PageTitle from "../components/PageTitle.jsx";
+import { usePage } from "../lib/page.js";
 import "./Page.css";
 import "./Cases.css";
 
@@ -13,6 +14,7 @@ const FILTERS = [
 ];
 
 export default function Cases() {
+  usePage("Cases");
   const [filter, setFilter] = useState("all");
 
   // hidden cases (hidden: true in frontmatter) still open by direct link;

@@ -1,29 +1,10 @@
-.page {
-  padding: 240px 0 160px 80px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.page__title {
-  font-family: var(--font-heading);
-  font-size: var(--text-lg);
-  line-height: var(--leading-lg);
-  letter-spacing: var(--tracking);
-  font-weight: var(--weight-regular);
-}
-
+/* muted line under a page title ("Work in progress", 404 text) */
 .page__subtitle {
   margin-top: var(--space-1);
   font-size: var(--text-lg);
   line-height: var(--leading-lg);
   letter-spacing: var(--tracking);
   color: var(--color-text-muted);
-}
-
-@media (max-width: 760px) {
-  .page {
-    padding: var(--space-6) var(--page-padding);
-  }
 }
 
 /* Pages with the "home / <page>" title: a 1024px column, centred, 20px

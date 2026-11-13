@@ -98,3 +98,4 @@ previous builds are kept on the server.
 | `Permission denied (publickey)` | `SSH_KEY` is wrong, or its public half is not authorised for `SSH_USER` |
 | Deploy is green but the site is unchanged | `SSH_PATH` points to a different directory than the one being served, or a cache is in front of the site |
 | A direct link to a page returns 404 | The server is not falling back to `index.html` |
+| `/cases` returns 403 | `dist/cases/index.html` is missing: the build must run `metatags/prerender-meta.mjs` (it is part of `npm run build`) |

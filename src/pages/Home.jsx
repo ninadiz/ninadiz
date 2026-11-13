@@ -4,6 +4,7 @@ import { home } from "../lib/home.js";
 import LoopVideo from "../components/LoopVideo.jsx";
 import { MOBILE_QUERY } from "../lib/breakpoints.js";
 import SectorIcon from "../components/SectorIcon.jsx";
+import { usePage } from "../lib/page.js";
 import "./Home.css";
 
 // Desktop cards keep a fixed size: only a short window scales them down (never
@@ -381,6 +382,7 @@ function useWheelToHorizontal(laneRef) {
 }
 
 export default function Home() {
+  usePage();
   const laneRef = useRef(null);
   const [active, setActive] = useState(0);
   // Entrance, only the first time and only if the site was opened on the
