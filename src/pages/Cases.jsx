@@ -4,7 +4,8 @@ import "./Page.css";
 import "./Cases.css";
 
 export default function Cases() {
-  const list = Object.values(cases);
+  // hidden cases (hidden: true in frontmatter) still open by direct link
+  const list = Object.values(cases).filter((item) => !item.hidden);
 
   return (
     <main className="page">

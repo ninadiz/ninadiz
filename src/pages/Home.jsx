@@ -198,7 +198,8 @@ function Intro({ animate, onRevealEnd }) {
   );
 }
 
-// Case card: the media (a video or image from home.md, else the case cover)
+// Case card (or a card linking to another page, see linkCard in
+// src/lib/home.js): the media (a video or image from home.md, else the case cover)
 // centred in the card; the client, year and title appear below it on hover.
 // With hoverColor the hover background spreads as a circle from the point
 // where the pointer came in, and shrinks back to where it left.
@@ -234,7 +235,7 @@ function CaseCard({ item, holdVideo }) {
   return (
     <Link
       className={className}
-      to={`/cases/${item.slug}`}
+      to={item.to}
       style={style}
       onPointerEnter={item.hoverColor ? setOrigin : undefined}
       onPointerLeave={item.hoverColor ? setOrigin : undefined}

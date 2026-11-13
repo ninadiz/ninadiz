@@ -38,6 +38,7 @@ function parseCase(raw) {
       client: "",
       clientLogo: "",
       clientDescription: "",
+      hidden: false,
       content: raw,
     };
   }
@@ -51,6 +52,7 @@ function parseCase(raw) {
     client: data.client ?? "",
     clientLogo: data.clientLogo ?? "",
     clientDescription: data.clientDescription ?? "",
+    hidden: data.hidden === true,
     content: content.trim(),
   };
 }

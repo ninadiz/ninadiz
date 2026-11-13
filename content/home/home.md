@@ -40,8 +40,9 @@ cases:
     hoverColor: "#081499"
     hoverMetaColor: "#13BDD7"
 
-  - case: "vuaerizm"
-    title: ""
+  - link: "/experience"
+    meta: "Experience"
+    title: "Career timeline: companies, roles and projects."
     media: ""
     color: ""
     hoverColor: ""

@@ -46,7 +46,24 @@ const data = (frontmatterMatch ? load(frontmatterMatch[1]) : null) ?? {};
 // A case card shows its media (a video or an image from content/home/src/),
 // else the case cover. A transparent video is a .webm plus a .mov copy with
 // the same name (HEVC with alpha) for Safari; a poster sits next to it.
+// A card with `link` instead of `case` points to another page of the site
+// (e.g. "/experience"); its meta and title come from home.md only.
+function linkCard(entry) {
+  return {
+    slug: entry.link.replace(/^\/+|\/+$/g, "") || "link",
+    to: entry.link,
+    meta: entry.meta || "",
+    title: entry.title || "",
+    color: entry.color || "",
+    dark: isDark(entry.color || ""),
+    hoverColor: entry.hoverColor || "",
+    hoverDark: isDark(entry.hoverColor || ""),
+    hoverMetaColor: entry.hoverMetaColor || "",
+  };
+}
+
 function caseCard(entry) {
+  if (entry.link) return linkCard(entry);
   const item = cases[entry.case];
   if (!item) return null;
   const media = entry.media || "";
@@ -55,6 +72,7 @@ function caseCard(entry) {
   const src = media ? lookup(media) : undefined;
   return {
     slug: item.slug,
+    to: `/cases/${item.slug}`,
     meta: [item.client, item.date].filter(Boolean).join(" · "),
     title: entry.title || item.title,
     color: entry.color || "",

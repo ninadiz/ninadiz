@@ -70,6 +70,18 @@ One entry per card, in the order they appear. A case that is not listed is not s
 | `hoverColor` | Background on hover (desktop), e.g. `"#081499"`. It spreads as a circle from the point where the pointer enters the card and shrinks back to where it leaves. On a dark colour the text turns white during hover. Leave `""` to keep `color` on hover |
 | `hoverMetaColor` | Colour of the client and year line on a dark `hoverColor`, e.g. `"#13BDD7"`. Leave `""` for white at 60% |
 
+**A card that links to another page.** Put `link` instead of `case`, e.g. `link: "/experience"`. Such a card has no case behind it, so `meta` (the small line above the title) and `title` are set here; `media` is a path in `content/home/src/` or `""` for an empty card. `color`, `hoverColor` and `hoverMetaColor` work as above.
+
+```yaml
+  - link: "/experience"
+    meta: "Experience"
+    title: "Career timeline: companies, roles and projects."
+    media: ""
+    color: ""
+    hoverColor: ""
+    hoverMetaColor: ""
+```
+
 **Media size.** The media block is 520×396 on a 520×600 card, 64px from the top, so render media at 1040×792 for Retina.
 
 **Video.** Make it transparent so it sits on `color` with no visible edge, and put three files side by side in the case's folder:
