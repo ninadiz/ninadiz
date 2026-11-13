@@ -12,6 +12,14 @@
   font-weight: var(--weight-regular);
 }
 
+.page__subtitle {
+  margin-top: var(--space-1);
+  font-size: var(--text-lg);
+  line-height: var(--leading-lg);
+  letter-spacing: var(--tracking);
+  color: var(--color-text-muted);
+}
+
 @media (max-width: 760px) {
   .page {
     padding: var(--space-6) var(--page-padding);

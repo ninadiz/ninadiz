@@ -19,12 +19,13 @@ const PAGINATION_GAP = 24;
 const MIN_GAP = 16;
 const MIN_SCALE = 0.5;
 // Entrance when the site is opened on the home page (see Home() below and
-// "Entrance" in Home.css): menu, then the intro card with its headline lines
-// sliding up, then the other cards, then the case videos. Coming back to the
-// home page later inside the app (no reload) shows everything at once and
-// plays the videos straight away.
-const INTRO_DELAY = 250; // ms after the menu starts to dissolve in
+// "Entrance" in Home.css): the menu, then the intro card's white backing,
+// then the avatar with the name, then the headline lines sliding up, then
+// the industry and social icons one after another, then the other cards,
+// then the case videos. Coming back to the home page later inside the app
+// (no reload) shows everything at once and plays the videos straight away.
 const CARD_STAGGER = 120; // ms between cards dissolving in
+const ICON_STAGGER = 60; // ms between intro icons dissolving in
 const openedOnHome =
   typeof window !== "undefined" && window.location.pathname === "/";
 let introShown = false;
@@ -70,7 +71,7 @@ function Lines({ text }) {
 // in Home.css). Line breaks depend on the window width, so the words are
 // first laid out invisibly, measured once the font has loaded, and regrouped
 // into one masked span per line.
-const LINE_START = 650; // ms before the first line starts: the intro card is mostly in by then
+const LINE_START = 1250; // ms before the first line starts: the avatar and name are mostly in by then
 const LINE_STAGGER = 110;
 
 const splitWords = (text) => (text ?? "").split(/\s+/).filter(Boolean);
@@ -115,7 +116,7 @@ function RevealPart({ part, text, animate, lines }) {
     ));
 }
 
-function Intro({ animate, onRevealEnd }) {
+function Intro({ animate, onRevealEnd, iconsStage, onIconsEnd }) {
   const intro = home.intro;
   const headlineRef = useRef(null);
   const [lines, setLines] = useState(null);
@@ -138,6 +139,14 @@ function Intro({ animate, onRevealEnd }) {
     const all = event.currentTarget.querySelectorAll(".home-card__line-inner");
     if (event.target === all[all.length - 1]) onRevealEnd();
   };
+  // The last icon coming in ends the icons stage (hover animations inside
+  // the icons also bubble up here, but never from an <li>).
+  const onIconsAnimationEnd = (event) => {
+    const all = event.currentTarget.querySelectorAll("li");
+    if (event.target === all[all.length - 1]) onIconsEnd();
+  };
+  const iconDelay = (i) =>
+    iconsStage === "dissolving" ? { animationDelay: `${i * ICON_STAGGER}ms` } : undefined;
   return (
     <div className="home-card home-card--intro">
       <div className="home-card__identity">
@@ -166,10 +175,13 @@ function Intro({ animate, onRevealEnd }) {
           <RevealPart part="primary" text={intro.headlinePrimary} animate={animate} lines={lines} />
         </span>
       </h1>
-      <div className="home-card__bottom">
+      <div
+        className={"home-card__bottom" + (iconsStage ? ` is-${iconsStage}` : "")}
+        onAnimationEnd={iconsStage === "dissolving" ? onIconsAnimationEnd : undefined}
+      >
       <ul className="home-card__sectors" aria-label="Industries">
-        {intro.sectors.map((sector) => (
-          <li key={sector.icon}>
+        {intro.sectors.map((sector, i) => (
+          <li key={sector.icon} style={iconDelay(i)}>
             <SectorIcon icon={sector.icon} label={sector.label} />
           </li>
         ))}
@@ -177,8 +189,8 @@ function Intro({ animate, onRevealEnd }) {
       <ul className="home-card__icons">
         {intro.links
           .filter((link) => iconPaths[link.icon])
-          .map((link) => (
-            <li key={link.icon}>
+          .map((link, i) => (
+            <li key={link.icon} style={iconDelay(intro.sectors.length + i)}>
               <a
                 className={`home-card__icon home-card__icon--${link.icon}`}
                 href={link.href}
@@ -351,8 +363,9 @@ export default function Home() {
   const laneRef = useRef(null);
   const [active, setActive] = useState(0);
   // Entrance, only the first time and only if the site was opened on the
-  // home page: the menu dissolves in, then the intro card, whose headline
-  // lines slide up ("intro"); then the other cards and the pagination
+  // home page: the menu, the intro card's backing, the avatar and name, then
+  // the headline lines slide up ("intro"); the intro icons dissolve in one
+  // after another ("icons"); then the other cards and the pagination
   // dissolve in one after another ("cards"); then the videos start ("done").
   const [entrance] = useState(
     () => openedOnHome && !introShown && !prefersReducedMotion()
@@ -372,7 +385,9 @@ export default function Home() {
     if (stage === "done") document.documentElement.classList.remove("is-entering");
   }, [stage]);
 
-  const onIntroEnd = useCallback(() => setStage("cards"), []);
+  const onIntroEnd = useCallback(() => setStage("icons"), []);
+  const onIconsEnd = useCallback(() => setStage("cards"), []);
+  const beforeCards = stage === "intro" || stage === "icons";
   const lastCardIndex = sections.length - 1;
   const onSectionAnimationEnd = (event, i) => {
     if (event.target === event.currentTarget && i === lastCardIndex) setStage("done");
@@ -415,16 +430,14 @@ export default function Home() {
               id={section.id}
               className={
                 `home-section home-section--${section.size} home-section--${section.kind}` +
-                (entrance && i === 0 && stage === "intro" ? " is-dissolving" : "") +
-                (i > 0 && stage === "intro" ? " is-waiting" : "") +
+                (entrance && i === 0 && beforeCards ? " is-staging" : "") +
+                (i > 0 && beforeCards ? " is-waiting" : "") +
                 (i > 0 && stage === "cards" ? " is-dissolving" : "")
               }
               style={
                 i > 0 && stage === "cards"
                   ? { animationDelay: `${(i - 1) * CARD_STAGGER}ms` }
-                  : i === 0 && entrance && stage === "intro"
-                    ? { animationDelay: `${INTRO_DELAY}ms` }
-                    : undefined
+                  : undefined
               }
               onAnimationEnd={stage === "cards" ? (event) => onSectionAnimationEnd(event, i) : undefined}
             >
@@ -432,7 +445,14 @@ export default function Home() {
                   section.notch ? ` home-surface--${section.notch}` : ""
                 }`}>
                 {section.kind === "intro" && (
-                  <Intro animate={stage === "intro"} onRevealEnd={onIntroEnd} />
+                  <Intro
+                    animate={stage === "intro"}
+                    onRevealEnd={onIntroEnd}
+                    iconsStage={
+                      stage === "intro" ? "waiting" : stage === "icons" ? "dissolving" : undefined
+                    }
+                    onIconsEnd={onIconsEnd}
+                  />
                 )}
                 {section.kind === "case" && (
                   <CaseCard item={section.item} holdVideo={stage !== "done"} />
@@ -446,7 +466,7 @@ export default function Home() {
       <nav
         className={
           "home-pagination" +
-          (stage === "intro" ? " is-waiting" : "") +
+          (beforeCards ? " is-waiting" : "") +
           (stage === "cards" ? " is-dissolving" : "")
         }
         aria-label="Sections"
