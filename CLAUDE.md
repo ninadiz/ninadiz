@@ -138,6 +138,6 @@ An unknown `:caseName` renders "Case not found." There is no catch-all 404 route
 ## Known limitations
 
 - `Portfolio` (`/portfolio`) is an empty stub and is not linked from the UI.
-- `vuaerizm` is a placeholder case (lorem ipsum) and is not linked from the timeline.
+- `vuaerizm` is a placeholder case (lorem ipsum), hidden from the `/cases` list (`hidden: true` in its frontmatter) and not linked from the timeline.
 - Case asset lookup is by filename, so duplicate filenames in different subfolders of one case collide (details in [cases/cases.md](content/cases/cases.md#how-assets-are-resolved)).
 - The git remote uses SSH (`git@github.com:ninadiz/ninadiz.git`). The repo is named like the GitHub account, so this README is also the GitHub profile page.

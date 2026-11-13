@@ -1,6 +1,7 @@
 ---
 date: "2026"
 title: "Vuaerizm"
+hidden: true
 ---
 
 {h2} Placeholder statement heading for this case study.
