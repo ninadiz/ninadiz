@@ -1,6 +1,6 @@
 ---
 intro:
-  avatar: "avatar.jpg"
+  avatar: "avatar-196.jpg"
   avatarAlt: "Antonina Khisametdinova"
   name: |-
     Antonina,
