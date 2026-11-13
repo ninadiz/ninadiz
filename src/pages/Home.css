@@ -99,7 +99,7 @@ html:has(.home) body {
    width follows the window, so the notches are fixed-size mask layers rather
    than one stretched mask; the mask sits on ::before so the avatar can rise
    out of the card on phones. Case cards: no notches on desktop, their corners
-   come from border-radius (below); on phones they get notches too (see the
+   come from border-radius (below); on phones they stay without notches (see the
    mobile block). */
 .home-surface--intro {
   background: transparent;
@@ -211,22 +211,37 @@ html:has(.home) body {
 
 /* Entrance when the site is opened on the home page, driven by Home.jsx:
    the menu dissolves in (through .is-entering on <html>), then the intro
-   card, then, once its headline is in, the other cards and the pagination
-   one after another; then the case videos start. Fill mode "backwards"
-   keeps each element hidden during its delay and hands opacity back to the
-   element's own styles when it ends (the menu fades on scroll). */
+   card's white backing, then the avatar with the name, then the headline
+   lines slide up (LINE_START in Home.jsx follows these delays); once the
+   headline is in, the industry and social icons one after another, then
+   the other cards and the pagination; then the case videos start. Fill mode
+   "backwards" keeps each element hidden during its delay and hands opacity
+   back to the element's own styles when it ends (the menu fades on scroll). */
 .is-entering .site-header {
   animation: home-dissolve 0.6s ease backwards;
 }
 
+.home-section--intro.is-staging .home-surface--intro::before {
+  animation: home-dissolve 0.6s ease 350ms backwards;
+}
+
+.home-section--intro.is-staging .home-card__identity {
+  animation: home-dissolve 0.6s ease 800ms backwards;
+}
+
 .home-section.is-waiting,
-.home-pagination.is-waiting {
+.home-pagination.is-waiting,
+.home-card__bottom.is-waiting li {
   opacity: 0;
 }
 
 .home-section.is-dissolving,
 .home-pagination.is-dissolving {
   animation: home-dissolve 0.7s ease backwards;
+}
+
+.home-card__bottom.is-dissolving li {
+  animation: home-dissolve 0.5s ease backwards;
 }
 
 @keyframes home-dissolve {
@@ -665,9 +680,8 @@ html:has(.home) body {
     corner-shape: superellipse(1.6);
   }
 
-  /* Notched cards turn their notches to the sides: intro and contact have
-     them left and right, the first case left and top, the second bottom and
-     right. They are drawn at a fixed size (the card is as tall as its content,
+  /* Only the intro and contact cards keep notches on phones, turned to the
+     sides (left and right); the case cards between them have none. They are drawn at a fixed size (the card is as tall as its content,
      so a stretched mask would distort the arcs). Each notch is a mask layer
      subtracted from a solid one, in the middle of its edge. */
   .home-surface {
@@ -699,9 +713,7 @@ html:has(.home) body {
     mask-composite: exclude, exclude;
   }
 
-  .home-surface--contact,
-  .home-surface--n1,
-  .home-surface--n2 {
+  .home-surface--contact {
     border-radius: var(--card-radius);
   }
 
@@ -713,32 +725,6 @@ html:has(.home) body {
     -webkit-mask-composite: xor, xor;
     mask:
       var(--notch-left) left center / 40px 80px no-repeat,
-      var(--notch-right) right center / 40px 80px no-repeat,
-      linear-gradient(#000, #000);
-    mask-composite: exclude, exclude;
-  }
-
-  .home-surface--n1 {
-    -webkit-mask:
-      var(--notch-left) left center / 40px 80px no-repeat,
-      var(--notch-top) center top / 80px 40px no-repeat,
-      linear-gradient(#000, #000);
-    -webkit-mask-composite: xor, xor;
-    mask:
-      var(--notch-left) left center / 40px 80px no-repeat,
-      var(--notch-top) center top / 80px 40px no-repeat,
-      linear-gradient(#000, #000);
-    mask-composite: exclude, exclude;
-  }
-
-  .home-surface--n2 {
-    -webkit-mask:
-      var(--notch-bottom) center bottom / 80px 40px no-repeat,
-      var(--notch-right) right center / 40px 80px no-repeat,
-      linear-gradient(#000, #000);
-    -webkit-mask-composite: xor, xor;
-    mask:
-      var(--notch-bottom) center bottom / 80px 40px no-repeat,
       var(--notch-right) right center / 40px 80px no-repeat,
       linear-gradient(#000, #000);
     mask-composite: exclude, exclude;
@@ -784,21 +770,12 @@ html:has(.home) body {
     gap: 16px;
   }
 
-  /* phones: smaller circles; one line from 6 x 36 + 5 x 6 = 246px (a 375px
-     phone has 263px), else two rows of three */
-  .home-card__sectors {
-    gap: 6px;
-  }
-
-  @container (min-width: 246px) {
+  /* phones: circles stay 40px like the social icons; one line from
+     6 x 40 + 5 x 8 = 280px, else two rows of three */
+  @container (min-width: 280px) {
     .home-card__sectors {
       grid-template-columns: repeat(6, auto);
     }
-  }
-
-  .home-card__sectors .sector-icon {
-    width: 36px;
-    height: 36px;
   }
 
   /* avatar on the level of the Menu button, above the card */
