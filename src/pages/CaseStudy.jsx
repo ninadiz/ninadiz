@@ -1,5 +1,7 @@
 import { Children } from "react";
 import { useParams } from "react-router-dom";
+import { usePage } from "../lib/page.js";
+import NotFound from "./NotFound.jsx";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { getCase } from "../lib/cases.js";
@@ -171,14 +173,10 @@ function splitIntoSections(markdown) {
 export default function CaseStudy() {
   const { caseName } = useParams();
   const caseData = getCase(caseName);
+  // hooks run before the early return; a missing case is reported by NotFound
+  usePage(caseData ? caseData.title : null);
 
-  if (!caseData) {
-    return (
-      <main className="case-study">
-        <p>Case not found.</p>
-      </main>
-    );
-  }
+  if (!caseData) return <NotFound />;
 
   const renderImage = ({ src, alt, title }) => (
     <CaseMedia src={src} alt={alt} wide={title === "wide"} assets={caseData.assets} />

@@ -146,6 +146,20 @@ function main() {
     writeFileSync(join(outDir, "index.html"), html);
     console.log(`Prerendered meta for /cases/${slug}`);
   }
+
+  // The case pages above make dist/cases/ a folder. Without its own
+  // index.html the server answers a direct visit to /cases with 403 instead
+  // of falling back to the app, so the list page gets one too.
+  const listHtml = renderPage(template, {
+    title: "Cases",
+    description: DEFAULT_DESCRIPTION,
+    url: `${SITE_URL}/cases`,
+    image: `${SITE_URL}/og-image.png`,
+    hasCustomImage: false,
+  });
+  mkdirSync(join(DIST, "cases"), { recursive: true });
+  writeFileSync(join(DIST, "cases", "index.html"), listHtml);
+  console.log("Prerendered meta for /cases");
 }
 
 main();

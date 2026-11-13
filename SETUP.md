@@ -49,7 +49,7 @@ The site is content-driven, so most of the work is editing text files. Go throug
 
 ### Analytics
 
-`index.html` contains a Google Analytics ID that belongs to the original author. **Replace it with your own ID, or remove the whole gtag snippet**, otherwise your visits will be counted in someone else's statistics. The page-view code in `src/App.jsx` does nothing when `gtag` is absent, so removing the snippet is safe.
+`index.html` contains a Google Analytics ID that belongs to the original author. **Replace it with your own ID, or remove the whole gtag snippet**, otherwise your visits will be counted in someone else's statistics. The page-view code in `src/lib/page.js` does nothing when `gtag` is absent, so removing the snippet is safe.
 
 ### Interactive diagrams
 
