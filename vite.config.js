@@ -57,4 +57,17 @@ export default defineConfig({
     port: Number(process.env.PORT) || 5173,
     strictPort: true,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // React and the router change rarely: a chunk of their own stays
+        // cached in the browser when only the site's code or content changes.
+        manualChunks(id) {
+          if (/node_modules\/(react|react-dom|react-router|react-router-dom|scheduler)\//.test(id)) {
+            return "react";
+          }
+        },
+      },
+    },
+  },
 });

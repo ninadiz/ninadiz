@@ -24,8 +24,8 @@ const MIN_SCALE = 0.5;
 // the industry and social icons one after another, then the other cards,
 // then the case videos. Coming back to the home page later inside the app
 // (no reload) shows everything at once and plays the videos straight away.
-const CARD_STAGGER = 120; // ms between cards dissolving in
-const ICON_STAGGER = 60; // ms between intro icons dissolving in
+const CARD_STAGGER = 70; // ms between cards dissolving in
+const ICON_STAGGER = 35; // ms between intro icons dissolving in
 const openedOnHome =
   typeof window !== "undefined" && window.location.pathname === "/";
 let introShown = false;
@@ -71,8 +71,8 @@ function Lines({ text }) {
 // in Home.css). Line breaks depend on the window width, so the words are
 // first laid out invisibly, measured once the font has loaded, and regrouped
 // into one masked span per line.
-const LINE_START = 1250; // ms before the first line starts: the avatar and name are mostly in by then
-const LINE_STAGGER = 110;
+const LINE_START = 650; // ms before the first line starts: the avatar and name are mostly in by then
+const LINE_STAGGER = 70;
 
 const splitWords = (text) => (text ?? "").split(/\s+/).filter(Boolean);
 
