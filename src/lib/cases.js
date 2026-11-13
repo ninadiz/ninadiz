@@ -39,6 +39,7 @@ function parseCase(raw) {
       clientLogo: "",
       clientDescription: "",
       hidden: false,
+      focus: [],
       content: raw,
     };
   }
@@ -53,6 +54,8 @@ function parseCase(raw) {
     clientLogo: data.clientLogo ?? "",
     clientDescription: data.clientDescription ?? "",
     hidden: data.hidden === true,
+    // "ux" and/or "ui": which Cases filter shows the case; empty = every filter
+    focus: [].concat(data.focus ?? []).map((f) => String(f).toLowerCase()),
     content: content.trim(),
   };
 }

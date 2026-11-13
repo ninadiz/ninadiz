@@ -1,0 +1,33 @@
+/* "home / <page>": "home /" is muted, "/" and the page name are italic, the
+   page name a step heavier. Same size and place on every page that has it. */
+.page-title {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  font-family: var(--font-heading);
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: var(--weight-regular);
+}
+
+.page-title em {
+  font-style: italic;
+}
+
+.page-title__trail {
+  color: var(--color-text-muted);
+}
+
+.page-title__home {
+  color: inherit;
+  transition: color 0.2s;
+}
+
+.page-title__home:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.page-title__current {
+  font-weight: 500;
+}

@@ -49,7 +49,8 @@ function updateDrift(section, driftMax) {
   section.style.setProperty("--drift", `${driftMax * progress}px`);
 }
 
-export default function Timeline() {
+// heading: optional node shown above the stack (the page title)
+export default function Timeline({ heading }) {
   const sectionRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -74,6 +75,7 @@ export default function Timeline() {
 
   return (
     <main className="timeline-panel">
+      {heading && <div className="timeline-panel__head">{heading}</div>}
       <section className="timeline" ref={sectionRef}>
         {timelineItems.map((item, i) => (
           <TimelineItem key={i} item={item} />

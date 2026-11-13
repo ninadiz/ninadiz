@@ -1,0 +1,48 @@
+.fight {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  shape-rendering: crispEdges;
+  overflow: visible;
+}
+
+.fight__move {
+  transition-property: transform;
+}
+
+.fight__ground {
+  fill: #9a9a9a;
+}
+
+.fight__rope {
+  fill: #555;
+}
+
+.fight__text {
+  fill: var(--color-text);
+  animation: fight-blink 0.9s steps(1) 3;
+}
+
+.fight__spark {
+  animation: fight-spark 0.2s steps(2) forwards;
+}
+
+@keyframes fight-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fight-spark {
+  to {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fight__text,
+  .fight__spark {
+    animation: none;
+  }
+}

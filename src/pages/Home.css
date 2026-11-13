@@ -199,7 +199,6 @@ html:has(.home) body {
   font-family: var(--font-heading);
   font-size: 39px;
   line-height: 44px;
-  letter-spacing: -0.02em;
   font-weight: var(--weight-regular);
 }
 

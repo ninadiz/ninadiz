@@ -2,9 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
-// Inter, self-hosted (one variable file per script, weights 100-900); the
-// latin file is preloaded from index.html by vite.config.js
-import "@fontsource-variable/inter";
+// Inter 4, self-hosted (one variable file per script) with the weight and
+// optical size axes: large text gets the tighter display design
+// automatically, as in Figma. The latin file is preloaded from index.html by
+// vite.config.js
+import "@fontsource-variable/inter/opsz.css";
 import "./styles/tokens.css";
 import "./styles/global.css";
 

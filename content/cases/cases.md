@@ -67,6 +67,7 @@ A case study is a Markdown file with YAML frontmatter, rendered by [`src/pages/C
 | `tags` | List of tags shown under the title |
 | `client`, `clientLogo`, `clientDescription` | Client block. Shown only when **both** `clientLogo` and `clientDescription` are set. `clientLogo` is a path inside the case folder |
 | `hidden` | `true` removes the case from the `/cases` list. The page still opens by its direct link and still gets prerendered meta tags |
+| `focus` | Optional: `ux`, `ui` or `[ux, ui]`. Decides under which filter of the `/cases` page (Heavy UX / Nice UI) the case is listed. Without it the case shows under every filter |
 | `date` | Not shown on the case page. On the home page card it follows the client name ("Enapter · 2026", in capitals on desktop). The rest of the home page card (title, video, colour) is set in [`content/home/home.md`](../home/README.md) |
 
 ## Authoring syntax

@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
+import cvUrl from "../../content/CV/Antonina CV (EN).pdf?url";
 
 const ITEMS = [
   { to: "/", label: "Home" },
@@ -197,7 +198,11 @@ function SiteHeader({ pathname }) {
         ))}
       </nav>
       <span className="site-header__actions">
-        <a className="site-header__btn" href="/cv.pdf" download>
+        <a
+          className="site-header__btn"
+          href={cvUrl}
+          download="Antonina CV (EN).pdf"
+        >
           Download CV
         </a>
         <button className="site-header__btn" type="button" aria-label="Language: English">
