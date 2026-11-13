@@ -70,13 +70,19 @@ function Lines({ text }) {
 // one LINE_STAGGER ms after the previous (duration in .home-card__line-inner
 // in Home.css). Line breaks depend on the window width, so the words are
 // first laid out invisibly, measured once the font has loaded, and regrouped
-// into one masked span per line.
+// into one masked span per line. The delays count from the start of the
+// entrance, not from the measuring: a font that arrives late does not add
+// LINE_START on top. On a slow connection the font is waited for at most
+// FONT_WAIT ms; then the lines are measured in the fallback font, and the
+// text switches to Inter when it arrives.
 const LINE_START = 650; // ms before the first line starts: the avatar and name are mostly in by then
 const LINE_STAGGER = 70;
+const FONT_WAIT = 1000; // ms from the start of the entrance
 
 const splitWords = (text) => (text ?? "").split(/\s+/).filter(Boolean);
 
-function measureLines(headline) {
+function measureLines(headline, elapsed) {
+  const start = Math.max(0, LINE_START - elapsed);
   const lines = [];
   headline.querySelectorAll("[data-part]").forEach((part) => {
     let line = null;
@@ -91,7 +97,7 @@ function measureLines(headline) {
   return lines.map((l, i) => ({
     part: l.part,
     text: l.words.join(" "),
-    delay: LINE_START + i * LINE_STAGGER,
+    delay: start + i * LINE_STAGGER,
   }));
 }
 
@@ -123,14 +129,28 @@ function Intro({ animate, onRevealEnd, iconsStage, onIconsEnd }) {
 
   useLayoutEffect(() => {
     if (!animate) return;
+    const startedAt = performance.now();
     let cancelled = false;
-    document.fonts.ready.then(() => {
+    let timer;
+    // ask for the headline's font explicitly: fonts.ready alone can resolve
+    // before the browser has even started loading it
+    const style = getComputedStyle(headlineRef.current);
+    const fontLoaded = document.fonts
+      .load(`${style.fontWeight} ${style.fontSize} ${style.fontFamily}`)
+      .then(() => document.fonts.ready)
+      .catch(() => {});
+    const timeout = new Promise((resolve) => {
+      timer = setTimeout(resolve, FONT_WAIT);
+    });
+    Promise.race([fontLoaded, timeout]).then(() => {
+      clearTimeout(timer);
       if (!cancelled && headlineRef.current) {
-        setLines(measureLines(headlineRef.current));
+        setLines(measureLines(headlineRef.current, performance.now() - startedAt));
       }
     });
     return () => {
       cancelled = true;
+      clearTimeout(timer);
     };
   }, [animate]);
 

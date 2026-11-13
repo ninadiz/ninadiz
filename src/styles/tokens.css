@@ -1,6 +1,6 @@
 /*
   Design tokens extracted from the reference layout (colors, type scale,
-  spacing, radii). Fonts are Inter (body, header) and Unbounded (headings), loaded from Google Fonts in index.html.
+  spacing, radii). The font is Inter everywhere, self-hosted (@fontsource-variable/inter, imported in src/main.jsx).
   Values are plain CSS custom properties, no framework prefixes.
 */
 :root {
@@ -17,8 +17,8 @@
   --underline-offset: 6px;
 
   /* typography */
-  --font-heading: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading: "Inter Variable", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Inter Variable", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --text-xs: 12px;
   --leading-xs: 14.4px;
   --text-lg: 22px;

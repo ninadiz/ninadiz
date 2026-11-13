@@ -51,8 +51,33 @@ function rootAssets() {
   };
 }
 
+// Preload the latin Inter file (the self-hosted font, see src/main.jsx) so
+// the browser fetches it together with the CSS instead of after it: the
+// home headline waits for the font before it slides in.
+function preloadFont() {
+  return {
+    name: "preload-font",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        const file = Object.keys(ctx.bundle ?? {}).find((name) =>
+          /inter-latin-wght-normal-[^/]*\.woff2$/.test(name)
+        );
+        if (!file) return html;
+        return [
+          {
+            tag: "link",
+            attrs: { rel: "preload", href: `/${file}`, as: "font", type: "font/woff2", crossorigin: "" },
+            injectTo: "head-prepend",
+          },
+        ];
+      },
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), rootAssets()],
+  plugins: [react(), rootAssets(), preloadFont()],
   server: {
     port: Number(process.env.PORT) || 5173,
     strictPort: true,
