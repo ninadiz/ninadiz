@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Timeline from "../components/Timeline.jsx";
+import PageTitle from "../components/PageTitle.jsx";
 
 export default function Experience() {
   useEffect(() => {
@@ -7,5 +8,5 @@ export default function Experience() {
     return () => document.body.classList.remove("page-experience");
   }, []);
 
-  return <Timeline />;
+  return <Timeline heading={<PageTitle>experience</PageTitle>} />;
 }

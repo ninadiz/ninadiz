@@ -5,7 +5,7 @@ items:
       July '26
       – February '19
     title: "7+ years leading software design for hydrogen energy systems at <a href=\"https://enapter.com/en/\" target=\"_blank\" rel=\"noopener noreferrer\">Enapter</a>."
-    subheader: "Owned the UI/UX process end-to-end – from defining customer problems and creating design artifacts to testing and releasing features."
+    subheader: "Hydrogen generator manufacturer · Production in 3 countries · Clients in 55+ countries, including Europe, the US, Thailand and Indonesia"
     image: "enapter.mp4"
     imageDescription: ""
     buttonPrimary:

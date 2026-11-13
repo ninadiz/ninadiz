@@ -25,3 +25,18 @@
     padding: var(--space-6) var(--page-padding);
   }
 }
+
+/* Pages with the "home / <page>" title: a 1024px column, centred, 20px
+   gutters on narrow screens; the title sits 121px from the top (80px on
+   phones). */
+.page-wide {
+  width: min(1024px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 121px 0 160px;
+}
+
+@media (max-width: 760px) {
+  .page-wide {
+    padding-top: var(--space-6);
+  }
+}

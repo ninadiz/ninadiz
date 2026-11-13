@@ -3,6 +3,7 @@ date: "2026"
 title: "In-app self-service guides for electrolysers brought refilling-related support requests down from over 80% to zero."
 description: "B2B SaaS companies allocate about [~9% of ARR](https://www.saas-capital.com/blog-posts/spending-benchmarks-for-private-b2b-saas-companies/) <sup>2026</sup> to support costs. Reducing ticket volume directly impacts profitability while improving customer experience and [time-to-resolution](# \"Time required for support to resolve a customer's issue\")."
 client: "Enapter"
+focus: ux
 clientLogo: "src/logo-enapter.svg"
 clientDescription: "Makes AEM electrolysers and energy management tools for renewable energy projects."
 

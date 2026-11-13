@@ -4,10 +4,11 @@ import "./Footer.css";
 
 export default function Footer() {
   const { pathname } = useLocation();
-  const isCaseStudy = pathname.startsWith("/cases/");
+  const isCases = pathname === "/cases" || pathname.startsWith("/cases/");
 
-  // The home page carries the social links in its intro card.
-  if (isCaseStudy || pathname === "/") return null;
+  // The home page carries the social links in its intro card; the case list
+  // and case pages go without them.
+  if (isCases || pathname === "/") return null;
 
   return (
     <footer className="site-footer">

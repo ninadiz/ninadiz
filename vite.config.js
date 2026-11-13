@@ -61,7 +61,7 @@ function preloadFont() {
       order: "post",
       handler(html, ctx) {
         const file = Object.keys(ctx.bundle ?? {}).find((name) =>
-          /inter-latin-wght-normal-[^/]*\.woff2$/.test(name)
+          /inter-latin-opsz-normal-[^/]*\.woff2$/.test(name)
         );
         if (!file) return html;
         return [

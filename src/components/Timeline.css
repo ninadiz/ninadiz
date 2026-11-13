@@ -6,7 +6,10 @@
   display: flow-root;
   --stack-offset: 64px;
   --card-radius: 12.5px; /* same corner as the header menu */
-  --timeline-top: 120px; /* space above the first card */
+  /* space above the first card: the page title (121px from the top, 48px
+     tall) and 10px under it. The card's own 64px top padding brings the
+     first entry's text 74px under the title, the same gap as on Cases */
+  --timeline-top: 179px;
   --peek: 180px; /* how much of the second card shows on the first screen */
 }
 
@@ -19,9 +22,16 @@
 .timeline {
   width: calc(100% * 2 / 3);
   max-width: 720px;
-  margin: var(--timeline-top) auto var(--stack-end-space);
+  margin: 10px auto var(--stack-end-space);
   border-radius: var(--card-radius);
   overflow: clip;
+}
+
+/* the title column: 1024px like on Cases, title 121px from the top */
+.timeline-panel__head {
+  width: min(1024px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  padding-top: 121px;
 }
 
 /* Free space after the last card, so scrolling does not stop with the card
@@ -35,6 +45,11 @@
 @media (max-width: 760px) {
   .timeline-panel {
     --stack-end-space: 0px;
+    --timeline-top: 138px; /* title 80px from the top on phones */
+  }
+
+  .timeline-panel__head {
+    padding-top: var(--space-6);
   }
 
   .timeline {
