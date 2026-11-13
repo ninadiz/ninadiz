@@ -216,7 +216,9 @@ html:has(.home) body {
    headline is in, the industry and social icons one after another, then
    the other cards and the pagination; then the case videos start. Fill mode
    "backwards" keeps each element hidden during its delay and hands opacity
-   back to the element's own styles when it ends (the menu fades on scroll). */
+   back to the element's own styles when it ends (the menu fades on scroll).
+   On phones only three steps: the menu, the whole intro card, then all the
+   other cards at once (.is-dissolving on the sections, set in Home.jsx). */
 .is-entering .site-header {
   animation: home-dissolve 0.4s ease backwards;
 }
