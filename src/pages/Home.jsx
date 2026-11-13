@@ -26,6 +26,7 @@ const MIN_SCALE = 0.5;
 // (no reload) shows everything at once and plays the videos straight away.
 const CARD_STAGGER = 70; // ms between cards dissolving in
 const ICON_STAGGER = 35; // ms between intro icons dissolving in
+const COMPACT_INTRO_DELAY = 150; // phones: ms after the menu starts to dissolve in
 const openedOnHome =
   typeof window !== "undefined" && window.location.pathname === "/";
 let introShown = false;
@@ -387,6 +388,9 @@ export default function Home() {
   // the headline lines slide up ("intro"); the intro icons dissolve in one
   // after another ("icons"); then the other cards and the pagination
   // dissolve in one after another ("cards"); then the videos start ("done").
+  // On phones only three steps: the menu, the whole intro card ("intro"),
+  // then all the other cards at once ("cards").
+  const [compact] = useState(() => window.matchMedia(MOBILE_QUERY).matches);
   const [entrance] = useState(
     () => openedOnHome && !introShown && !prefersReducedMotion()
   );
@@ -410,7 +414,9 @@ export default function Home() {
   const beforeCards = stage === "intro" || stage === "icons";
   const lastCardIndex = sections.length - 1;
   const onSectionAnimationEnd = (event, i) => {
-    if (event.target === event.currentTarget && i === lastCardIndex) setStage("done");
+    if (event.target !== event.currentTarget) return;
+    if (stage === "intro" && i === 0) setStage("cards");
+    else if (stage === "cards" && i === lastCardIndex) setStage("done");
   };
 
   // The active card is the first one that is not mostly scrolled off the left.
@@ -450,26 +456,34 @@ export default function Home() {
               id={section.id}
               className={
                 `home-section home-section--${section.size} home-section--${section.kind}` +
-                (entrance && i === 0 && beforeCards ? " is-staging" : "") +
+                (entrance && i === 0 && beforeCards ? (compact ? " is-dissolving" : " is-staging") : "") +
                 (i > 0 && beforeCards ? " is-waiting" : "") +
                 (i > 0 && stage === "cards" ? " is-dissolving" : "")
               }
               style={
                 i > 0 && stage === "cards"
-                  ? { animationDelay: `${(i - 1) * CARD_STAGGER}ms` }
+                  ? { animationDelay: `${compact ? 0 : (i - 1) * CARD_STAGGER}ms` }
+                  : i === 0 && compact && entrance && stage === "intro"
+                    ? { animationDelay: `${COMPACT_INTRO_DELAY}ms` }
+                    : undefined
+              }
+              onAnimationEnd={
+                stage === "cards" || (compact && stage === "intro")
+                  ? (event) => onSectionAnimationEnd(event, i)
                   : undefined
               }
-              onAnimationEnd={stage === "cards" ? (event) => onSectionAnimationEnd(event, i) : undefined}
             >
               <div className={`home-surface home-surface--${section.kind}${
                   section.notch ? ` home-surface--${section.notch}` : ""
                 }`}>
                 {section.kind === "intro" && (
                   <Intro
-                    animate={stage === "intro"}
+                    animate={!compact && stage === "intro"}
                     onRevealEnd={onIntroEnd}
                     iconsStage={
-                      stage === "intro" ? "waiting" : stage === "icons" ? "dissolving" : undefined
+                      compact
+                        ? undefined
+                        : stage === "intro" ? "waiting" : stage === "icons" ? "dissolving" : undefined
                     }
                     onIconsEnd={onIconsEnd}
                   />
