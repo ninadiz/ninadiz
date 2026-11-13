@@ -1,6 +1,15 @@
 RewriteEngine On
 RewriteBase /
 RewriteRule ^index\.html$ - [L]
+
+# Prerendered pages live in folders (/cases/, /cases/<slug>/). By default
+# Apache answers /cases with a 301 to http://…/cases/ (plain http, then the
+# host redirects to https again). Instead, serve the folder's index.html
+# directly at the address without the slash, which is also the canonical URL.
+DirectorySlash Off
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.+[^/])$ $1/index.html [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
