@@ -20,18 +20,22 @@ export function scrollToImmediate(y = 0) {
 // https://string-tune-docs.fiddle.digital/docs/modules/overview.
 // The smooth mode moves the native scroll position (window.scrollTo, no
 // transforms), so position: sticky in the timeline stack and the header's
-// scroll listener keep working. Mobile keeps native scrolling.
+// scroll listener keep working. Mobile and case studies use native scrolling.
 // StringTune watches the DOM for added elements, so React route changes need
 // no extra calls. It is a singleton: start it once and keep it for the app's
 // lifetime (StrictMode re-runs effects, and a destroyed instance cannot be
 // restarted).
-export function useStringTune() {
+export function useStringTune({ nativeScroll = false } = {}) {
   useEffect(() => {
-    if (instance) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const desktopMode = nativeScroll || reduceMotion ? "default" : "smooth";
+    if (instance) {
+      instance.scrollDesktopMode = desktopMode;
+      return;
+    }
 
     const stringTune = StringTune.getInstance();
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    stringTune.scrollDesktopMode = reduceMotion ? "default" : "smooth";
+    stringTune.scrollDesktopMode = desktopMode;
     stringTune.scrollMobileMode = "default";
     // Softer than the defaults (speed 0.09, acceleration 0.8, smoothness 0.5,
     // multiplier 1.1, stopThreshold 0.08): a gentler start, a heavier follow and
@@ -53,5 +57,5 @@ export function useStringTune() {
     // 0 = no frame cap: run on every display frame (120 Hz screens included).
     stringTune.start(0);
     instance = stringTune;
-  }, []);
+  }, [nativeScroll]);
 }

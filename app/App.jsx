@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useMatch } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
@@ -13,6 +13,7 @@ const Experience = lazy(() => import("./pages/Experience.jsx"));
 const Skills = lazy(() => import("./pages/Skills.jsx"));
 const Cases = lazy(() => import("./pages/Cases.jsx"));
 const CaseStudy = lazy(() => import("./pages/CaseStudy.jsx"));
+const CASE_STUDY_PATH = "/cases/:caseName";
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 // dev-only feedback tool, never part of the production build
 const Agentation = import.meta.env.DEV
@@ -28,7 +29,8 @@ function useScrollToTop() {
 }
 
 export default function App() {
-  useStringTune();
+  const isCaseStudy = Boolean(useMatch(CASE_STUDY_PATH));
+  useStringTune({ nativeScroll: isCaseStudy });
   useScrollToTop();
 
   return (
@@ -41,7 +43,7 @@ export default function App() {
         <Route path="/skills" element={<Skills />} />
         <Route path="/cases" element={<Cases />} />
         <Route path="/experience" element={<Experience />} />
-        <Route path="/cases/:caseName" element={<CaseStudy />} />
+        <Route path={CASE_STUDY_PATH} element={<CaseStudy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
