@@ -1,4 +1,4 @@
-import { t } from "../i18n/index.js";
+import { locale, t } from "../i18n/index.js";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { home } from "../lib/home.js";
@@ -83,6 +83,13 @@ const LINE_STAGGER = 70;
 const FONT_WAIT = 1000; // ms from the start of the entrance
 
 const splitWords = (text) => (text ?? "").split(/\s+/).filter(Boolean);
+
+function formatIntroHeadline(text) {
+  if (locale !== "en") return text;
+  return text?.replace(/\b[a-z]+\b/gi, (word) =>
+    /^(and|for|to)$/i.test(word) ? word.toLowerCase() : word[0].toUpperCase() + word.slice(1)
+  );
+}
 
 function measureLines(headline, elapsed) {
   const start = Math.max(0, LINE_START - elapsed);
@@ -192,10 +199,10 @@ function Intro({ animate, onRevealEnd, iconsStage, onIconsEnd }) {
         onAnimationEnd={animate ? onAnimationEnd : undefined}
       >
         <span className="home-card__headline-muted" data-part="muted">
-          <RevealPart part="muted" text={intro.headlineMuted} animate={animate} lines={lines} />
+          <RevealPart part="muted" text={formatIntroHeadline(intro.headlineMuted)} animate={animate} lines={lines} />
         </span>
         <span className="home-card__headline-primary" data-part="primary">
-          <RevealPart part="primary" text={intro.headlinePrimary} animate={animate} lines={lines} />
+          <RevealPart part="primary" text={formatIntroHeadline(intro.headlinePrimary)} animate={animate} lines={lines} />
         </span>
       </h1>
       <div
