@@ -15,8 +15,8 @@
 ## Шаги
 
 1. **Измерить.** Подключить `rollup-plugin-visualizer` (только на время анализа), собрать и посмотреть точную разбивку по модулям. Убрать плагин после анализа или оставить за флагом.
-2. **Lazy-загрузка страниц.** В `src/App.jsx` обернуть `CaseStudy` (и при необходимости `Contact`, `Portfolio`) в `React.lazy` + `import()`, добавить `<Suspense>` с простым fallback.
-3. **Lazy-загрузка диаграмм.** Компоненты из `src/lib/embeds.js` (`DesignerNetworkDiagram`, `RefillingProcessFlow`) подключать через `React.lazy`, чтобы `@xyflow/react` грузился только в кейсах, где диаграмма реально используется.
+2. **Lazy-загрузка страниц.** В `app/App.jsx` обернуть `CaseStudy` (и при необходимости `Contact`, `Portfolio`) в `React.lazy` + `import()`, добавить `<Suspense>` с простым fallback.
+3. **Lazy-загрузка диаграмм.** Компоненты из `app/lib/embeds.js` (`DesignerNetworkDiagram`, `RefillingProcessFlow`) подключать через `React.lazy`, чтобы `@xyflow/react` грузился только в кейсах, где диаграмма реально используется.
 4. **Пересобрать и сравнить.** `npm run build`, сверить размеры чанков до и после. Главный чанк должен упасть ниже 500 kB, а `@xyflow` и markdown-стек уйти в отдельные чанки.
 5. **Проверить в браузере.**
    - Главная `/` открывается и не грузит чанки кейсов.

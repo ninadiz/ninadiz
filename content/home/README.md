@@ -4,9 +4,9 @@ The home page (`/`) is a horizontal lane of cards: the intro, one card per case 
 
 ## How it works
 
-1. `src/lib/home.js` reads `home.md` at build time and parses its YAML frontmatter with `js-yaml`.
+1. `app/lib/home.js` reads `home.md` at build time and parses its YAML frontmatter with `js-yaml`.
 2. It resolves media paths against [`content/home/src/`](src) and pulls each case card's client and year from the case itself.
-3. `src/pages/Home.jsx` renders the cards in this order: intro, the cases in the order of `cases`, contact.
+3. `app/pages/Home.jsx` renders the cards in this order: intro, the cases in the order of `cases`, contact.
 
 The file contains only a YAML frontmatter block with three sections: `intro`, `cases` and `contact`.
 
@@ -54,7 +54,7 @@ contact:
 | `avatarAlt` | Alt text of the avatar |
 | `name` | Text next to the avatar. Use the `\|-` block form; each line break is kept |
 | `headlineMuted`, `headlinePrimary` | The headline: a grey part, then a black part on a new line |
-| `sectors` | Industry icons in grey circles in the bottom left corner, on the level of `links`, in this order. `icon` is one of `renewable`, `oilgas`, `extraction`, `utilities`, `medtech`, `agritech` (drawn in `src/components/SectorIcon.jsx` after the `icons` frame in Figma, where the moving layers are named `anim/…`; an unknown icon is skipped). `label` is the accessible name and the native tooltip. On hover a circle grows and its icon moves (the turbine spins, the oil drop falls, the pickaxe swings…). The line width of all of them is `--sector-stroke` in `src/components/SectorIcon.css` (2, which is 2px: the icons are drawn at 24px on a 24-unit grid) |
+| `sectors` | Industry icons in grey circles in the bottom left corner, on the level of `links`, in this order. `icon` is one of `renewable`, `oilgas`, `extraction`, `utilities`, `medtech`, `agritech` (drawn in `app/components/SectorIcon.jsx` after the `icons` frame in Figma, where the moving layers are named `anim/…`; an unknown icon is skipped). `label` is the accessible name and the native tooltip. On hover a circle grows and its icon moves (the turbine spins, the oil drop falls, the pickaxe swings…). The line width of all of them is `--sector-stroke` in `app/components/SectorIcon.css` (2, which is 2px: the icons are drawn at 24px on a 24-unit grid) |
 | `links` | Round icon buttons in the bottom right corner, in this order. `icon` is one of `github`, `telegram`, `linkedin` (the icons are drawn in `Home.jsx`; a link with another icon is skipped). `label` is the accessible name. They open in a new tab |
 
 ### `cases`

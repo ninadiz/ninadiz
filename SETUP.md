@@ -40,20 +40,20 @@ The site is content-driven, so most of the work is editing text files. Go throug
 | Home page timeline: your career, your buttons | `content/timeline/timeline.md` (see [timeline guide](content/timeline/README.md)) |
 | Case studies: delete the existing ones, add yours | `content/cases/` (see [case study guide](content/cases/cases.md)) |
 | Timeline media of the original author | `content/timeline/src/` (remove files you do not use) |
-| Header name and tagline | `src/components/Header.jsx` |
-| Footer social links | `src/data/socialLinks.js` |
+| Header name and tagline | `app/components/Header.jsx` |
+| Footer social links | `app/data/socialLinks.js` |
 | Page title, description, canonical URL, Open Graph and Twitter tags | `index.html` |
 | Domain and default description used for per-case link previews | `metatags/prerender-meta.mjs` (`SITE_URL`, `DEFAULT_DESCRIPTION`, and the `— Ninadiz` title suffix) |
 | Favicons and the default share image | `fav/` (favicons) and `metatags/og-image.png` (1200×630) |
-| Colors, fonts, spacing | `src/styles/tokens.css` |
+| Colors, fonts, spacing | `app/styles/tokens.css` |
 
 ### Analytics
 
-`index.html` contains a Google Analytics ID that belongs to the original author. **Replace it with your own ID, or remove the whole gtag snippet**, otherwise your visits will be counted in someone else's statistics. The page-view code in `src/lib/page.js` does nothing when `gtag` is absent, so removing the snippet is safe.
+`index.html` contains a Google Analytics ID that belongs to the original author. **Replace it with your own ID, or remove the whole gtag snippet**, otherwise your visits will be counted in someone else's statistics. The page-view code in `app/lib/page.js` does nothing when `gtag` is absent, so removing the snippet is safe.
 
 ### Interactive diagrams
 
-The two diagrams used inside the existing cases (`DesignerNetworkDiagram`, `RefillingProcessFlow`) are specific to the original content. If you delete those cases, you can also delete the components and their entries in `src/lib/embeds.js`.
+The two diagrams used inside the existing cases (`DesignerNetworkDiagram`, `RefillingProcessFlow`) are specific to the original content. If you delete those cases, you can also delete the components and their entries in `app/lib/embeds.js`.
 
 ## 5. Build
 

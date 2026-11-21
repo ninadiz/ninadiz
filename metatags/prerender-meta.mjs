@@ -7,9 +7,6 @@ const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const DIST = join(ROOT, "dist");
 const CASES_DIR = join(ROOT, "content/cases");
 const SITE_URL = "https://ninadiz.tech";
-const DEFAULT_DESCRIPTION =
-  "Portfolio of Antonina, Staff UX/UI Designer. Enterprise Software Design for Industrial & Deep-Tech Sectors.";
-
 function escapeHtml(text) {
   return text
     .replace(/&/g, "&amp;")
@@ -61,7 +58,7 @@ function findHeroAssetUrl(content) {
 
 function renderPage(template, { title, description, url, image, hasCustomImage }) {
   let html = template;
-  const fullTitle = escapeHtml(`${title} — Antonina`);
+  const fullTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
 
   html = html.replace(/<title>.*?<\/title>/, `<title>${fullTitle}</title>`);
@@ -122,44 +119,45 @@ function main() {
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
 
-  for (const slug of slugs) {
-    const mdPath = join(CASES_DIR, slug, "index.md");
-    if (!existsSync(mdPath)) continue;
-    const raw = readFileSync(mdPath, "utf8");
-    const { title, description, content } = parseCase(raw);
+  const dictionaries = Object.fromEntries(["en", "ru"].map((lang) => [
+    lang, JSON.parse(readFileSync(join(ROOT, "app/i18n", lang + ".json"), "utf8")),
+  ]));
+  const keys = (dict) => Object.keys(dict).sort().join("|");
+  if (keys(dictionaries.en) !== keys(dictionaries.ru)) throw new Error("UI dictionary keys differ");
 
-    const plainDescription = description
-      ? truncate(toPlainText(description), 200)
-      : DEFAULT_DESCRIPTION;
-    const heroImage = findHeroAssetUrl(content);
-
-    const html = renderPage(template, {
-      title: title || slug,
-      description: plainDescription,
-      url: `${SITE_URL}/cases/${slug}`,
-      image: heroImage ?? `${SITE_URL}/og-image.png`,
-      hasCustomImage: Boolean(heroImage),
-    });
-
-    const outDir = join(DIST, "cases", slug);
-    mkdirSync(outDir, { recursive: true });
-    writeFileSync(join(outDir, "index.html"), html);
-    console.log(`Prerendered meta for /cases/${slug}`);
+  for (const lang of ["en", "ru"]) {
+    const localizedTemplate = lang === "en"
+      ? template.replace(/(<link\b[^>]*rel="preload"[^>]*href=")[^"]*inter-latin-opsz-normal-[^"]+/, "$1/fonts/uncut-sans/UncutSans-Variable.woff2")
+      : template;
+    const messages = dictionaries[lang];
+    const prefix = lang === "ru" ? "/ru" : "";
+    const pages = ["", "cases", "experience", "portfolio", "skills"].map((route) => ({
+      route, title: route ? messages[route] : "", translated: true,
+    }));
+    for (const slug of slugs) {
+      const dir = join(CASES_DIR, slug);
+      const file = join(dir, lang === "ru" ? "index.ru.md" : "index.md");
+      if (!existsSync(file) || !existsSync(join(dir, "index.md"))) continue;
+      const data = parseCase(readFileSync(file, "utf8"));
+      pages.push({ ...data, route: "cases/" + slug, translated: existsSync(join(dir, "index.ru.md")) });
+    }
+    for (const page of pages) {
+      const path = "/" + page.route;
+      const url = SITE_URL + prefix + path;
+      const image = findHeroAssetUrl(page.content ?? "");
+      const html = renderPage(localizedTemplate, {
+        title: page.title ? page.title + " — " + messages.siteName : messages.siteTitle,
+        description: page.description ? truncate(toPlainText(page.description), 200) : messages.siteDescription,
+        url, image: image ?? SITE_URL + "/og-image.png", hasCustomImage: !!image,
+      }).replace(/<html lang="[^"]+">/, `<html lang="${lang}">`);
+      const alternates = page.translated ? ["en", "ru"].map((language) =>
+        `<link rel="alternate" hreflang="${language}" href="${SITE_URL}${language === "ru" ? "/ru" : ""}${path}" />`
+      ).join("\n    ") : "";
+      const dir = join(DIST, prefix, path);
+      mkdirSync(dir, { recursive: true });
+      writeFileSync(join(dir, "index.html"), html.replace("</head>", alternates + "\n  </head>"));
+    }
   }
-
-  // The case pages above make dist/cases/ a folder. Without its own
-  // index.html the server answers a direct visit to /cases with 403 instead
-  // of falling back to the app, so the list page gets one too.
-  const listHtml = renderPage(template, {
-    title: "Cases",
-    description: DEFAULT_DESCRIPTION,
-    url: `${SITE_URL}/cases`,
-    image: `${SITE_URL}/og-image.png`,
-    hasCustomImage: false,
-  });
-  mkdirSync(join(DIST, "cases"), { recursive: true });
-  writeFileSync(join(DIST, "cases", "index.html"), listHtml);
-  console.log("Prerendered meta for /cases");
 }
 
 main();

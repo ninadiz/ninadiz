@@ -1,7 +1,8 @@
 ---
 items:
 
-  - date: |-
+  - id: enapter
+    date: |-
       July '26
       – February '19
     title: "7+ years leading software design for hydrogen energy systems at <a href=\"https://enapter.com/en/\" target=\"_blank\" rel=\"noopener noreferrer\">Enapter</a>."
@@ -15,7 +16,8 @@ items:
       label: ""
       href: ""
 
-  - date: |-
+  - id: heisenbug
+    date: |-
       December '18
     title: "🏆 Top 3 speaker at <a href=\"https://heisenbug.ru/\" target=\"_blank\" rel=\"noopener noreferrer\">Haisenbug Conf</a>. Shared the stage with <a href=\"https://linkedin.com/in/vitalyfriedman/\" target=\"_blank\" rel=\"noopener noreferrer\">Vitaliy Friedman</a>. 600+ listeners."
     subheader: "Explaining UX research methodologies in simple terms, supporting practical advice with science-based reasoning from psychology and sociology experiments and concepts such as social desirability bias and affordance."
@@ -29,7 +31,8 @@ items:
       href: "https://www.youtube.com/watch?v=lZ-4r_5UrUM"
       newTab: true
 
-  - date: |-
+  - id: fintech
+    date: |-
       February '19
       – March '17
     title: "Worked directly inside a development team as a contracted designer at fintech startup."
@@ -43,7 +46,8 @@ items:
       label: ""
       href: ""
 
-  - date: |-
+  - id: sobaka
+    date: |-
       September '19
       – August '17
     title: "Worked at <a href=\"https://sobakapav.ru/\" target=\"_blank\" rel=\"noopener noreferrer\">Sobaka Pavlova</a>."
@@ -59,7 +63,8 @@ items:
       label: ""
       href: ""
 
-  - date: |-
+  - id: gradoservice
+    date: |-
       September '17
       – August '13
     title: "Designed GIS-based interfaces for optimizing heavy machinery routes for the oil and gas sector"
@@ -73,7 +78,8 @@ items:
       label: ""
       href: ""
 
-  - date: |-
+  - id: chemistry
+    date: |-
       May '13
       – September '08
     title: "Say my name, Mister White: Master’s degree in Chemistry unlocked."

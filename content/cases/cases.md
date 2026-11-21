@@ -1,6 +1,6 @@
 # Case studies
 
-A case study is a Markdown file with YAML frontmatter, rendered by [`src/pages/CaseStudy.jsx`](../../src/pages/CaseStudy.jsx). The URL and the folder are tied together: `content/cases/refilling-ftue/index.md` is served at `/cases/refilling-ftue`.
+A case study is a Markdown file with YAML frontmatter, rendered by [`app/pages/CaseStudy.jsx`](../../app/pages/CaseStudy.jsx). The URL and the folder are tied together: `content/cases/refilling-ftue/index.md` is served at `/cases/refilling-ftue`.
 
 ## How to add a new case
 
@@ -82,7 +82,7 @@ Standard Markdown plus a few custom tags. Custom tags go on their own line.
 | `{wide}` on the line above `![alt](file)` | Makes that one image full-width |
 | `![caption](src/file.jpg)` | Image or video (video extensions autoplay muted in a loop). The alt text is shown as a caption. A video can have a placeholder image, see [Video placeholders](#video-placeholders) |
 | `{carousel}` … `{/carousel}` around several `![alt](file)` lines | Image carousel with arrows and dots |
-| `![caption](embed/<key>)` | Interactive React component from `src/lib/embeds.js` (see [below](#adding-an-interactive-diagram)) |
+| `![caption](embed/<key>)` | Interactive React component from `app/lib/embeds.js` (see [below](#adding-an-interactive-diagram)) |
 | `[text](# "Explanation")` | Tooltip with the explanation. Any link with a title becomes a tooltip trigger |
 | `[text](https://…)` | Regular link, opens in a new tab |
 | `<a href="src/file.docx" title="button">Label</a>` | Download button (pill style). The href is resolved against the case's assets |
@@ -112,8 +112,8 @@ To use a case image on the home timeline, reference it in `timeline.md` as `imag
 
 For custom visuals that Markdown cannot express:
 
-1. Create the React component in `src/components/` (see `DesignerNetworkDiagram.jsx` and `RefillingProcessFlow.jsx`, both built with `@xyflow/react`).
-2. Register it in `src/lib/embeds.js`:
+1. Create the React component in `app/components/` (see `DesignerNetworkDiagram.jsx` and `RefillingProcessFlow.jsx`, both built with `@xyflow/react`).
+2. Register it in `app/lib/embeds.js`:
 
    ```js
    export const embeds = {

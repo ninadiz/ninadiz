@@ -14,6 +14,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Record Markdown changes
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          revision="$GITHUB_SHA"
+          if [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] && git cat-file -e "$BEFORE^{commit}"; then
+            revision="$BEFORE..$GITHUB_SHA"
+          fi
+          python3 scripts/i18n/release.py log "$revision" > "$RUNNER_TEMP/markdown-changes.txt"
+
+      - name: Check English and Russian release versions
+        run: |
+          set -o pipefail
+          python3 scripts/i18n/release.py deploy-report | tee "$RUNNER_TEMP/i18n-review.txt"
+
+      - name: Record translation review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: translation-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/i18n-review.txt
+            ${{ runner.temp }}/markdown-changes.txt
 
       - uses: actions/setup-node@v5
         with:

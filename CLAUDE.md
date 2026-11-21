@@ -18,11 +18,11 @@ Content authoring guides:
 | Case rendering | `react-markdown` + `rehype-raw` (Markdown with inline HTML) |
 | Content parsing | `js-yaml` (frontmatter and timeline) |
 | Interactive diagrams | `@xyflow/react`, `lucide-react` |
-| Smooth scroll, scroll effects | `@fiddle-digital/string-tune` (`src/lib/stringTune.js`) |
+| Smooth scroll, scroll effects | `@fiddle-digital/string-tune` (`app/lib/stringTune.js`) |
 | Dev-only feedback tool | `agentation` (rendered only when `import.meta.env.DEV`) |
-| Analytics | Google Analytics (gtag snippet in `index.html`; each page sets its tab title and sends its page view through `usePage` in `src/lib/page.js`) |
+| Analytics | Google Analytics (gtag snippet in `index.html`; each page sets its tab title and sends its page view through `usePage` in `app/lib/page.js`) |
 
-Plain CSS, one file per component, driven by design tokens in `src/styles/tokens.css`. No CSS framework.
+Plain CSS, one file per component, driven by design tokens in `app/styles/tokens.css`. No CSS framework.
 
 The font is Inter 4, self-hosted from `@fontsource-variable/inter` with the optical size axis (`opsz.css`, and `opsz-italic.css` for the italic in page titles). Large text automatically gets the tighter display design, the same as Inter Variable in Figma.
 
@@ -85,7 +85,7 @@ metatags/                 Link-preview assets and tooling
   og-image.png              Default share image, served from the site root
   prerender-meta.mjs        Post-build step: per-case HTML with correct meta tags, plus dist/cases/index.html
 vite.config.js            Also serves/copies .htaccess and fav/, metatags/ images to the root
-src/
+app/
   main.jsx                Entry point: BrowserRouter + global styles
   App.jsx                 Layout (header, footer), routes, scroll to top on navigation
   pages/                  One component per route
@@ -113,7 +113,7 @@ src/
 
 ## Routing
 
-Defined in `src/App.jsx`:
+Defined in `app/App.jsx`:
 
 | Route | Page |
 |---|---|
@@ -125,7 +125,7 @@ Defined in `src/App.jsx`:
 | `/cases/:caseName` | `CaseStudy`: `:caseName` is the case folder name |
 | any other path | `NotFound`: the 404 page |
 
-An unknown `:caseName` also renders `NotFound`. Every page calls `usePage` from `src/lib/page.js` once, so the tab shows "<Page> — Antonina" (the site title on the home page) and Google Analytics gets one page view per page.
+An unknown `:caseName` also renders `NotFound`. Every page calls `usePage` from `app/lib/page.js` once, so the tab shows "<Page> — Antonina" (the site title on the home page) and Google Analytics gets one page view per page.
 
 ## Where content lives
 
@@ -137,10 +137,10 @@ An unknown `:caseName` also renders `NotFound`. Every page calls `usePage` from 
 | Case studies | `content/cases/<slug>/index.md` |
 | Case images, videos, downloadable files | `content/cases/<slug>/src/` |
 | Timeline images and videos | `content/timeline/src/` (or a case folder) |
-| Footer social links | `src/data/socialLinks.js` |
+| Footer social links | `app/data/socialLinks.js` |
 | Default meta tags, analytics ID | `index.html` |
 | Favicons / default share image | `fav/` / `metatags/og-image.png` |
-| Colors, type scale, spacing | `src/styles/tokens.css` |
+| Colors, type scale, spacing | `app/styles/tokens.css` |
 
 ## Known limitations
 

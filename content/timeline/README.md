@@ -4,9 +4,9 @@ The Experience page (`/experience`) is a vertical timeline of career milestones.
 
 ## How it works
 
-1. `src/lib/timeline.js` reads `timeline.md` at build time and parses its YAML frontmatter with `js-yaml`.
+1. `app/lib/timeline.js` reads `timeline.md` at build time and parses its YAML frontmatter with `js-yaml`.
 2. It resolves each item's `image` to a real file URL (see [Images](#images)).
-3. `src/components/Timeline.jsx` renders the items top to bottom, one `TimelineItem` each. The first item in the file is shown first, so keep the list newest first.
+3. `app/components/Timeline.jsx` renders the items top to bottom, one `TimelineItem` each. The first item in the file is shown first, so keep the list newest first.
 
 The file contains only a YAML frontmatter block with an `items` list.
 

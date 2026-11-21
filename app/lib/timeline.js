@@ -1,0 +1,49 @@
+import { locale } from "../i18n/index.js";
+import { load } from "js-yaml";
+import { findPoster } from "./poster.js";
+
+const timelineModules = import.meta.glob("/content/timeline/timeline{,.ru}.md", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+
+const imageModules = import.meta.glob(
+  "/content/timeline/src/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
+  { eager: true, query: "?url", import: "default" }
+);
+
+const imagesByFilename = {};
+for (const [path, url] of Object.entries(imageModules)) {
+  imagesByFilename[path.split("/").at(-1)] = url;
+}
+
+const caseImageModules = import.meta.glob(
+  "/content/cases/*/*.{png,jpg,jpeg,gif,svg,webp,mp4,webm,mov}",
+  { eager: true, query: "?url", import: "default" }
+);
+
+const caseImagesByRelativePath = {};
+for (const [path, url] of Object.entries(caseImageModules)) {
+  caseImagesByRelativePath[path.replace("/content/cases/", "cases/")] = url;
+}
+
+function lookupImage(image) {
+  if (image.startsWith("cases/")) return caseImagesByRelativePath[image];
+  return imagesByFilename[image];
+}
+
+function resolveImage(image) {
+  if (!image) return image;
+  return lookupImage(image) ?? image;
+}
+
+const source = timelineModules[`/content/timeline/timeline${locale === "ru" ? ".ru" : ""}.md`];
+const frontmatterMatch = source?.match(/^---\n([\s\S]*?)\n---/);
+const data = frontmatterMatch ? load(frontmatterMatch[1]) : {};
+
+export const timelineItems = (data.items ?? []).map((item) => ({
+  ...item,
+  image: resolveImage(item.image),
+  imagePoster: findPoster(item.image, lookupImage),
+}));

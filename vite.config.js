@@ -40,6 +40,8 @@ function rootAssets() {
       });
     },
     generateBundle() {
+      const fontLicense = "fonts/uncut-sans/LICENSE.txt";
+      this.emitFile({ type: "asset", fileName: fontLicense, source: readFileSync(join(ROOT, fontLicense)) });
       for (const file of rootAssetFiles()) {
         this.emitFile({
           type: "asset",
@@ -51,7 +53,7 @@ function rootAssets() {
   };
 }
 
-// Preload the latin Inter file (the self-hosted font, see src/main.jsx) so
+// Preload the latin Inter file (the self-hosted font, see app/main.jsx) so
 // the browser fetches it together with the CSS instead of after it: the
 // home headline waits for the font before it slides in.
 function preloadFont() {
@@ -77,6 +79,7 @@ function preloadFont() {
 }
 
 export default defineConfig({
+  publicDir: false,
   plugins: [react(), rootAssets(), preloadFont()],
   server: {
     port: Number(process.env.PORT) || 5173,
@@ -85,6 +88,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        assetFileNames(asset) {
+          if (asset.name === "UncutSans-Variable.woff2") return "fonts/uncut-sans/[name][extname]";
+          return "assets/[name]-[hash][extname]";
+        },
         // React and the router change rarely: a chunk of their own stays
         // cached in the browser when only the site's code or content changes.
         manualChunks(id) {
