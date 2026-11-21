@@ -5,8 +5,8 @@ intro:
   name: |-
     Антонина,
     Staff UX-дизайнер
-  headlineMuted: "Проектирую корпоративные приложения"
-  headlinePrimary: "для промышленности и наукоёмких отраслей"
+  headlineMuted: "Полный цикл проектирования и дизайна интерфейсов"
+  headlinePrimary: "для промышленности и deep-tech отраслей"
   sectors:
     - icon: "renewable"
       label: "Возобновляемая энергетика"

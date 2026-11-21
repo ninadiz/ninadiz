@@ -5,7 +5,7 @@ intro:
   name: |-
     Antonina,
     Staff UX designer
-  headlineMuted: "Shaping and delivering modern enterprise software"
+  headlineMuted: "End-to-end product design"
   headlinePrimary: "for industrial and deep-tech sectors"
   sectors:
     - icon: "renewable"
